@@ -20,6 +20,10 @@ class OnboardingBloc extends Cubit<OnboardingState> {
   }
 
   void onLoginPressed(BuildContext context) {
-    GoRouter.of(context).push(AppPath.login);
+    GoRouter.of(context).push(AppPath.auth, extra: AppPath.login);
+  }
+
+  void onStartPressed(BuildContext context) {
+    GoRouter.of(context).push(AppPath.auth, extra: AppPath.signUp);
   }
 }

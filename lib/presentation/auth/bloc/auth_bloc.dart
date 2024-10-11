@@ -1,25 +1,25 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/google_auth/google_auth_repository.dart';
-import 'package:share_way_frontend/presentation/login/bloc/login_state.dart';
+import 'package:share_way_frontend/presentation/auth/bloc/auth_state.dart';
+import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
-class LoginBloc extends Cubit<LoginState> {
-  LoginBloc() : super(LoginState());
+class AuthBloc extends Cubit<AuthState> {
+  AuthBloc() : super(AuthState());
 
   final _googleAuthRepository = GoogleAuthRepository();
 
-  void onStart(BuildContext context) {
+  void onStart({required BuildContext context, required String path}) {
     try {
       final phoneNumberController = TextEditingController();
       emit(
         state.copyWith(
           phoneNumberController: phoneNumberController,
+          path: path,
         ),
       );
     } catch (e) {
@@ -44,7 +44,13 @@ class LoginBloc extends Cubit<LoginState> {
             state.phoneNumberController!.text.replaceAll(RegExp(r' '), ''));
 
     if (isValid) {
-      GoRouter.of(context).push(AppPath.otp, extra: state.phoneNumber);
+      GoRouter.of(context).push(
+        AppPath.otp,
+        extra: AuthData(
+          phoneNumber: state.phoneNumber!,
+          path: state.path!,
+        ),
+      );
     }
     final errorText = isValid ? null : 'Số điện thoại không đúng định dạng';
     emit(

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
-import 'package:share_way_frontend/presentation/login/bloc/login_state.dart';
-import 'package:share_way_frontend/presentation/login/sub_screens/otp/bloc/otp_state.dart';
+import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
+import 'package:share_way_frontend/presentation/auth/sub_screens/otp/bloc/otp_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
 class OtpBloc extends Cubit<OtpState> {
   OtpBloc() : super(OtpState());
 
-  void onStart({required BuildContext context, required String phoneNumber}) {
+  void onStart({required BuildContext context, required AuthData authData}) {
     try {
       final List<int> otpCode = List.filled(6, -1);
       Timer.periodic(Duration(seconds: 1), (Timer timer) {
@@ -24,7 +24,7 @@ class OtpBloc extends Cubit<OtpState> {
       });
       emit(
         state.copyWith(
-          phoneNumber: phoneNumber,
+          authData: authData,
           otpCode: otpCode,
         ),
       );
@@ -61,7 +61,11 @@ class OtpBloc extends Cubit<OtpState> {
     if ((state.otpCode ?? []).contains(-1)) {
       emit(state.copyWith(errorText: 'Mã xác thực không đúng'));
     } else {
-      GoRouter.of(context).go(AppPath.home);
+      if (state.authData?.path == AppPath.login) {
+        GoRouter.of(context).go(AppPath.home);
+      } else {
+        GoRouter.of(context).push(AppPath.signUpName);
+      }
     }
   }
 }

@@ -9,7 +9,7 @@ part of 'otp_state.dart';
 abstract class _$OtpStateCWProxy {
   OtpState remainingTime(int remainingTime);
 
-  OtpState phoneNumber(String? phoneNumber);
+  OtpState authData(AuthData? authData);
 
   OtpState otpCode(List<int>? otpCode);
 
@@ -23,7 +23,7 @@ abstract class _$OtpStateCWProxy {
   /// ````
   OtpState call({
     int? remainingTime,
-    String? phoneNumber,
+    AuthData? authData,
     List<int>? otpCode,
     String? errorText,
   });
@@ -40,7 +40,7 @@ class _$OtpStateCWProxyImpl implements _$OtpStateCWProxy {
       this(remainingTime: remainingTime);
 
   @override
-  OtpState phoneNumber(String? phoneNumber) => this(phoneNumber: phoneNumber);
+  OtpState authData(AuthData? authData) => this(authData: authData);
 
   @override
   OtpState otpCode(List<int>? otpCode) => this(otpCode: otpCode);
@@ -58,7 +58,7 @@ class _$OtpStateCWProxyImpl implements _$OtpStateCWProxy {
   /// ````
   OtpState call({
     Object? remainingTime = const $CopyWithPlaceholder(),
-    Object? phoneNumber = const $CopyWithPlaceholder(),
+    Object? authData = const $CopyWithPlaceholder(),
     Object? otpCode = const $CopyWithPlaceholder(),
     Object? errorText = const $CopyWithPlaceholder(),
   }) {
@@ -68,10 +68,10 @@ class _$OtpStateCWProxyImpl implements _$OtpStateCWProxy {
               ? _value.remainingTime
               // ignore: cast_nullable_to_non_nullable
               : remainingTime as int,
-      phoneNumber: phoneNumber == const $CopyWithPlaceholder()
-          ? _value.phoneNumber
+      authData: authData == const $CopyWithPlaceholder()
+          ? _value.authData
           // ignore: cast_nullable_to_non_nullable
-          : phoneNumber as String?,
+          : authData as AuthData?,
       otpCode: otpCode == const $CopyWithPlaceholder()
           ? _value.otpCode
           // ignore: cast_nullable_to_non_nullable

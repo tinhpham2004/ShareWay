@@ -1,13 +1,12 @@
-import 'dart:async';
-
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 
 part 'otp_state.g.dart';
 
 @CopyWith()
 class OtpState {
   final int remainingTime;
-  final String? phoneNumber;
+  final AuthData? authData;
   final List<int>? otpCode;
   final String? errorText;
   bool get isOtpValid {
@@ -22,7 +21,7 @@ class OtpState {
 
   OtpState({
     this.remainingTime = 600,
-    this.phoneNumber,
+    this.authData,
     this.otpCode,
     this.errorText,
   });

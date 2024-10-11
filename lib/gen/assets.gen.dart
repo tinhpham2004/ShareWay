@@ -55,8 +55,12 @@ class $AssetsImagesGen {
   AssetGenImage get onboardingMan =>
       const AssetGenImage('assets/images/onboarding_man.png');
 
+  /// File path: assets/images/verify_id_card_background.png
+  AssetGenImage get verifyIdCardBackground =>
+      const AssetGenImage('assets/images/verify_id_card_background.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [onboardingMan];
+  List<AssetGenImage> get values => [onboardingMan, verifyIdCardBackground];
 }
 
 class Assets {

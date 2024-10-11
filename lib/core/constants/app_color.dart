@@ -20,4 +20,5 @@ class AppColor {
   static const white = Color(0xFFFFFFFF);
   static const error = Color(0xFFF75555);
   static const success = Color(0xFF4ADE80);
+  static const transparent = Colors.transparent;
 }
