@@ -1,0 +1,72 @@
+name: share_way_frontend
+description: "A new Flutter project."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.4 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  json_annotation: ^4.9.0
+  copy_with_extension: ^5.0.4
+  flutter_gen_runner: ^5.7.0
+  copy_with_extension_gen: ^5.0.4
+  intl: ^0.19.0
+  flutter_svg: ^2.0.10+1
+  flutter_localization: ^0.2.2
+  animations: ^2.0.11
+  flutter_bloc: ^8.1.6
+  collection: ^1.18.0
+  currency_text_input_formatter: ^2.2.5
+  dio: ^5.7.0
+  shared_preferences: ^2.3.2
+  go_router: ^14.3.0
+  flutter_screenutil: ^5.9.3
+  intl_phone_number_input: ^0.7.4
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  google_sign_in: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+  json_serializable: ^6.8.0
+  build_runner: ^2.4.11
+  # flutter_gen_runner:
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+
+  integrations:
+    flutter_svg: true
+    flare_flutter: true
+    rive: true
+    lottie: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: SFProDisplay
+      fonts:
+        - asset: fonts/SFPRODISPLAYBLACKITALIC.otf
+        - asset: fonts/SFPRODISPLAYBOLD.otf
+        - asset: fonts/SFPRODISPLAYHEAVYITALIC.otf
+        - asset: fonts/SFPRODISPLAYLIGHTITALIC.otf
+        - asset: fonts/SFPRODISPLAYMEDIUM.otf
+        - asset: fonts/SFPRODISPLAYREGULAR.otf
+        - asset: fonts/SFPRODISPLAYSEMIBOLDITALIC.otf
+        - asset: fonts/SFPRODISPLAYTHINITALIC.otf
+        - asset: fonts/SFPRODISPLAYULTRALIGHTITALIC.otf

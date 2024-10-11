@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "549933371266",
+    "project_id": "shareway-a0c71",
+    "storage_bucket": "shareway-a0c71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549933371266:android:7c73c6e818f0f1b378899b",
+        "android_client_info": {
+          "package_name": "com.shareway.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549933371266-l2mdpf0qkr427qnju8avdodk5027sr8p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shareway.app",
+            "certificate_hash": "fd31b46cc99181dbeedb439b87688d9b805aaaa3"
+          }
+        },
+        {
+          "client_id": "549933371266-o48mj11m119huo8svuhkqsl47i7bpsga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsejspQq1ZGIpngc7osvSomgfn5c1mVDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549933371266-o48mj11m119huo8svuhkqsl47i7bpsga.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "549933371266-9smkk49d9l7nubdpi3fus7cuudfag201.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shareWayFrontend"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
