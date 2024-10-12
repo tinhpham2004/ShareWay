@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
-import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/verify_id_card_bloc.dart';
-import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/verify_id_card_state.dart';
+import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_bloc.dart';
+import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_state.dart';
+import 'package:share_way_frontend/router/app_path.dart';
 
 class VerifyIdCardScreen extends StatefulWidget {
   const VerifyIdCardScreen({super.key});
@@ -17,48 +19,39 @@ class VerifyIdCardScreen extends StatefulWidget {
 }
 
 class _VerifyIdCardScreenState extends State<VerifyIdCardScreen> {
-  late VerifyIdCardBloc bloc;
 
   @override
   void initState() {
-    bloc = VerifyIdCardBloc();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => bloc..onStart(context: context),
-      child: BlocBuilder<VerifyIdCardBloc, VerifyIdCardState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: Padding(
-              padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(),
-                          spaceH8,
-                          _buildSmallText(),
-                          spaceH64,
-                          Assets.images.verifyIdCardBackground.image(),
-                        ],
-                      ),
+    return Scaffold(
+          body: Padding(
+            padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(),
+                        spaceH8,
+                        _buildSmallText(),
+                        spaceH64,
+                        Assets.images.verifyIdCardBackground.image(),
+                      ],
                     ),
                   ),
-                  _buildStarButton(),
-                ],
-              ),
+                ),
+                _buildStarButton(),
+              ],
             ),
-          );
-        },
-      ),
-    );
+          ),
+        );
   }
 
   Column _buildStarButton() {
@@ -68,6 +61,7 @@ class _VerifyIdCardScreenState extends State<VerifyIdCardScreen> {
                       children: [
                         AppButton(
                           title: 'Bắt đầu',
+                          onPressed: () => GoRouter.of(context).push(AppPath.takePhotoIdCard),
                         ),
                       ],
                     ),

@@ -8,6 +8,9 @@ class AppButton extends StatelessWidget {
   final bool isEnabled;
   final Color? backgroundColor;
   final Color? textColor;
+  final BoxShape shape;
+  final Widget? icon;
+  final EdgeInsetsGeometry? padding;
 
   AppButton({
     super.key,
@@ -16,6 +19,9 @@ class AppButton extends StatelessWidget {
     this.isEnabled = true,
     this.backgroundColor,
     this.textColor,
+    this.shape = BoxShape.rectangle,
+    this.icon,
+    this.padding,
   });
 
   @override
@@ -24,19 +30,35 @@ class AppButton extends StatelessWidget {
       child: GestureDetector(
         onTap: isEnabled ? onPressed : null,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          decoration: BoxDecoration(
-            color: isEnabled ? backgroundColor ?? AppColor.primaryColor : AppColor.secondary200,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Text(
-            title ?? '',
-            style: textTheme.titleSmall!.copyWith(
-              color: isEnabled ? textColor ?? AppColor.white : AppColor.secondary300,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          padding: padding ?? const EdgeInsets.symmetric(vertical: 16.0),
+          decoration: shape == BoxShape.rectangle
+              ? BoxDecoration(
+                  color: isEnabled
+                      ? backgroundColor ?? AppColor.primaryColor
+                      : AppColor.secondary200,
+
+                  borderRadius: BorderRadius.circular(30),
+                )
+              : BoxDecoration(
+                  shape: shape,
+                  color: isEnabled
+                      ? backgroundColor ?? AppColor.primaryColor
+                      : AppColor.secondary200,
+                  border: Border.all(
+                    color: AppColor.secondary300,
+                  ),
+                ),
+          child: icon ??
+              Text(
+                title ?? '',
+                style: textTheme.titleSmall!.copyWith(
+                  color: isEnabled
+                      ? textColor ?? AppColor.white
+                      : AppColor.secondary300,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
         ),
       ),
     );

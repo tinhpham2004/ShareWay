@@ -20,7 +20,7 @@ class OtpState {
   }
 
   OtpState({
-    this.remainingTime = 600,
+    this.remainingTime = 60,
     this.authData,
     this.otpCode,
     this.errorText,

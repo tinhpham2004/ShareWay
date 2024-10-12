@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
-import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/verify_front_side_card_screen.dart';
+import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/take_photo_id_card_screen.dart';
 import 'package:share_way_frontend/presentation/error/error_screen.dart';
 import 'package:share_way_frontend/presentation/home/home_screen.dart';
 import 'package:share_way_frontend/presentation/auth/auth_screen.dart';
@@ -43,9 +43,9 @@ class AppRouter {
               },
             ),
             GoRoute(
-              path: AppPath.verifyFrontSideCard,
+              path: AppPath.takePhotoIdCard,
               builder: (context, state) {
-                return VerifyFrontSideCardScreen();
+                return TakePhotoIdCardScreen();
               },
             ),
             GoRoute(

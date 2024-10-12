@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
+import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
@@ -141,21 +142,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Positioned(
             top: 80.h,
             left: 40.w,
-            child: Assets.icons.onboardingLocationMark.svg(),
+            child: AppIcon.onboardingLocationMark,
           ),
           Positioned(
             top: 80.h,
             left: 250.w,
-            child: Assets.icons.onboardingPerson.svg(),
+            child: AppIcon.onboardingPerson,
           ),
           Positioned(
             top: 160.h,
-            child: Assets.icons.onboardingChat.svg(),
+            child: AppIcon.onboardingChat,
           ),
           Positioned(
             top: 160.h,
             left: 295.w,
-            child: Assets.icons.onboardingCall.svg(),
+            child: AppIcon.onboardingCall,
           ),
         ],
       ),

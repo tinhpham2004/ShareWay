@@ -37,6 +37,10 @@ class $AssetsIconsGen {
   SvgGenImage get onboardingPerson =>
       const SvgGenImage('assets/icons/onboarding_person.svg');
 
+  /// File path: assets/icons/shield_check.svg
+  SvgGenImage get shieldCheck =>
+      const SvgGenImage('assets/icons/shield_check.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
         clearData,
@@ -44,7 +48,8 @@ class $AssetsIconsGen {
         onboardingCall,
         onboardingChat,
         onboardingLocationMark,
-        onboardingPerson
+        onboardingPerson,
+        shieldCheck
       ];
 }
 

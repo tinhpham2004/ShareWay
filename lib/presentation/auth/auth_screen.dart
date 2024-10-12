@@ -9,7 +9,6 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button_outline.dart';
 import 'package:share_way_frontend/core/widgets/decoration/app_input_decoration.dart';
-import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_bloc.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_state.dart';
 
@@ -63,7 +62,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             children: [
                               AppButtonOutline(
                                 title: 'Đăng xuất bằng Google',
-                                icon: Assets.icons.google.svg(),
+                                icon: AppIcon.google,
                                 onPressed: () => bloc.onGoogleSignOut(context),
                               ),
                             ],
@@ -107,7 +106,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           children: [
                             AppButtonOutline(
                               title: 'Đăng nhập bằng Google',
-                              icon: Assets.icons.google.svg(),
+                              icon: AppIcon.google,
                               onPressed: () => bloc.onGooleSignIn(context),
                             ),
                           ],
