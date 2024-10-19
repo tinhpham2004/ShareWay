@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/auth/auth_repository.dart';
 import 'package:share_way_frontend/domain/google_auth/google_auth_repository.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_state.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
@@ -12,8 +13,9 @@ class AuthBloc extends Cubit<AuthState> {
   AuthBloc() : super(AuthState());
 
   final _googleAuthRepository = GoogleAuthRepository();
+  final _authRepository = AuthRepository();
 
-  void onStart({required BuildContext context, required String path}) {
+  void onStart(String path) {
     try {
       final phoneNumberController = TextEditingController();
       emit(
@@ -23,7 +25,7 @@ class AuthBloc extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
-      showErrorSnackbar(context, e.toString());
+      // TODO: Add onboarding logic
     } finally {
       // TODO: Add onboarding logic
     }
@@ -37,7 +39,7 @@ class AuthBloc extends Cubit<AuthState> {
     state.phoneNumberController!.clear();
   }
 
-  void onValidatePhoneNumber(BuildContext context) {
+  void onValidatePhoneNumber(BuildContext context) async {
     final nonNumericRegExp = RegExp(r'[^0-9]');
     final isValid = state.phoneNumberController!.text.isNotEmpty &&
         !nonNumericRegExp.hasMatch(
@@ -49,8 +51,11 @@ class AuthBloc extends Cubit<AuthState> {
         extra: AuthData(
           phoneNumber: state.phoneNumber!,
           path: state.path!,
+          email: state.email,
+          name: state.displayName,
         ),
       );
+      await _authRepository.initRegister(state.phoneNumber!);
     }
     final errorText = isValid ? null : 'Số điện thoại không đúng định dạng';
     emit(

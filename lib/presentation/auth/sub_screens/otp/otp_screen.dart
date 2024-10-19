@@ -31,8 +31,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          bloc..onStart(context: context, authData: widget.authData),
+      create: (context) => bloc..onStart(widget.authData),
       child: BlocBuilder<OtpBloc, OtpState>(
         builder: (context, state) {
           return Scaffold(
@@ -67,48 +66,59 @@ class _OtpScreenState extends State<OtpScreen> {
 
   Column _buildSmallText(OtpState state) {
     return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Mã xác thực sẽ được gửi tới số ',
-                                  style: textTheme.labelLarge!.copyWith(
-                                    color: AppColor.secondary300,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: state.authData?.phoneNumber ?? 'N/A',
-                                  style: textTheme.labelLarge!.copyWith(
-                                    color: AppColor.primaryText,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          spaceH8,
-                          Text(
-                            'Vui lòng kiểm tra tin nhắn và nhập mã xác thực vào đây',
-                            style: textTheme.labelLarge!.copyWith(
-                              color: AppColor.secondary300,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Mã xác thực sẽ được gửi tới số ',
+                style: textTheme.labelLarge!.copyWith(
+                  color: AppColor.secondary300,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              TextSpan(
+                text: state.authData?.phoneNumber ?? 'N/A',
+                style: textTheme.labelLarge!.copyWith(
+                  color: AppColor.primaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+        spaceH8,
+        Text(
+          'Vui lòng kiểm tra tin nhắn và nhập mã xác thực vào đây',
+          style: textTheme.labelLarge!.copyWith(
+            color: AppColor.secondary300,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
   }
 
-  Text _buildRemainingTime(OtpState state) {
-    return Text(
-      'Gửi lại mã xác thực (${state.formattedTime})',
-      style: textTheme.labelLarge!.copyWith(
-        color: AppColor.primaryColor,
-        fontWeight: FontWeight.w500,
-      ),
-    );
+  Widget _buildRemainingTime(OtpState state) {
+    return state.remainingTime == 0
+        ? GestureDetector(
+            onTap: () => bloc.onResendOtp(),
+            child: Text(
+              'Gửi lại mã xác thực',
+              style: textTheme.labelLarge!.copyWith(
+                color: AppColor.primaryColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          )
+        : Text(
+            'Gửi lại mã xác thực (${state.formattedTime})',
+            style: textTheme.labelLarge!.copyWith(
+              color: AppColor.primaryColor,
+              fontWeight: FontWeight.w500,
+            ),
+          );
   }
 
   Text _buildOTPErrors(OtpState state) {

@@ -32,7 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bloc..onStart(context: context, path: widget.path),
+      create: (context) => bloc..onStart(widget.path),
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return Scaffold(
@@ -86,137 +86,135 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Column _buildContinueButton(BuildContext context) {
     return Column(
-                  children: [
-                    Row(
-                      children: [
-                        AppButton(
-                          title: 'Tiếp tục',
-                          onPressed: () =>
-                              bloc.onValidatePhoneNumber(context),
-                        ),
-                      ],
-                    ),
-                    spaceH12,
-                  ],
-                );
+      children: [
+        Row(
+          children: [
+            AppButton(
+              title: 'Tiếp tục',
+              onPressed: () => bloc.onValidatePhoneNumber(context),
+            ),
+          ],
+        ),
+        spaceH12,
+      ],
+    );
   }
 
   Row _buildGoogleLoginButton(BuildContext context) {
     return Row(
-                          children: [
-                            AppButtonOutline(
-                              title: 'Đăng nhập bằng Google',
-                              icon: AppIcon.google,
-                              onPressed: () => bloc.onGooleSignIn(context),
-                            ),
-                          ],
-                        );
+      children: [
+        AppButtonOutline(
+          title: 'Đăng nhập bằng Google',
+          icon: AppIcon.google,
+          onPressed: () => bloc.onGooleSignIn(context),
+        ),
+      ],
+    );
   }
 
   Row _buildDivider() {
     return Row(
-                          children: [
-                            const Expanded(
-                              child: Divider(
-                                color: AppColor.secondary200,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                "Hoặc",
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: AppColor.primaryText,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            const Expanded(
-                              child: Divider(
-                                color: AppColor.secondary200,
-                              ),
-                            ),
-                          ],
-                        );
+      children: [
+        const Expanded(
+          child: Divider(
+            color: AppColor.secondary200,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            "Hoặc",
+            style: textTheme.labelLarge!.copyWith(
+              color: AppColor.primaryText,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        const Expanded(
+          child: Divider(
+            color: AppColor.secondary200,
+          ),
+        ),
+      ],
+    );
   }
 
   RichText _buildTermsField() {
     return RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Bằng việc tiếp tục, Bạn đồng ý với ',
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: AppColor.secondary300,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'quy chế, điều khoản',
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: AppColor.primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' sử dụng của tổ chức.',
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: AppColor.secondary300,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'Bằng việc tiếp tục, Bạn đồng ý với ',
+            style: textTheme.labelLarge!.copyWith(
+              color: AppColor.secondary300,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          TextSpan(
+            text: 'quy chế, điều khoản',
+            style: textTheme.labelLarge!.copyWith(
+              color: AppColor.primaryColor,
+              fontWeight: FontWeight.w500,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+          TextSpan(
+            text: ' sử dụng của tổ chức.',
+            style: textTheme.labelLarge!.copyWith(
+              color: AppColor.secondary300,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  InternationalPhoneNumberInput _buildPhoneNumberField(AuthState state, BuildContext context) {
+  InternationalPhoneNumberInput _buildPhoneNumberField(
+      AuthState state, BuildContext context) {
     return InternationalPhoneNumberInput(
-                          // initialValue: PhoneNumber(isoCode: 'VN'),
-                          textFieldController: state.phoneNumberController,
-                          selectorConfig: const SelectorConfig(
-                            useBottomSheetSafeArea: true,
-                            selectorType: PhoneInputSelectorType.DIALOG,
-                          ),
-                          selectorTextStyle: textTheme.labelMedium!.copyWith(
-                            color: AppColor.primaryText,
-                          ),
-                          formatInput: true,
-                          searchBoxDecoration:
-                              AppInputDecoration.textField(context: context),
-                          inputDecoration: AppInputDecoration.textField(
-                            context: context,
-                            hintext: 'Số điện thoại',
-                            errorText: state.errorText,
-                            suffixIcon: GestureDetector(
-                              onTap: () => bloc.onClearData(),
-                              child: AppIcon.clearData,
-                            ),
-                          ),
-                          onInputChanged: (PhoneNumber value) =>
-                              bloc.onChangePhoneNumber(value.phoneNumber),
-                        );
+      // initialValue: PhoneNumber(isoCode: 'VN'),
+      textFieldController: state.phoneNumberController,
+      selectorConfig: const SelectorConfig(
+        useBottomSheetSafeArea: true,
+        selectorType: PhoneInputSelectorType.DIALOG,
+      ),
+      selectorTextStyle: textTheme.labelMedium!.copyWith(
+        color: AppColor.primaryText,
+      ),
+      formatInput: true,
+      searchBoxDecoration: AppInputDecoration.textField(context: context),
+      inputDecoration: AppInputDecoration.textField(
+        context: context,
+        hintext: 'Số điện thoại',
+        errorText: state.errorText,
+        suffixIcon: GestureDetector(
+          onTap: () => bloc.onClearData(),
+          child: AppIcon.clearData,
+        ),
+      ),
+      onInputChanged: (PhoneNumber value) =>
+          bloc.onChangePhoneNumber(value.phoneNumber),
+    );
   }
 
   Text _buildSmallText() {
     return Text(
-                          'Đăng nhập / Đăng ký tài khoản ngay bây giờ',
-                          style: textTheme.labelLarge!.copyWith(
-                            color: AppColor.secondary300,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
+      'Đăng nhập / Đăng ký tài khoản ngay bây giờ',
+      style: textTheme.labelLarge!.copyWith(
+        color: AppColor.secondary300,
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 
   Text _buildHeader() {
     return Text(
-                          'Đặt xe cùng ShareWay',
-                          style: textTheme.headlineSmall!.copyWith(
-                            color: AppColor.primaryText,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
+      'Đặt xe cùng ShareWay',
+      style: textTheme.headlineSmall!.copyWith(
+        color: AppColor.primaryText,
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 }

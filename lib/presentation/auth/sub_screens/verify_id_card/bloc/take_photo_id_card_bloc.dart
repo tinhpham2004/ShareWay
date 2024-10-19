@@ -6,7 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image/image.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/auth/auth_repository.dart';
+import 'package:share_way_frontend/domain/auth/input/verify_id_card_input.dart';
+import 'package:share_way_frontend/domain/local/preferences.dart';
+import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_state.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/enums/button_title_enum.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/enums/take_photo_id_card_enum.dart';
@@ -16,16 +23,19 @@ import 'package:share_way_frontend/router/app_path.dart';
 class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
   TakePhotoIdCardBloc() : super(TakePhotoIdCardState());
 
-  void onStart({required BuildContext context}) async {
+  final _authRepository = AuthRepository();
+
+  void onStart(AuthData authData) async {
     emit(
       state.copyWith(
         isLoading: true,
+        authData: authData,
       ),
     );
     try {
       await initializeCamera();
     } catch (e) {
-      showErrorSnackbar(context, e.toString());
+      // TODO: Handle error
     } finally {
       emit(
         state.copyWith(isLoading: false),
@@ -50,59 +60,71 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
     await state.cameraController!.resumePreview();
   }
 
+  Future<void> onRetakeButtonPressed(BuildContext context) async {
+    await resumeCamera();
+    emit(state.copyWith(buttonTitle: ButtonTitleEnum.confirm));
+  }
+
   Future<void> takePhoto() async {
     final image = await state.cameraController!.takePicture();
-
     Uint8List imageBytes = await image.readAsBytes();
     img.Image? decodedImage = img.decodeImage(imageBytes);
 
     if (decodedImage != null) {
-      // Define the hole's dimensions
-      int holeWidth = 300.w.toInt();
-      int holeHeight = 180.h.toInt();
+      final croppedImageFile = await _processAndCropImage(decodedImage);
+      _emitCroppedImage(croppedImageFile);
+    }
+  }
 
-      // Define a zoom-out scale factor (e.g., 2.0 for 200% zoom out)
-      double scaleFactor = 1.9;
+  Future<File> _processAndCropImage(img.Image decodedImage) async {
+    int holeWidth = 300.w.toInt();
+    int holeHeight = 180.h.toInt();
+    double scaleFactor = 1.9;
 
-      // Calculate new dimensions for zoomed-out image
-      int newWidth = (decodedImage.width / scaleFactor).floor();
-      int newHeight = (decodedImage.height / scaleFactor).floor();
+    int newWidth = (decodedImage.width / scaleFactor).floor();
+    int newHeight = (decodedImage.height / scaleFactor).floor();
 
-      // Create a new scaled image
-      img.Image scaledImage =
-          img.copyResize(decodedImage, width: newWidth, height: newHeight);
+    img.Image scaledImage = img.copyResize(
+      decodedImage,
+      width: newWidth,
+      height: newHeight,
+    );
 
-      // Calculate the center of the scaled image
-      int centerX = scaledImage.width ~/ 2;
-      int centerY = scaledImage.height ~/ 2;
+    int centerX = scaledImage.width ~/ 2;
+    int centerY = scaledImage.height ~/ 2;
 
-      // Calculate crop coordinates
-      int cropX = centerX - (holeWidth ~/ 2);
-      int cropY = centerY - (holeHeight ~/ 2);
+    int cropX = centerX - (holeWidth ~/ 2);
+    int cropY = centerY - (holeHeight ~/ 2);
 
-      // Ensure crop coordinates are within bounds
-      cropX = cropX.clamp(0, scaledImage.width - holeWidth);
-      cropY = cropY.clamp(0, scaledImage.height - holeHeight);
+    cropX = cropX.clamp(0, scaledImage.width - holeWidth);
+    cropY = cropY.clamp(0, scaledImage.height - holeHeight);
 
-      // Crop the image
-      img.Image croppedImage = img.copyCrop(scaledImage,
-          x: cropX, y: cropY, width: holeWidth, height: holeHeight);
-      List<int> croppedImageBytes = img.encodeJpg(croppedImage);
+    img.Image croppedImage = img.copyCrop(
+      scaledImage,
+      x: cropX,
+      y: cropY,
+      width: holeWidth,
+      height: holeHeight,
+    );
 
-      // Save the cropped image
-      File croppedImageFile =
-          File('${Directory.systemTemp.path}/${DateTime.now()}.png')
-            ..writeAsBytesSync(croppedImageBytes);
+    List<int> croppedImageBytes = img.encodePng(
+      croppedImage,
+      level: 0,
+      filter: PngFilter.none,
+    );
 
-      // Emit the cropped image based on the screen context
-      switch (state.screen) {
-        case TakePhotoIdCardEnum.frontSide:
-          emit(state.copyWith(frontSideImage: croppedImageFile));
-          break;
-        case TakePhotoIdCardEnum.backSide:
-          emit(state.copyWith(backSideImage: croppedImageFile));
-          break;
-      }
+    return File('${Directory.systemTemp.path}/${DateTime.now()}.png')
+      ..writeAsBytesSync(croppedImageBytes);
+  }
+
+  void _emitCroppedImage(File croppedImageFile) {
+    switch (state.screen) {
+      case TakePhotoIdCardEnum.frontSide:
+        emit(state.copyWith(frontSideImage: croppedImageFile));
+        break;
+      case TakePhotoIdCardEnum.backSide:
+        emit(state.copyWith(backSideImage: croppedImageFile));
+        break;
     }
   }
 
@@ -121,41 +143,53 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
   }
 
   Future<void> onConfirmButtonPressed(BuildContext context) async {
-    switch (state.screen) {
-      case TakePhotoIdCardEnum.frontSide:
-        switch (state.buttonTitle) {
-          case ButtonTitleEnum.confirm:
-            await takePhoto();
-            await pauseCamera();
-            emit(state.copyWith(buttonTitle: ButtonTitleEnum.resume));
-            break;
-          case ButtonTitleEnum.resume:
-            await resumeCamera();
-            emit(state.copyWith(
-              buttonTitle: ButtonTitleEnum.confirm,
-              screen: TakePhotoIdCardEnum.backSide,
-            ));
-            break;
-        }
-        break;
-      case TakePhotoIdCardEnum.backSide:
-        switch (state.buttonTitle) {
-          case ButtonTitleEnum.confirm:
-            await takePhoto();
-            await pauseCamera();
-            emit(state.copyWith(buttonTitle: ButtonTitleEnum.resume));
-            break;
-          case ButtonTitleEnum.resume:
-            await resumeCamera();
-            GoRouter.of(context).go(AppPath.home);
-            break;
-        }
-        break;
+    try {
+      if (state.screen == TakePhotoIdCardEnum.frontSide) {
+        await _handleFrontSideConfirmation();
+      } else if (state.screen == TakePhotoIdCardEnum.backSide) {
+        await _handleBackSideConfirmation(context);
+      }
+    } catch (e) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     }
   }
 
-  void onRetakeButtonPressed(BuildContext context) async {
-    await resumeCamera();
-    emit(state.copyWith(buttonTitle: ButtonTitleEnum.confirm));
+  Future<void> _handleFrontSideConfirmation() async {
+    if (state.buttonTitle == ButtonTitleEnum.confirm) {
+      await takePhoto();
+      await pauseCamera();
+      emit(state.copyWith(buttonTitle: ButtonTitleEnum.resume));
+    } else if (state.buttonTitle == ButtonTitleEnum.resume) {
+      await resumeCamera();
+      emit(state.copyWith(
+        buttonTitle: ButtonTitleEnum.confirm,
+        screen: TakePhotoIdCardEnum.backSide,
+      ));
+    }
+  }
+
+  Future<void> _handleBackSideConfirmation(BuildContext context) async {
+    if (state.buttonTitle == ButtonTitleEnum.confirm) {
+      await takePhoto();
+      await pauseCamera();
+      emit(state.copyWith(buttonTitle: ButtonTitleEnum.resume));
+    } else if (state.buttonTitle == ButtonTitleEnum.resume) {
+      // await resumeCamera();
+      final input = VerifyIdCardInput(
+        frontSideImage: state.frontSideImage!,
+        backSideImage: state.backSideImage!,
+        phoneNumber: state.authData!.phoneNumber,
+        userId: state.authData!.userId!,
+      );
+      final response = await _authRepository.verifyIdCard(input);
+      if (response != null) {
+        await Preferences.saveToken(
+          accessToken: response.accessToken!,
+          refreshToken: response.refreshToken!,
+        );
+        await Preferences.clearAuthData();
+        GoRouter.of(context).go(AppPath.home, extra: response.appUser);
+      }
+    }
   }
 }

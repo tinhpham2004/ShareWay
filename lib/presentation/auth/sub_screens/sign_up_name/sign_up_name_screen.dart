@@ -6,11 +6,13 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
+import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/sign_up_name/bloc/sign_up_name_bloc.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/sign_up_name/bloc/sign_up_name_state.dart';
 
 class SignUpNameScreen extends StatefulWidget {
-  const SignUpNameScreen({super.key});
+  final AuthData authData;
+  const SignUpNameScreen({super.key, required this.authData});
 
   @override
   State<SignUpNameScreen> createState() => _SignUpNameScreenState();
@@ -28,7 +30,7 @@ class _SignUpNameScreenState extends State<SignUpNameScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bloc..onStart(context: context),
+      create: (context) => bloc..onStart(widget.authData),
       child: BlocBuilder<SignUpNameBloc, SignUpNameState>(
         builder: (context, state) {
           return Scaffold(
@@ -63,44 +65,44 @@ class _SignUpNameScreenState extends State<SignUpNameScreen> {
 
   Column _buildContinueButton(BuildContext context, SignUpNameState state) {
     return Column(
-                  children: [
-                    Row(
-                      children: [
-                        AppButton(
-                          title: 'Tiếp tục',
-                          onPressed: () => bloc.onContinueButtonPressed(context),
-                          isEnabled: state.isContinueButtonEnabled,
-                        ),
-                      ],
-                    ),
-                    spaceH12,
-                  ],
-                );
+      children: [
+        Row(
+          children: [
+            AppButton(
+              title: 'Tiếp tục',
+              onPressed: () => bloc.onContinueButtonPressed(context),
+              isEnabled: state.isContinueButtonEnabled,
+            ),
+          ],
+        ),
+        spaceH12,
+      ],
+    );
   }
 
   TextFieldInput _buildNameInputField() {
     return TextFieldInput(
-                          onChanged: (value) => bloc.onChangeName(value),
-                        );
+      onChanged: (value) => bloc.onChangeName(value),
+    );
   }
 
   Text _buildSmallText() {
     return Text(
-                          'Vui lòng nhập tên của bạn',
-                          style: textTheme.labelLarge!.copyWith(
-                            color: AppColor.secondary300,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
+      'Vui lòng nhập tên của bạn',
+      style: textTheme.labelLarge!.copyWith(
+        color: AppColor.secondary300,
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 
   Text _buildHeader() {
     return Text(
-                          'Tên của bạn là gì?',
-                          style: textTheme.headlineSmall!.copyWith(
-                            color: AppColor.primaryText,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
+      'Tên của bạn là gì?',
+      style: textTheme.headlineSmall!.copyWith(
+        color: AppColor.primaryText,
+        fontWeight: FontWeight.w500,
+      ),
+    );
   }
 }

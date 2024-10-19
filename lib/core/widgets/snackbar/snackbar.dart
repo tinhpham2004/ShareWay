@@ -7,8 +7,8 @@ void showErrorSnackbar(BuildContext context, String errorMessage) {
       errorMessage,
       style: const TextStyle(color: AppColor.white),
     ),
-    backgroundColor: AppColor.error,
     duration: const Duration(seconds: 3),
+    backgroundColor: AppColor.error,
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
@@ -16,7 +16,7 @@ void showErrorSnackbar(BuildContext context, String errorMessage) {
     action: SnackBarAction(
       label: 'Ẩn',
       textColor: AppColor.white,
-      onPressed: () {},
+      onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
     ),
   );
 
@@ -29,8 +29,8 @@ void showSuccessSnackbar(BuildContext context, String successMessage) {
       successMessage,
       style: const TextStyle(color: AppColor.white),
     ),
-    backgroundColor: AppColor.success,
     duration: const Duration(seconds: 3),
+    backgroundColor: AppColor.success,
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
@@ -38,10 +38,9 @@ void showSuccessSnackbar(BuildContext context, String successMessage) {
     action: SnackBarAction(
       label: 'Ẩn',
       textColor: AppColor.white,
-      onPressed: () {},
+      onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
     ),
   );
 
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
-

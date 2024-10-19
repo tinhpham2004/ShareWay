@@ -13,6 +13,8 @@ abstract class _$TakePhotoIdCardStateCWProxy {
 
   TakePhotoIdCardState cameras(List<CameraDescription>? cameras);
 
+  TakePhotoIdCardState authData(AuthData? authData);
+
   TakePhotoIdCardState screen(TakePhotoIdCardEnum screen);
 
   TakePhotoIdCardState buttonTitle(ButtonTitleEnum buttonTitle);
@@ -31,6 +33,7 @@ abstract class _$TakePhotoIdCardStateCWProxy {
     bool? isLoading,
     CameraController? cameraController,
     List<CameraDescription>? cameras,
+    AuthData? authData,
     TakePhotoIdCardEnum? screen,
     ButtonTitleEnum? buttonTitle,
     File? frontSideImage,
@@ -55,6 +58,9 @@ class _$TakePhotoIdCardStateCWProxyImpl
   @override
   TakePhotoIdCardState cameras(List<CameraDescription>? cameras) =>
       this(cameras: cameras);
+
+  @override
+  TakePhotoIdCardState authData(AuthData? authData) => this(authData: authData);
 
   @override
   TakePhotoIdCardState screen(TakePhotoIdCardEnum screen) =>
@@ -84,6 +90,7 @@ class _$TakePhotoIdCardStateCWProxyImpl
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? cameraController = const $CopyWithPlaceholder(),
     Object? cameras = const $CopyWithPlaceholder(),
+    Object? authData = const $CopyWithPlaceholder(),
     Object? screen = const $CopyWithPlaceholder(),
     Object? buttonTitle = const $CopyWithPlaceholder(),
     Object? frontSideImage = const $CopyWithPlaceholder(),
@@ -102,6 +109,10 @@ class _$TakePhotoIdCardStateCWProxyImpl
           ? _value.cameras
           // ignore: cast_nullable_to_non_nullable
           : cameras as List<CameraDescription>?,
+      authData: authData == const $CopyWithPlaceholder()
+          ? _value.authData
+          // ignore: cast_nullable_to_non_nullable
+          : authData as AuthData?,
       screen: screen == const $CopyWithPlaceholder() || screen == null
           ? _value.screen
           // ignore: cast_nullable_to_non_nullable

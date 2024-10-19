@@ -30,7 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bloc..onStart(context),
+      create: (context) => bloc..onStart(),
       child: BlocBuilder<OnboardingBloc, OnboardingState>(
         builder: (context, state) {
           return Scaffold(

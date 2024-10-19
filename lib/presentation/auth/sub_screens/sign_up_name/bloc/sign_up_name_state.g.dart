@@ -9,6 +9,8 @@ part of 'sign_up_name_state.dart';
 abstract class _$SignUpNameStateCWProxy {
   SignUpNameState name(String? name);
 
+  SignUpNameState authData(AuthData? authData);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `SignUpNameState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -17,6 +19,7 @@ abstract class _$SignUpNameStateCWProxy {
   /// ````
   SignUpNameState call({
     String? name,
+    AuthData? authData,
   });
 }
 
@@ -30,6 +33,9 @@ class _$SignUpNameStateCWProxyImpl implements _$SignUpNameStateCWProxy {
   SignUpNameState name(String? name) => this(name: name);
 
   @override
+  SignUpNameState authData(AuthData? authData) => this(authData: authData);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `SignUpNameState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -39,12 +45,17 @@ class _$SignUpNameStateCWProxyImpl implements _$SignUpNameStateCWProxy {
   /// ````
   SignUpNameState call({
     Object? name = const $CopyWithPlaceholder(),
+    Object? authData = const $CopyWithPlaceholder(),
   }) {
     return SignUpNameState(
       name: name == const $CopyWithPlaceholder()
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
           : name as String?,
+      authData: authData == const $CopyWithPlaceholder()
+          ? _value.authData
+          // ignore: cast_nullable_to_non_nullable
+          : authData as AuthData?,
     );
   }
 }

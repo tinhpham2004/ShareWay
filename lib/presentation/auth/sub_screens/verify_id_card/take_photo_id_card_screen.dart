@@ -7,6 +7,7 @@ import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_bloc.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_state.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/enums/button_title_enum.dart';
@@ -14,6 +15,9 @@ import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/widgets/hole_clipper.dart';
 
 class TakePhotoIdCardScreen extends StatefulWidget {
+  final AuthData authData;
+
+  TakePhotoIdCardScreen({super.key, required this.authData});
   @override
   _TakePhotoIdCardScreenState createState() => _TakePhotoIdCardScreenState();
 }
@@ -29,7 +33,7 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bloc..onStart(context: context),
+      create: (context) => bloc..onStart(widget.authData),
       child: BlocBuilder<TakePhotoIdCardBloc, TakePhotoIdCardState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -120,10 +124,10 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
       children: [
         Expanded(
           child: state.buttonTitle == ButtonTitleEnum.resume
-                ? state.screen == TakePhotoIdCardEnum.frontSide
-                    ? Image.file(state.frontSideImage!)
-                    : Image.file(state.backSideImage!)
-                : CameraPreview(state.cameraController!),
+              ? state.screen == TakePhotoIdCardEnum.frontSide
+                  ? Image.file(state.frontSideImage!)
+                  : Image.file(state.backSideImage!)
+              : CameraPreview(state.cameraController!),
         ),
       ],
     );

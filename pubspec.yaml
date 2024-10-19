@@ -33,6 +33,9 @@ dependencies:
   camera: ^0.10.0
   permission_handler: ^11.3.1
   image: ^4.2.0
+  flutter_native_splash: ^2.4.1
+  path_provider: ^2.1.4
+  loading_indicator: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +55,13 @@ flutter_gen:
     flare_flutter: true
     rive: true
     lottie: true
+
+flutter_native_splash:
+  color: "#007AFF"
+  image: assets/images/splash.png
+  android: true
+  ios: true
+
 
 flutter:
   uses-material-design: true

@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:share_way_frontend/domain/user/output/app_user.dart';
+import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/take_photo_id_card_screen.dart';
 import 'package:share_way_frontend/presentation/error/error_screen.dart';
@@ -20,6 +22,10 @@ class AppRouter {
           initialLocation: AppPath.onboarding,
           routes: <GoRoute>[
             GoRoute(
+              path: AppPath.error,
+              builder: (context, state) => const ErrorScreen(),
+            ),
+            GoRoute(
               path: AppPath.onboarding,
               builder: (context, state) => const OnboardingScreen(),
             ),
@@ -33,38 +39,41 @@ class AppRouter {
             GoRoute(
               path: AppPath.signUpName,
               builder: (context, state) {
-                return SignUpNameScreen();
+                final AuthData authData = state.extra as AuthData;
+                return SignUpNameScreen(authData: authData);
               },
             ),
             GoRoute(
               path: AppPath.verifyIdCard,
               builder: (context, state) {
-                return const VerifyIdCardScreen();
+                final AuthData authData = state.extra as AuthData;
+                return VerifyIdCardScreen(authData: authData);
               },
             ),
             GoRoute(
               path: AppPath.takePhotoIdCard,
               builder: (context, state) {
-                return TakePhotoIdCardScreen();
+                final AuthData authData = state.extra as AuthData;
+                return TakePhotoIdCardScreen(authData: authData);
               },
             ),
             GoRoute(
               path: AppPath.otp,
               builder: (context, state) {
                 final AuthData authData = state.extra as AuthData;
+                // final authData =
+                //     AuthData(phoneNumber: '+84938391457', path: AppPath.signUp);
                 return OtpScreen(authData: authData);
               },
             ),
             GoRoute(
               path: AppPath.home,
               builder: (context, state) {
-                return const HomeScreen();
+                final AppUser user = state.extra as AppUser;
+                return HomeScreen(user: user);
               },
             ),
           ],
           errorBuilder: (context, state) => const ErrorScreen(),
-          redirect: (context, state) {
-            return null;
-          },
         );
 }

@@ -17,7 +17,7 @@ class GoogleAuthRepository {
     }
   }
 
-    Future<void> signOut() async {
+  Future<void> signOut() async {
     try {
       await _service.signOut();
     } catch (error, statckTrace) {

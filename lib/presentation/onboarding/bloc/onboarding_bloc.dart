@@ -8,12 +8,12 @@ import 'package:share_way_frontend/router/app_path.dart';
 class OnboardingBloc extends Cubit<OnboardingState> {
   OnboardingBloc() : super(OnboardingState());
 
-  void onStart(BuildContext context) {
+  void onStart() {
     emit(state.copyWith(isLoading: true));
     try {
       // TODO: Add onboarding logic
     } catch (e) {
-      showErrorSnackbar(context, e.toString());
+      // TODO: Add onboarding logic
     } finally {
       emit(state.copyWith(isLoading: false));
     }

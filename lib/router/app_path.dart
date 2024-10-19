@@ -1,4 +1,5 @@
 abstract class AppPath {
+  static const error = '/error';
   static const onboarding = '/onboarding';
   static const auth = '/auth';
   static const login = '/login';

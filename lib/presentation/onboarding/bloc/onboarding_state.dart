@@ -4,7 +4,6 @@ part 'onboarding_state.g.dart';
 
 @CopyWith()
 class OnboardingState {
-
   final bool isLoading;
 
   OnboardingState({
