@@ -7,6 +7,8 @@ import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
+import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_bloc.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_state.dart';
@@ -34,24 +36,34 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(widget.authData),
-      child: BlocBuilder<TakePhotoIdCardBloc, TakePhotoIdCardState>(
-        builder: (context, state) {
+      child: BlocListener<TakePhotoIdCardBloc, TakePhotoIdCardState>(
+        listener: (context, state) {
           if (state.isLoading) {
-            return _buildLoadingScreen();
+            showLoading(context);
+          } else {
+            hideLoading(context);
           }
-          return Scaffold(
-            body: Stack(
-              children: [
-                _buildCamera(state),
-                _buildIdCardField(state),
-                _buildFourRoundedCorners(),
-                _buildButonField(state),
-                _buildHeader(state),
-                _buildBackButton(),
-              ],
-            ),
-          );
         },
+        listenWhen: (previous, current) => previous.isLoading != current.isLoading,
+        child: BlocBuilder<TakePhotoIdCardBloc, TakePhotoIdCardState>(
+          builder: (context, state) {
+            if (state.isCameraInitialized) {
+              return LoadingScreen();
+            }
+            return Scaffold(
+              body: Stack(
+                children: [
+                  _buildCamera(state),
+                  _buildIdCardField(state),
+                  _buildFourRoundedCorners(),
+                  _buildButonField(state),
+                  _buildHeader(state),
+                  _buildBackButton(),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -104,17 +116,6 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Scaffold _buildLoadingScreen() {
-    return const Scaffold(
-      backgroundColor: AppColor.white,
-      body: Center(
-        child: CircularProgressIndicator(
-          color: AppColor.primaryColor,
-        ),
       ),
     );
   }

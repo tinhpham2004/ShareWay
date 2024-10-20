@@ -10,7 +10,8 @@ part 'take_photo_id_card_state.g.dart';
 
 @CopyWith()
 class TakePhotoIdCardState {
-  bool isLoading;
+  final bool isLoading;
+  final bool isCameraInitialized;
   final TakePhotoIdCardEnum screen;
   final AuthData? authData;
   final ButtonTitleEnum buttonTitle;
@@ -21,6 +22,7 @@ class TakePhotoIdCardState {
 
   TakePhotoIdCardState({
     this.isLoading = false,
+    this.isCameraInitialized = false,
     this.cameraController,
     this.cameras,
     this.authData,

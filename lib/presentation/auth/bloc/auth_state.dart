@@ -5,6 +5,7 @@ part 'auth_state.g.dart';
 
 @CopyWith()
 class AuthState {
+  final bool isLoading;
   final TextEditingController? phoneNumberController;
   final String? phoneNumber;
   final String? errorText;
@@ -13,6 +14,7 @@ class AuthState {
   final String? path;
 
   AuthState({
+    this.isLoading = false,
     this.phoneNumberController,
     this.phoneNumber,
     this.errorText,

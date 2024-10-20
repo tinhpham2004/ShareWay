@@ -16,19 +16,13 @@ class AuthBloc extends Cubit<AuthState> {
   final _authRepository = AuthRepository();
 
   void onStart(String path) {
-    try {
-      final phoneNumberController = TextEditingController();
-      emit(
-        state.copyWith(
-          phoneNumberController: phoneNumberController,
-          path: path,
-        ),
-      );
-    } catch (e) {
-      // TODO: Add onboarding logic
-    } finally {
-      // TODO: Add onboarding logic
-    }
+    final phoneNumberController = TextEditingController();
+    emit(
+      state.copyWith(
+        phoneNumberController: phoneNumberController,
+        path: path,
+      ),
+    );
   }
 
   void onChangePhoneNumber(String? value) {
@@ -40,49 +34,58 @@ class AuthBloc extends Cubit<AuthState> {
   }
 
   void onValidatePhoneNumber(BuildContext context) async {
-    final nonNumericRegExp = RegExp(r'[^0-9]');
-    final isValid = state.phoneNumberController!.text.isNotEmpty &&
-        !nonNumericRegExp.hasMatch(
-            state.phoneNumberController!.text.replaceAll(RegExp(r' '), ''));
+    try {
+      emit(state.copyWith(isLoading: true));
+      final nonNumericRegExp = RegExp(r'[^0-9]');
+      final isValid = state.phoneNumberController!.text.isNotEmpty &&
+          !nonNumericRegExp.hasMatch(
+              state.phoneNumberController!.text.replaceAll(RegExp(r' '), ''));
 
-    if (!isValid) {
-      emit(state.copyWith(errorText: 'Số điện thoại không đúng định dạng'));
-      return;
-    }
-
-    emit(state.copyWith(errorText: null));
-
-    if (state.path == AppPath.login) {
-      final response = await _authRepository.loginPhone(state.phoneNumber!);
-      if (response != null) {
-        final authData = AuthData(
-          phoneNumber: state.phoneNumber!,
-          path: state.path!,
-          email: state.email,
-          name: state.displayName,
-          userId: response,
-        );
-        GoRouter.of(context).push(AppPath.otp, extra: authData);
-      } else {
-        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+      if (!isValid) {
+        emit(state.copyWith(errorText: 'Số điện thoại không đúng định dạng'));
+        return;
       }
-    } else if (state.path == AppPath.signUp) {
-      final authData = AuthData(
-        phoneNumber: state.phoneNumber!,
-        path: state.path!,
-        email: state.email,
-        name: state.displayName,
-      );
-      GoRouter.of(context).push(AppPath.otp, extra: authData);
-      final response = await _authRepository.initRegister(state.phoneNumber!);
-      if (!response) {
-        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+
+      emit(state.copyWith(errorText: null));
+
+      if (state.path == AppPath.login) {
+        final response = await _authRepository.loginPhone(state.phoneNumber!);
+        if (response != null) {
+          final authData = AuthData(
+            phoneNumber: state.phoneNumber!,
+            path: state.path!,
+            email: state.email,
+            name: state.displayName,
+            userId: response,
+          );
+          GoRouter.of(context).push(AppPath.otp, extra: authData);
+        } else {
+          showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+        }
+      } else if (state.path == AppPath.signUp) {
+        final response = await _authRepository.initRegister(state.phoneNumber!);
+        if (response) {
+          final authData = AuthData(
+            phoneNumber: state.phoneNumber!,
+            path: state.path!,
+            email: state.email,
+            name: state.displayName,
+          );
+          GoRouter.of(context).push(AppPath.otp, extra: authData);
+        } else {
+          showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+        }
       }
+    } catch (e) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 
   void onGoogleSignIn(BuildContext context) async {
     try {
+      emit(state.copyWith(isLoading: true));
       await _googleAuthRepository.signInWithGoogle();
       onGetUserInfo(context);
 
@@ -112,6 +115,8 @@ class AuthBloc extends Cubit<AuthState> {
       }
     } catch (e) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 

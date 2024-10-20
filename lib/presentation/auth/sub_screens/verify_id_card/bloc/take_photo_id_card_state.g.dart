@@ -9,6 +9,8 @@ part of 'take_photo_id_card_state.dart';
 abstract class _$TakePhotoIdCardStateCWProxy {
   TakePhotoIdCardState isLoading(bool isLoading);
 
+  TakePhotoIdCardState isCameraInitialized(bool isCameraInitialized);
+
   TakePhotoIdCardState cameraController(CameraController? cameraController);
 
   TakePhotoIdCardState cameras(List<CameraDescription>? cameras);
@@ -31,6 +33,7 @@ abstract class _$TakePhotoIdCardStateCWProxy {
   /// ````
   TakePhotoIdCardState call({
     bool? isLoading,
+    bool? isCameraInitialized,
     CameraController? cameraController,
     List<CameraDescription>? cameras,
     AuthData? authData,
@@ -50,6 +53,10 @@ class _$TakePhotoIdCardStateCWProxyImpl
 
   @override
   TakePhotoIdCardState isLoading(bool isLoading) => this(isLoading: isLoading);
+
+  @override
+  TakePhotoIdCardState isCameraInitialized(bool isCameraInitialized) =>
+      this(isCameraInitialized: isCameraInitialized);
 
   @override
   TakePhotoIdCardState cameraController(CameraController? cameraController) =>
@@ -88,6 +95,7 @@ class _$TakePhotoIdCardStateCWProxyImpl
   /// ````
   TakePhotoIdCardState call({
     Object? isLoading = const $CopyWithPlaceholder(),
+    Object? isCameraInitialized = const $CopyWithPlaceholder(),
     Object? cameraController = const $CopyWithPlaceholder(),
     Object? cameras = const $CopyWithPlaceholder(),
     Object? authData = const $CopyWithPlaceholder(),
@@ -101,6 +109,12 @@ class _$TakePhotoIdCardStateCWProxyImpl
           ? _value.isLoading
           // ignore: cast_nullable_to_non_nullable
           : isLoading as bool,
+      isCameraInitialized:
+          isCameraInitialized == const $CopyWithPlaceholder() ||
+                  isCameraInitialized == null
+              ? _value.isCameraInitialized
+              // ignore: cast_nullable_to_non_nullable
+              : isCameraInitialized as bool,
       cameraController: cameraController == const $CopyWithPlaceholder()
           ? _value.cameraController
           // ignore: cast_nullable_to_non_nullable

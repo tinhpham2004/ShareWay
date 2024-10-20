@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
+import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/auth/auth_repository.dart';
+import 'package:share_way_frontend/domain/google_auth/google_auth_repository.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/user/output/app_user.dart';
 import 'package:share_way_frontend/router/app_path.dart';
@@ -66,21 +68,26 @@ class _HomeScreenState extends State<HomeScreen> {
               'refresh token: $refreshToken',
             ),
             IconButton(
-                color: AppColor.error,
-                padding: EdgeInsets.all(8.0),
-                onPressed: () async {
-                  final authRepository = AuthRepository();
-                  final response = await authRepository.logout();
-                  if (response) {
-                    GoRouter.of(context).go(AppPath.onboarding);
-                  } else {
-                    showErrorSnackbar(context, 'Đăng xuất thất bại');
-                  }
-                },
-                icon: Icon(
-                  Icons.logout,
-                  size: 50,
-                )),
+              color: AppColor.error,
+              padding: EdgeInsets.all(8.0),
+              onPressed: () async {
+                showLoading(context);
+                final authRepository = AuthRepository();
+                final googleAuthRepository = GoogleAuthRepository();
+                final response = await authRepository.logout();
+                await googleAuthRepository.signOut();
+                if (response) {
+                  GoRouter.of(context).go(AppPath.onboarding);
+                } else {
+                  showErrorSnackbar(context, 'Đăng xuất thất bại');
+                }
+                hideLoading(context);
+              },
+              icon: Icon(
+                Icons.logout,
+                size: 50,
+              ),
+            ),
           ],
         ),
       ),

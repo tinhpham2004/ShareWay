@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -29,28 +31,35 @@ class SignUpNameBloc extends Cubit<SignUpNameState> {
   }
 
   Future<void> onContinueButtonPressed(BuildContext context) async {
-    final input = RegisterInput(
-      fullName: state.name,
-      phoneNumber: state.authData!.phoneNumber,
-      email: state.authData!.email,
-    );
-    final userId = await _authRepository.register(input);
-    if (userId != null) {
-      await Preferences.saveAuthData(
-        state.authData!.copyWith(
-          name: state.name,
-          userId: userId,
-        ),
+    try {
+      emit(state.copyWith(isLoading: true));
+      final input = RegisterInput(
+        fullName: state.name,
+        phoneNumber: state.authData!.phoneNumber,
+        email: state.authData!.email,
       );
-      GoRouter.of(context).push(
-        AppPath.verifyIdCard,
-        extra: state.authData!.copyWith(
-          name: state.name,
-          userId: userId,
-        ),
-      );
-    } else {
+      final userId = await _authRepository.register(input);
+      if (userId != null) {
+        await Preferences.saveAuthData(
+          state.authData!.copyWith(
+            name: state.name,
+            userId: userId,
+          ),
+        );
+        GoRouter.of(context).push(
+          AppPath.verifyIdCard,
+          extra: state.authData!.copyWith(
+            name: state.name,
+            userId: userId,
+          ),
+        );
+      } else {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+      }
+    } catch (e) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 }

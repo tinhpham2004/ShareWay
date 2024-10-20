@@ -7,6 +7,8 @@ part of 'sign_up_name_state.dart';
 // **************************************************************************
 
 abstract class _$SignUpNameStateCWProxy {
+  SignUpNameState isLoading(bool isLoading);
+
   SignUpNameState name(String? name);
 
   SignUpNameState authData(AuthData? authData);
@@ -18,6 +20,7 @@ abstract class _$SignUpNameStateCWProxy {
   /// SignUpNameState(...).copyWith(id: 12, name: "My name")
   /// ````
   SignUpNameState call({
+    bool? isLoading,
     String? name,
     AuthData? authData,
   });
@@ -28,6 +31,9 @@ class _$SignUpNameStateCWProxyImpl implements _$SignUpNameStateCWProxy {
   const _$SignUpNameStateCWProxyImpl(this._value);
 
   final SignUpNameState _value;
+
+  @override
+  SignUpNameState isLoading(bool isLoading) => this(isLoading: isLoading);
 
   @override
   SignUpNameState name(String? name) => this(name: name);
@@ -44,10 +50,15 @@ class _$SignUpNameStateCWProxyImpl implements _$SignUpNameStateCWProxy {
   /// SignUpNameState(...).copyWith(id: 12, name: "My name")
   /// ````
   SignUpNameState call({
+    Object? isLoading = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
     Object? authData = const $CopyWithPlaceholder(),
   }) {
     return SignUpNameState(
+      isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
+          ? _value.isLoading
+          // ignore: cast_nullable_to_non_nullable
+          : isLoading as bool,
       name: name == const $CopyWithPlaceholder()
           ? _value.name
           // ignore: cast_nullable_to_non_nullable

@@ -5,11 +5,13 @@ part 'sign_up_name_state.g.dart';
 
 @CopyWith()
 class SignUpNameState {
+  final bool isLoading;
   final String? name;
   final AuthData? authData;
   bool get isContinueButtonEnabled => name != null && name!.isNotEmpty;
 
   SignUpNameState({
+    this.isLoading = false,
     this.name,
     this.authData,
   });

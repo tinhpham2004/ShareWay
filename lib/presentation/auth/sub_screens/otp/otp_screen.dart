@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
+import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
 import 'package:share_way_frontend/core/widgets/input/otp_field_input.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/otp/bloc/otp_bloc.dart';
@@ -32,34 +33,45 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(widget.authData),
-      child: BlocBuilder<OtpBloc, OtpState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: Column(
-              children: [
-                const Spacer(),
-                Expanded(
-                  flex: 9,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeader(),
-                        spaceH8,
-                        _buildSmallText(state),
-                        spaceH24,
-                        _buildOTPInputField(state, context),
-                        _buildOTPErrors(state),
-                        _buildRemainingTime(state),
-                      ],
+      child: BlocListener<OtpBloc, OtpState>(
+        listener: (context, state) {
+          if (state.isLoading) {
+            showLoading(context);
+          } else {
+            hideLoading(context);
+          }
+        },
+        listenWhen: (previous, current) =>
+            previous.isLoading != current.isLoading,
+        child: BlocBuilder<OtpBloc, OtpState>(
+          builder: (context, state) {
+            return Scaffold(
+              body: Column(
+                children: [
+                  const Spacer(),
+                  Expanded(
+                    flex: 9,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildHeader(),
+                          spaceH8,
+                          _buildSmallText(state),
+                          spaceH24,
+                          _buildOTPInputField(state, context),
+                          _buildOTPErrors(state),
+                          _buildRemainingTime(state),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

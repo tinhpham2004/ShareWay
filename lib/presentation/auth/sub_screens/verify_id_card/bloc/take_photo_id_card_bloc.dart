@@ -26,19 +26,19 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
   final _authRepository = AuthRepository();
 
   void onStart(AuthData authData) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-        authData: authData,
-      ),
-    );
     try {
+      emit(
+        state.copyWith(
+          isCameraInitialized: true,
+          authData: authData,
+        ),
+      );
       await initializeCamera();
     } catch (e) {
       // TODO: Handle error
     } finally {
       emit(
-        state.copyWith(isLoading: false),
+        state.copyWith(isCameraInitialized: false),
       );
     }
   }
@@ -143,10 +143,17 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
   }
 
   Future<void> onConfirmButtonPressed(BuildContext context) async {
-    if (state.screen == TakePhotoIdCardEnum.frontSide) {
-      await _handleFrontSideConfirmation();
-    } else if (state.screen == TakePhotoIdCardEnum.backSide) {
-      await _handleBackSideConfirmation(context);
+    try {
+      emit(state.copyWith(isLoading: true));
+      if (state.screen == TakePhotoIdCardEnum.frontSide) {
+        await _handleFrontSideConfirmation();
+      } else if (state.screen == TakePhotoIdCardEnum.backSide) {
+        await _handleBackSideConfirmation(context);
+      }
+    } catch (e) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 

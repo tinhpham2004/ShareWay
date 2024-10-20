@@ -16,11 +16,18 @@ class OtpBloc extends Cubit<OtpState> {
   OtpBloc() : super(OtpState());
 
   final _authRepository = AuthRepository();
+  Timer? _timer;
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
 
   void onStart(AuthData authData) {
     try {
       final List<int> otpCode = List.filled(6, -1);
-      Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
         if (state.remainingTime > 0) {
           emit(state.copyWith(remainingTime: state.remainingTime - 1));
         } else {
@@ -62,61 +69,75 @@ class OtpBloc extends Cubit<OtpState> {
   }
 
   void onValidateOtp(BuildContext context) async {
-    final otpCode = state.otpCode ?? [];
-    if (otpCode.contains(-1)) {
-      emit(state.copyWith(errorText: 'Mã xác thực không đúng'));
-      return;
-    }
+    try {
+      emit(state.copyWith(isLoading: true));
+      final otpCode = state.otpCode ?? [];
+      if (otpCode.contains(-1)) {
+        emit(state.copyWith(errorText: 'Mã xác thực không đúng'));
+        return;
+      }
 
-    switch (state.authData?.path) {
-      case AppPath.login:
-        final input = VerifyLoginOtpInput(
-          phoneNumber: state.authData!.phoneNumber,
-          otp: otpCode.join(),
-          userId: state.authData!.userId,
-        );
-        final response = await _authRepository.verifyLoginOtp(input);
-        if (response != null) {
-          await Preferences.saveToken(
-            accessToken: response.accessToken!,
-            refreshToken: response.refreshToken!,
+      switch (state.authData?.path) {
+        case AppPath.login:
+          final input = VerifyLoginOtpInput(
+            phoneNumber: state.authData!.phoneNumber,
+            otp: otpCode.join(),
+            userId: state.authData!.userId,
           );
-          await Preferences.clearAuthData();
-          GoRouter.of(context).go(AppPath.home, extra: response.appUser);
-        }
-        break;
-      case AppPath.signUp:
-        final input = VerifyRegisterOtpInput(
-          phoneNumber: state.authData!.phoneNumber,
-          otp: otpCode.join(),
-        );
-        final response = await _authRepository.verifyRegisterOtp(input);
-        if (response) {
-          await Preferences.saveAuthData(state.authData!);
-          GoRouter.of(context).push(
-            AppPath.signUpName,
-            extra: state.authData,
+          final response = await _authRepository.verifyLoginOtp(input);
+          if (response != null) {
+            await Preferences.saveToken(
+              accessToken: response.accessToken!,
+              refreshToken: response.refreshToken!,
+            );
+            await Preferences.clearAuthData();
+            GoRouter.of(context).go(AppPath.home, extra: response.appUser);
+          }
+          break;
+        case AppPath.signUp:
+          final input = VerifyRegisterOtpInput(
+            phoneNumber: state.authData!.phoneNumber,
+            otp: otpCode.join(),
           );
-        }
-        break;
+          final response = await _authRepository.verifyRegisterOtp(input);
+          if (response) {
+            await Preferences.saveAuthData(state.authData!);
+            GoRouter.of(context).push(
+              AppPath.signUpName,
+              extra: state.authData,
+            );
+          }
+          break;
+      }
+    } catch (e) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 
   void onResendOtp() async {
-    final response =
-        await _authRepository.resendOtp(state.authData!.phoneNumber);
-    if (!response) {
-      emit(state.copyWith(errorText: 'Đã có lỗi xảy ra'));
-      return;
-    }
-    emit(state.copyWith(remainingTime: 60, errorText: null));
-    Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      if (state.remainingTime > 0) {
-        emit(state.copyWith(remainingTime: state.remainingTime - 1));
-      } else {
-        emit(state.copyWith(errorText: 'Mã xác thực đã quá hạn'));
-        timer.cancel();
+    try {
+      emit(state.copyWith(isLoading: true));
+      final response =
+          await _authRepository.resendOtp(state.authData!.phoneNumber);
+      if (!response) {
+        emit(state.copyWith(errorText: 'Đã có lỗi xảy ra'));
+        return;
       }
-    });
+      emit(state.copyWith(remainingTime: 60, errorText: null));
+      _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+        if (state.remainingTime > 0) {
+          emit(state.copyWith(remainingTime: state.remainingTime - 1));
+        } else {
+          emit(state.copyWith(errorText: 'Mã xác thực đã quá hạn'));
+          timer.cancel();
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(errorText: 'Đã có lỗi xảy ra'));
+    } finally {
+      emit(state.copyWith(isLoading: false));
+    }
   }
 }

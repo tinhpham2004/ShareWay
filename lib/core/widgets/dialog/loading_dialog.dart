@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 
@@ -9,29 +10,21 @@ class PacmanLoadingDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Column(
+        color: AppColor.transparent,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 100,
-              width: 100,
-              child: LoadingIndicator(
+              height: 100.h,
+              width: 100.w,
+              child: const LoadingIndicator(
                 indicatorType: Indicator.pacman,
                 colors: [
                   AppColor.primaryColor,
-                  AppColor.primary100,
+                  AppColor.primary200,
                 ],
                 strokeWidth: 2,
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Xin chờ...',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -40,7 +33,7 @@ class PacmanLoadingDialog extends StatelessWidget {
   }
 }
 
-void showPacmanLoadingDialog(BuildContext context) {
+void showLoading(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -50,6 +43,6 @@ void showPacmanLoadingDialog(BuildContext context) {
   );
 }
 
-void hidePacmanLoadingDialog(BuildContext context) {
+void hideLoading(BuildContext context) {
   Navigator.of(context).pop();
 }

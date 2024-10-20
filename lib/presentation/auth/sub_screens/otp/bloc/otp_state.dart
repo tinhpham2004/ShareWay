@@ -5,6 +5,7 @@ part 'otp_state.g.dart';
 
 @CopyWith()
 class OtpState {
+  final bool isLoading;
   final int remainingTime;
   final AuthData? authData;
   final List<int>? otpCode;
@@ -20,6 +21,7 @@ class OtpState {
   }
 
   OtpState({
+    this.isLoading = false,
     this.remainingTime = 60,
     this.authData,
     this.otpCode,

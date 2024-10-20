@@ -7,6 +7,8 @@ part of 'otp_state.dart';
 // **************************************************************************
 
 abstract class _$OtpStateCWProxy {
+  OtpState isLoading(bool isLoading);
+
   OtpState remainingTime(int remainingTime);
 
   OtpState authData(AuthData? authData);
@@ -22,6 +24,7 @@ abstract class _$OtpStateCWProxy {
   /// OtpState(...).copyWith(id: 12, name: "My name")
   /// ````
   OtpState call({
+    bool? isLoading,
     int? remainingTime,
     AuthData? authData,
     List<int>? otpCode,
@@ -34,6 +37,9 @@ class _$OtpStateCWProxyImpl implements _$OtpStateCWProxy {
   const _$OtpStateCWProxyImpl(this._value);
 
   final OtpState _value;
+
+  @override
+  OtpState isLoading(bool isLoading) => this(isLoading: isLoading);
 
   @override
   OtpState remainingTime(int remainingTime) =>
@@ -57,12 +63,17 @@ class _$OtpStateCWProxyImpl implements _$OtpStateCWProxy {
   /// OtpState(...).copyWith(id: 12, name: "My name")
   /// ````
   OtpState call({
+    Object? isLoading = const $CopyWithPlaceholder(),
     Object? remainingTime = const $CopyWithPlaceholder(),
     Object? authData = const $CopyWithPlaceholder(),
     Object? otpCode = const $CopyWithPlaceholder(),
     Object? errorText = const $CopyWithPlaceholder(),
   }) {
     return OtpState(
+      isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
+          ? _value.isLoading
+          // ignore: cast_nullable_to_non_nullable
+          : isLoading as bool,
       remainingTime:
           remainingTime == const $CopyWithPlaceholder() || remainingTime == null
               ? _value.remainingTime

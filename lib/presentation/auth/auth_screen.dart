@@ -9,6 +9,7 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button_outline.dart';
 import 'package:share_way_frontend/core/widgets/decoration/app_input_decoration.dart';
+import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_bloc.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_state.dart';
 
@@ -33,40 +34,51 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(widget.path),
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: Padding(
-              padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(),
-                          spaceH8,
-                          _buildSmallText(),
-                          spaceH24,
-                          _buildPhoneNumberField(state, context),
-                          spaceH12,
-                          _buildTermsField(),
-                          spaceH20,
-                          _buildDivider(),
-                          spaceH20,
-                          _buildGoogleLoginButton(context),
-                        ],
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.isLoading) {
+            showLoading(context);
+          } else {
+            hideLoading(context);
+          }
+        },
+        listenWhen: (previous, current) =>
+            previous.isLoading != current.isLoading,
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            return Scaffold(
+              body: Padding(
+                padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildHeader(),
+                            spaceH8,
+                            _buildSmallText(),
+                            spaceH24,
+                            _buildPhoneNumberField(state, context),
+                            spaceH12,
+                            _buildTermsField(),
+                            spaceH20,
+                            _buildDivider(),
+                            spaceH20,
+                            _buildGoogleLoginButton(context),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  _buildContinueButton(context),
-                ],
+                    _buildContinueButton(context),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -7,6 +7,8 @@ part of 'auth_state.dart';
 // **************************************************************************
 
 abstract class _$AuthStateCWProxy {
+  AuthState isLoading(bool isLoading);
+
   AuthState phoneNumberController(TextEditingController? phoneNumberController);
 
   AuthState phoneNumber(String? phoneNumber);
@@ -26,6 +28,7 @@ abstract class _$AuthStateCWProxy {
   /// AuthState(...).copyWith(id: 12, name: "My name")
   /// ````
   AuthState call({
+    bool? isLoading,
     TextEditingController? phoneNumberController,
     String? phoneNumber,
     String? errorText,
@@ -40,6 +43,9 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
   const _$AuthStateCWProxyImpl(this._value);
 
   final AuthState _value;
+
+  @override
+  AuthState isLoading(bool isLoading) => this(isLoading: isLoading);
 
   @override
   AuthState phoneNumberController(
@@ -70,6 +76,7 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
   /// AuthState(...).copyWith(id: 12, name: "My name")
   /// ````
   AuthState call({
+    Object? isLoading = const $CopyWithPlaceholder(),
     Object? phoneNumberController = const $CopyWithPlaceholder(),
     Object? phoneNumber = const $CopyWithPlaceholder(),
     Object? errorText = const $CopyWithPlaceholder(),
@@ -78,6 +85,10 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
     Object? path = const $CopyWithPlaceholder(),
   }) {
     return AuthState(
+      isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
+          ? _value.isLoading
+          // ignore: cast_nullable_to_non_nullable
+          : isLoading as bool,
       phoneNumberController:
           phoneNumberController == const $CopyWithPlaceholder()
               ? _value.phoneNumberController
