@@ -54,4 +54,9 @@ class Preferences {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(kAuthDataKey);
   }
+
+  static Future<void> clearAll() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

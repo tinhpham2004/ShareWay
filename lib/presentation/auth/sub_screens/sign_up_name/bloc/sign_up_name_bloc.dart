@@ -28,30 +28,28 @@ class SignUpNameBloc extends Cubit<SignUpNameState> {
     emit(state.copyWith(name: value));
   }
 
-  void onContinueButtonPressed(BuildContext context) async {
-    try {
-      final input = RegisterInput(
-        fullName: state.name,
-        phoneNumber: state.authData!.phoneNumber,
-        email: state.authData!.email,
+  Future<void> onContinueButtonPressed(BuildContext context) async {
+    final input = RegisterInput(
+      fullName: state.name,
+      phoneNumber: state.authData!.phoneNumber,
+      email: state.authData!.email,
+    );
+    final userId = await _authRepository.register(input);
+    if (userId != null) {
+      await Preferences.saveAuthData(
+        state.authData!.copyWith(
+          name: state.name,
+          userId: userId,
+        ),
       );
-      final userId = await _authRepository.register(input);
-      if (userId != null) {
-        await Preferences.saveAuthData(
-          state.authData!.copyWith(
-            name: state.name,
-            userId: userId,
-          ),
-        );
-        GoRouter.of(context).push(
-          AppPath.verifyIdCard,
-          extra: state.authData!.copyWith(
-            name: state.name,
-            userId: userId,
-          ),
-        );
-      }
-    } catch (e) {
+      GoRouter.of(context).push(
+        AppPath.verifyIdCard,
+        extra: state.authData!.copyWith(
+          name: state.name,
+          userId: userId,
+        ),
+      );
+    } else {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     }
   }

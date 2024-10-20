@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'register_reponse.dart';
+part of 'register_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RegisterReponse _$RegisterReponseFromJson(Map<String, dynamic> json) =>
-    RegisterReponse(
+RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) =>
+    RegisterResponse(
       data: json['data'] == null
           ? null
           : RegisterDataResponse.fromJson(json['data'] as Map<String, dynamic>),
@@ -17,7 +17,7 @@ RegisterReponse _$RegisterReponseFromJson(Map<String, dynamic> json) =>
       success: json['success'] as bool?,
     );
 
-Map<String, dynamic> _$RegisterReponseToJson(RegisterReponse instance) =>
+Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
     <String, dynamic>{
       'data': instance.data,
       'error': instance.error,

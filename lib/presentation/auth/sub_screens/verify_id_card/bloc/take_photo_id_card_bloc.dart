@@ -143,14 +143,10 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
   }
 
   Future<void> onConfirmButtonPressed(BuildContext context) async {
-    try {
-      if (state.screen == TakePhotoIdCardEnum.frontSide) {
-        await _handleFrontSideConfirmation();
-      } else if (state.screen == TakePhotoIdCardEnum.backSide) {
-        await _handleBackSideConfirmation(context);
-      }
-    } catch (e) {
-      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    if (state.screen == TakePhotoIdCardEnum.frontSide) {
+      await _handleFrontSideConfirmation();
+    } else if (state.screen == TakePhotoIdCardEnum.backSide) {
+      await _handleBackSideConfirmation(context);
     }
   }
 
@@ -189,6 +185,8 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
         );
         await Preferences.clearAuthData();
         GoRouter.of(context).go(AppPath.home, extra: response.appUser);
+      } else {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
       }
     }
   }

@@ -14,8 +14,6 @@ class VerifyIdCardRequest {
     this.userId,
   });
 
-
-
   FormData toFormData() {
     return FormData.fromMap({
       'front_image': MultipartFile.fromFileSync(frontSideImage!),

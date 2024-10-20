@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'register_data_reponse.dart';
+import 'register_data_response.dart';
 
-part 'register_reponse.g.dart';
+part 'register_response.g.dart';
 
 @JsonSerializable()
-class RegisterReponse {
+class RegisterResponse {
   RegisterDataResponse? data;
   String? error;
   @JsonKey(name: 'message_en')
@@ -14,9 +14,9 @@ class RegisterReponse {
   String? messageVi;
   bool? success;
 
-  RegisterReponse(
+  RegisterResponse(
       {this.data, this.error, this.messageEn, this.messageVi, this.success});
 
-  factory RegisterReponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterReponseFromJson(json);
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
+      _$RegisterResponseFromJson(json);
 }

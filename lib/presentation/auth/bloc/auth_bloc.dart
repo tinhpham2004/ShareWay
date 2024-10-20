@@ -45,22 +45,40 @@ class AuthBloc extends Cubit<AuthState> {
         !nonNumericRegExp.hasMatch(
             state.phoneNumberController!.text.replaceAll(RegExp(r' '), ''));
 
-    if (isValid) {
-      GoRouter.of(context).push(
-        AppPath.otp,
-        extra: AuthData(
+    if (!isValid) {
+      emit(state.copyWith(errorText: 'Số điện thoại không đúng định dạng'));
+      return;
+    }
+
+    emit(state.copyWith(errorText: null));
+
+    if (state.path == AppPath.login) {
+      final response = await _authRepository.loginPhone(state.phoneNumber!);
+      if (response != null) {
+        final authData = AuthData(
           phoneNumber: state.phoneNumber!,
           path: state.path!,
           email: state.email,
           name: state.displayName,
-        ),
+          userId: response,
+        );
+        GoRouter.of(context).push(AppPath.otp, extra: authData);
+      } else {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+      }
+    } else if (state.path == AppPath.signUp) {
+      final authData = AuthData(
+        phoneNumber: state.phoneNumber!,
+        path: state.path!,
+        email: state.email,
+        name: state.displayName,
       );
-      await _authRepository.initRegister(state.phoneNumber!);
+      GoRouter.of(context).push(AppPath.otp, extra: authData);
+      final response = await _authRepository.initRegister(state.phoneNumber!);
+      if (!response) {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+      }
     }
-    final errorText = isValid ? null : 'Số điện thoại không đúng định dạng';
-    emit(
-      state.copyWith(errorText: errorText),
-    );
   }
 
   void onGooleSignIn(BuildContext context) async {

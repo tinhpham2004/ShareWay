@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/auth/input/verify_login_otp_input.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_register_otp_input.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/auth/auth_repository.dart';
@@ -68,7 +70,20 @@ class OtpBloc extends Cubit<OtpState> {
 
     switch (state.authData?.path) {
       case AppPath.login:
-        GoRouter.of(context).go(AppPath.home);
+        final input = VerifyLoginOtpInput(
+          phoneNumber: state.authData!.phoneNumber,
+          otp: otpCode.join(),
+          userId: state.authData!.userId,
+        );
+        final response = await _authRepository.verifyLoginOtp(input);
+        if (response != null) {
+          await Preferences.saveToken(
+            accessToken: response.accessToken!,
+            refreshToken: response.refreshToken!,
+          );
+          await Preferences.clearAuthData();
+          GoRouter.of(context).go(AppPath.home, extra: response.appUser);
+        }
         break;
       case AppPath.signUp:
         final input = VerifyRegisterOtpInput(
@@ -87,8 +102,13 @@ class OtpBloc extends Cubit<OtpState> {
     }
   }
 
-  void onResendOtp() {
-    _authRepository.resendOtp(state.authData!.phoneNumber);
+  void onResendOtp() async {
+    final response =
+        await _authRepository.resendOtp(state.authData!.phoneNumber);
+    if (!response) {
+      emit(state.copyWith(errorText: 'Đã có lỗi xảy ra'));
+      return;
+    }
     emit(state.copyWith(remainingTime: 60, errorText: null));
     Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (state.remainingTime > 0) {

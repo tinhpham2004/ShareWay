@@ -25,10 +25,14 @@ class ApiService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // Add Authorization header with Bearer token
-          final accessToken = await Preferences.getAccessToken();
-          if (accessToken != null) {
-            options.headers[kAccessToken] = 'Bearer $accessToken';
+          final bool useRefreshToken =
+              options.extra['useRefreshToken'] ?? false;
+
+          final token = useRefreshToken
+              ? await Preferences.getRefreshToken()
+              : await Preferences.getAccessToken();
+          if (token != null) {
+            options.headers[kAccessToken] = 'Bearer $token';
           }
           return handler.next(options); // Continue the request
         },
@@ -91,10 +95,34 @@ class ApiService {
         return true;
       }
     } catch (e) {
-      print('Failed to refresh token: $e');
+      debugPrint('Failed to refresh token: $e');
       return false;
     }
 
+    return false;
+  }
+
+  Future<bool> logout() async {
+    try {
+      final response = await _dio.post(
+        '/auth/logout',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          extra: {
+            'useRefreshToken': true,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        await Preferences.clearAll();
+        return true;
+      }
+    } catch (e) {
+      debugPrint('Failed to logout: $e');
+    }
     return false;
   }
 
