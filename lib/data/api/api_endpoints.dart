@@ -8,6 +8,7 @@ class AuthApi {
 
   // login
   static const loginPhone = "/auth/login-phone";
+  static const loginOauth = "/auth/login-oauth";
   static const verifyLoginOtp = "/auth/verify-login-otp";
 
   // logout

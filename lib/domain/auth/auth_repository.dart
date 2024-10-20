@@ -8,6 +8,7 @@ import 'package:share_way_frontend/domain/auth/input/register_input.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_id_card_input.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_login_otp_input.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_register_otp_input.dart';
+import 'package:share_way_frontend/domain/auth/ouput/login_oauth_output.dart';
 import 'package:share_way_frontend/domain/auth/ouput/verify_id_card_output.dart';
 import 'package:share_way_frontend/domain/auth/ouput/verify_login_otp_output.dart';
 
@@ -87,6 +88,21 @@ class AuthRepository {
       final response = await _service.loginPhone(phoneNumber);
       final result = response?.data?.userId;
       return result;
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        throw ("$error + $statckTrace");
+      }
+    }
+    return null;
+  }
+
+  Future<LoginOauthOutput?> loginOauth(String email) async {
+    try {
+      final response = await _service.loginOauth(email);
+      if (response != null) {
+        final result = LoginOauthOutput.fromApiModel(response);
+        return result;
+      }
     } catch (error, statckTrace) {
       if (kDebugMode) {
         throw ("$error + $statckTrace");

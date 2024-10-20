@@ -57,19 +57,6 @@ class _AuthScreenState extends State<AuthScreen> {
                           _buildDivider(),
                           spaceH20,
                           _buildGoogleLoginButton(context),
-                          spaceH20,
-                          Row(
-                            children: [
-                              AppButtonOutline(
-                                title: 'Đăng xuất bằng Google',
-                                icon: AppIcon.google,
-                                onPressed: () => bloc.onGoogleSignOut(context),
-                              ),
-                            ],
-                          ),
-                          spaceH20,
-                          Text('Email: ${state.email}'),
-                          Text('Name: ${state.displayName}'),
                         ],
                       ),
                     ),
@@ -106,7 +93,7 @@ class _AuthScreenState extends State<AuthScreen> {
         AppButtonOutline(
           title: 'Đăng nhập bằng Google',
           icon: AppIcon.google,
-          onPressed: () => bloc.onGooleSignIn(context),
+          onPressed: () => bloc.onGoogleSignIn(context),
         ),
       ],
     );

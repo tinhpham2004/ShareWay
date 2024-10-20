@@ -81,23 +81,38 @@ class AuthBloc extends Cubit<AuthState> {
     }
   }
 
-  void onGooleSignIn(BuildContext context) async {
+  void onGoogleSignIn(BuildContext context) async {
     try {
       await _googleAuthRepository.signInWithGoogle();
-      showSuccessSnackbar(context, 'Đăng nhập thành công');
       onGetUserInfo(context);
-    } catch (e) {
-      showErrorSnackbar(context, e.toString());
-    } finally {}
-  }
 
-  void onGoogleSignOut(BuildContext context) async {
-    try {
-      await _googleAuthRepository.signOut();
-      showSuccessSnackbar(context, 'Đăng xuất thành công');
+      if (state.email == null) {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+        return;
+      }
+
+      if (state.path == AppPath.login) {
+        final response = await _authRepository.loginOauth(state.email!);
+        if (response != null) {
+          final authData = AuthData(
+            phoneNumber: response.phoneNumber!,
+            path: state.path!,
+            email: state.email,
+            name: state.displayName,
+            userId: response.userId,
+          );
+          GoRouter.of(context).push(
+            AppPath.otp,
+            extra: authData,
+          );
+        }
+      } else if (state.path == AppPath.signUp) {
+        showSuccessSnackbar(context,
+            'Đăng ký tài khoản bằng Google thành công!\nVui lòng nhập số điện thoại để tiếp tục');
+      }
     } catch (e) {
-      showErrorSnackbar(context, e.toString());
-    } finally {}
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    }
   }
 
   void onGetUserInfo(BuildContext context) {

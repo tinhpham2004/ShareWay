@@ -8,7 +8,7 @@ class UserService {
   Future<UserResponse?> getProfile() async {
     final response = await _service.get(
       UserApi.getProfile,
-      fromJson: (json) => UserResponse.fromJson(json),
+      fromJson: (json) => UserResponse.fromJson(json['data']['user']),
     );
     return response;
   }
