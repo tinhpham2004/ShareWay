@@ -9,4 +9,7 @@ abstract class AppPath {
   static const takePhotoIdCard = '/takePhotoIdCard';
   static const otp = '/otp';
   static const home = '/home';
+  static const activity = '/activity';
+  static const chat = '/chat';
+  static const account = '/account';
 }

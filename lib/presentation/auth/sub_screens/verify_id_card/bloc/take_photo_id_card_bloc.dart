@@ -191,7 +191,10 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
           refreshToken: response.refreshToken!,
         );
         await Preferences.clearAuthData();
-        GoRouter.of(context).go(AppPath.home, extra: response.appUser);
+        GoRouter.of(context).go(
+          AppPath.home,
+          // extra: response.appUser,
+        );
       } else {
         showErrorSnackbar(context, 'Đã có lỗi xảy ra');
       }

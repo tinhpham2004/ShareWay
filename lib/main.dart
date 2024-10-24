@@ -32,7 +32,7 @@ Future<GoRouter> initializeRouter() async {
     final user = await userRepository.getProfile();
     if (user != null) {
       initialRoute = AppPath.home;
-      data = user;
+      // data = user;
     }
   } else {
     final authData = await Preferences.getAuthData();

@@ -91,7 +91,10 @@ class OtpBloc extends Cubit<OtpState> {
               refreshToken: response.refreshToken!,
             );
             await Preferences.clearAuthData();
-            GoRouter.of(context).go(AppPath.home, extra: response.appUser);
+            GoRouter.of(context).go(
+              AppPath.home,
+              // extra: response.appUser,
+            );
           }
           break;
         case AppPath.signUp:

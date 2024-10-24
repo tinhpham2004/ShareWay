@@ -1,8 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/domain/user/output/app_user.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
+import 'package:share_way_frontend/presentation/account/account_screen.dart';
+import 'package:share_way_frontend/presentation/activity/activity_screen.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/take_photo_id_card_screen.dart';
+import 'package:share_way_frontend/presentation/chat/chat_screen.dart';
 import 'package:share_way_frontend/presentation/error/error_screen.dart';
 import 'package:share_way_frontend/presentation/home/home_screen.dart';
 import 'package:share_way_frontend/presentation/auth/auth_screen.dart';
@@ -69,8 +72,25 @@ class AppRouter {
             GoRoute(
               path: AppPath.home,
               builder: (context, state) {
-                final AppUser user = state.extra as AppUser;
-                return HomeScreen(user: user);
+                return HomeScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.activity,
+              builder: (context, state) {
+                return const ActivityScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.chat,
+              builder: (context, state) {
+                return const ChatScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.account,
+              builder: (context, state) {
+                return const AccountScreen();
               },
             ),
           ],

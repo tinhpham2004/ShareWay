@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 
 final size = 16.sp;
@@ -22,4 +23,6 @@ class AppIcon {
   static Widget onboardingPerson = Assets.icons.onboardingPerson.svg();
   static Widget onboardingChat = Assets.icons.onboardingChat.svg();
   static Widget onboardingCall = Assets.icons.onboardingCall.svg();
+  static Widget hitchRideService = Assets.icons.hitchRideService.svg();
+  static Widget giveRideService = Assets.icons.giveRideService.svg();
 }

@@ -15,11 +15,35 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/account.svg
+  SvgGenImage get account => const SvgGenImage('assets/icons/account.svg');
+
+  /// File path: assets/icons/activity.svg
+  SvgGenImage get activity => const SvgGenImage('assets/icons/activity.svg');
+
+  /// File path: assets/icons/chat.svg
+  SvgGenImage get chat => const SvgGenImage('assets/icons/chat.svg');
+
   /// File path: assets/icons/clear_data.svg
   SvgGenImage get clearData => const SvgGenImage('assets/icons/clear_data.svg');
 
+  /// File path: assets/icons/give_ride_service.svg
+  SvgGenImage get giveRideService =>
+      const SvgGenImage('assets/icons/give_ride_service.svg');
+
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
+
+  /// File path: assets/icons/hitch_ride_service.svg
+  SvgGenImage get hitchRideService =>
+      const SvgGenImage('assets/icons/hitch_ride_service.svg');
+
+  /// File path: assets/icons/home.svg
+  SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
+
+  /// File path: assets/icons/home_notification.svg
+  SvgGenImage get homeNotification =>
+      const SvgGenImage('assets/icons/home_notification.svg');
 
   /// File path: assets/icons/onboarding_call.svg
   SvgGenImage get onboardingCall =>
@@ -43,8 +67,15 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+        account,
+        activity,
+        chat,
         clearData,
+        giveRideService,
         google,
+        hitchRideService,
+        home,
+        homeNotification,
         onboardingCall,
         onboardingChat,
         onboardingLocationMark,
@@ -55,6 +86,9 @@ class $AssetsIconsGen {
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/map.png
+  AssetGenImage get map => const AssetGenImage('assets/images/map.png');
 
   /// File path: assets/images/onboarding_man.png
   AssetGenImage get onboardingMan =>
@@ -69,7 +103,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [onboardingMan, splash, verifyIdCardBackground];
+      [map, onboardingMan, splash, verifyIdCardBackground];
 }
 
 class Assets {

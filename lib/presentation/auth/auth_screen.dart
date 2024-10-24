@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
+import 'package:share_way_frontend/core/constants/app_name.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
@@ -209,7 +210,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Text _buildHeader() {
     return Text(
-      'Đặt xe cùng ShareWay',
+      'Đặt xe cùng $appName',
       style: textTheme.headlineSmall!.copyWith(
         color: AppColor.primaryText,
         fontWeight: FontWeight.w500,

@@ -1,95 +1,215 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/widgets.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
-import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
-import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
-import 'package:share_way_frontend/domain/auth/auth_repository.dart';
-import 'package:share_way_frontend/domain/google_auth/google_auth_repository.dart';
-import 'package:share_way_frontend/domain/local/preferences.dart';
-import 'package:share_way_frontend/domain/user/output/app_user.dart';
-import 'package:share_way_frontend/router/app_path.dart';
+import 'package:share_way_frontend/core/constants/app_icon.dart';
+import 'package:share_way_frontend/core/constants/app_name.dart';
+import 'package:share_way_frontend/core/constants/app_text_theme.dart';
+import 'package:share_way_frontend/core/utils/spaces.dart';
+import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
+import 'package:share_way_frontend/gen/assets.gen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final AppUser user;
-  const HomeScreen({super.key, required this.user});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? accessToken;
-  String? refreshToken;
-
-  void getToken() async {
-    final accessToken = await Preferences.getAccessToken();
-    final refreshToken = await Preferences.getRefreshToken();
-    setState(() {
-      this.accessToken = accessToken!;
-      this.refreshToken = refreshToken!;
-    });
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    getToken();
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showPersistentBottomSheet();
+    });
+  }
+
+  Widget _buildBottomSheetContent() {
+    return Transform.translate(
+      offset: const Offset(0, 24.0),
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
+        decoration: const BoxDecoration(
+          color: AppColor.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColor.c_403A3A3A,
+              offset: Offset(4, 4),
+              blurRadius: 70,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            spaceH12,
+            const Row(
+              children: [
+                Spacer(),
+                Expanded(
+                  child: Divider(
+                    color: AppColor.secondary300,
+                    thickness: 5,
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
+            spaceH24,
+            Row(
+              children: [
+                Text(
+                  'Dịch vụ của $appName',
+                  style: textTheme.headlineSmall!.copyWith(
+                    color: AppColor.primaryText,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            spaceH12,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColor.primaryColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: Column(
+                      children: [
+                        AppIcon.hitchRideService,
+                        spaceH16,
+                        Text(
+                          'Đi nhờ',
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: AppColor.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spaceW16,
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColor.c_40C8C8C8,
+                          offset: Offset(0, 4),
+                          blurRadius: 30,
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: Column(
+                      children: [
+                        AppIcon.giveRideService,
+                        spaceH16,
+                        Text(
+                          'Cho đi nhờ',
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: AppColor.primaryText,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            spaceH24,
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPersistentBottomSheet() {
+    _scaffoldKey.currentState?.showBottomSheet(
+      (context) => _buildBottomSheetContent(),
+      backgroundColor: Colors.transparent,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'email: ${widget.user.email}',
-            ),
-            Text(
-              'name: ${widget.user.fullName}',
-            ),
-            Text(
-              'phone number: ${widget.user.phoneNumber}',
-            ),
-            Text(
-              'user ID: ${widget.user.id}',
-            ),
-            Text(
-              'created at: ${widget.user.createdAt}',
-            ),
-            Text(
-              'updated at: ${widget.user.updatedAt}',
-            ),
-            Text(
-              'access token: $accessToken',
-            ),
-            Text(
-              'refresh token: $refreshToken',
-            ),
-            IconButton(
-              color: AppColor.error,
-              padding: EdgeInsets.all(8.0),
-              onPressed: () async {
-                showLoading(context);
-                final authRepository = AuthRepository();
-                final googleAuthRepository = GoogleAuthRepository();
-                final response = await authRepository.logout();
-                await googleAuthRepository.signOut();
-                if (response) {
-                  GoRouter.of(context).go(AppPath.onboarding);
-                } else {
-                  showErrorSnackbar(context, 'Đăng xuất thất bại');
-                }
-                hideLoading(context);
-              },
-              icon: Icon(
-                Icons.logout,
-                size: 50,
+      key: _scaffoldKey,
+      bottomNavigationBar: const BottomNavigation(initialIndex: 0),
+      body: Stack(
+        children: [
+          Assets.images.map.image(),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: AppColor.secondary300,
+                    ),
+                  ),
+                  margin: const EdgeInsets.only(
+                    left: 16.0,
+                    right: 8.0,
+                    top: 16.0,
+                  ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 10,
+                        width: 10,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColor.primaryColor,
+                        ),
+                      ),
+                      spaceW8,
+                      Text(
+                        'Vị trí hiện tại',
+                        style: textTheme.bodyLarge!
+                            .copyWith(color: AppColor.secondaryColor),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColor.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                    color: AppColor.secondary300,
+                  ),
+                ),
+                margin: const EdgeInsets.only(
+                  right: 16.0,
+                  top: 16.0,
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Assets.icons.homeNotification.svg(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
