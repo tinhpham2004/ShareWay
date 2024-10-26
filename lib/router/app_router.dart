@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
-import 'package:share_way_frontend/domain/user/output/app_user.dart';
-import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/presentation/account/account_screen.dart';
 import 'package:share_way_frontend/presentation/activity/activity_screen.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/take_photo_id_card_screen.dart';
 import 'package:share_way_frontend/presentation/chat/chat_screen.dart';
 import 'package:share_way_frontend/presentation/error/error_screen.dart';
+import 'package:share_way_frontend/presentation/give_ride/give_ride_screen.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_screen.dart';
 import 'package:share_way_frontend/presentation/home/home_screen.dart';
 import 'package:share_way_frontend/presentation/auth/auth_screen.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/otp/otp_screen.dart';
@@ -64,8 +64,6 @@ class AppRouter {
               path: AppPath.otp,
               builder: (context, state) {
                 final AuthData authData = state.extra as AuthData;
-                // final authData =
-                //     AuthData(phoneNumber: '+84938391457', path: AppPath.signUp);
                 return OtpScreen(authData: authData);
               },
             ),
@@ -91,6 +89,18 @@ class AppRouter {
               path: AppPath.account,
               builder: (context, state) {
                 return const AccountScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.giveRide,
+              builder: (context, state) {
+                return GiveRideScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.hitchRide,
+              builder: (context, state) {
+                return const HitchRideScreen();
               },
             ),
           ],

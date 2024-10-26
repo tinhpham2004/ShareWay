@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
@@ -8,8 +7,6 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
-import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_bloc.dart';
-import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
 class VerifyIdCardScreen extends StatefulWidget {
@@ -30,7 +27,7 @@ class _VerifyIdCardScreenState extends State<VerifyIdCardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
+        padding: EdgeInsets.only(left: 16.w, top: 0.1.sh, right: 16.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -107,7 +104,6 @@ class _VerifyIdCardScreenState extends State<VerifyIdCardScreen> {
     return Text(
       'Xác thực Giấy tờ',
       style: textTheme.headlineSmall!.copyWith(
-        color: AppColor.primaryText,
         fontWeight: FontWeight.w500,
       ),
     );

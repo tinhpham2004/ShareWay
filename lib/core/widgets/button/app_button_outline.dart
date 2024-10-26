@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
@@ -16,9 +17,9 @@ class AppButtonOutline extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: EdgeInsets.symmetric(vertical: 16.h),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(30.r),
             border: Border.all(color: AppColor.secondary200),
           ),
           child: Row(
@@ -31,7 +32,6 @@ class AppButtonOutline extends StatelessWidget {
               Text(
                 title ?? '',
                 style: textTheme.titleSmall!.copyWith(
-                  color: AppColor.primaryText,
                   fontWeight: FontWeight.w500,
                 ),
                 textAlign: TextAlign.center,

@@ -9,7 +9,7 @@ class PacmanLoadingDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w),
         color: AppColor.transparent,
         child: Column(
           mainAxisSize: MainAxisSize.min,

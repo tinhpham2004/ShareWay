@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 
@@ -16,30 +17,30 @@ class AppInputDecoration {
         color: AppColor.secondary300,
         fontWeight: FontWeight.w500,
       ),
-      contentPadding: isContentPadding == true ? EdgeInsets.all(8) : null,
+      contentPadding: isContentPadding == true ? EdgeInsets.all(8.w) : null,
       border: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.secondary300,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.primaryColor,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.secondary300,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       errorBorder: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.error,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       errorText: errorText,
       errorStyle: textTheme.labelMedium!.copyWith(
@@ -61,30 +62,30 @@ class AppInputDecoration {
         color: AppColor.secondary300,
         fontWeight: FontWeight.w500,
       ),
-      contentPadding: const EdgeInsets.all(8),
+      contentPadding: EdgeInsets.all(8.w),
       border: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.secondary300,
         ),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.primaryColor,
         ),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.secondary300,
         ),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       errorBorder: OutlineInputBorder(
         borderSide: const BorderSide(
           color: AppColor.error,
         ),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       errorText: errorText,
       errorStyle: textTheme.labelSmall!.copyWith(color: AppColor.error),

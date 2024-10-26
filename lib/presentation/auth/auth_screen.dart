@@ -49,7 +49,7 @@ class _AuthScreenState extends State<AuthScreen> {
           builder: (context, state) {
             return Scaffold(
               body: Padding(
-                padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
+                padding: EdgeInsets.only(left: 16.w, top: 0.1.sh, right: 16.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -121,11 +121,10 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Text(
             "Hoặc",
             style: textTheme.labelLarge!.copyWith(
-              color: AppColor.primaryText,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -179,9 +178,7 @@ class _AuthScreenState extends State<AuthScreen> {
         useBottomSheetSafeArea: true,
         selectorType: PhoneInputSelectorType.DIALOG,
       ),
-      selectorTextStyle: textTheme.labelMedium!.copyWith(
-        color: AppColor.primaryText,
-      ),
+      selectorTextStyle: textTheme.labelMedium!,
       formatInput: true,
       searchBoxDecoration: AppInputDecoration.textField(context: context),
       inputDecoration: AppInputDecoration.textField(
@@ -212,7 +209,6 @@ class _AuthScreenState extends State<AuthScreen> {
     return Text(
       'Đặt xe cùng $appName',
       style: textTheme.headlineSmall!.copyWith(
-        color: AppColor.primaryText,
         fontWeight: FontWeight.w500,
       ),
     );

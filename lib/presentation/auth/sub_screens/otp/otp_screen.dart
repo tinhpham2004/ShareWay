@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
@@ -46,28 +47,20 @@ class _OtpScreenState extends State<OtpScreen> {
         child: BlocBuilder<OtpBloc, OtpState>(
           builder: (context, state) {
             return Scaffold(
-              body: Column(
-                children: [
-                  const Spacer(),
-                  Expanded(
-                    flex: 9,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(),
-                          spaceH8,
-                          _buildSmallText(state),
-                          spaceH24,
-                          _buildOTPInputField(state, context),
-                          _buildOTPErrors(state),
-                          _buildRemainingTime(state),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              body: Padding(
+                padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 0.1.sh),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(),
+                    spaceH8,
+                    _buildSmallText(state),
+                    spaceH24,
+                    _buildOTPInputField(state, context),
+                    _buildOTPErrors(state),
+                    _buildRemainingTime(state),
+                  ],
+                ),
               ),
             );
           },
@@ -93,7 +86,6 @@ class _OtpScreenState extends State<OtpScreen> {
               TextSpan(
                 text: state.authData?.phoneNumber ?? 'N/A',
                 style: textTheme.labelLarge!.copyWith(
-                  color: AppColor.primaryText,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -166,7 +158,6 @@ class _OtpScreenState extends State<OtpScreen> {
     return Text(
       'Nhập mã xác thực',
       style: textTheme.headlineSmall!.copyWith(
-        color: AppColor.primaryText,
         fontWeight: FontWeight.w500,
       ),
     );

@@ -23,7 +23,8 @@ class LoginOauthDataResponse {
     this.userId,
   });
 
-  factory LoginOauthDataResponse.fromJson(Map<String, dynamic> json) => _$LoginOauthDataResponseFromJson(json);
+  factory LoginOauthDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginOauthDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginOauthDataResponseToJson(this);
 }

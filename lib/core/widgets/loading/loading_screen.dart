@@ -11,7 +11,7 @@ class LoadingScreen extends StatelessWidget {
       body: Dialog(
         backgroundColor: AppColor.transparent,
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.w),
           color: AppColor.transparent,
           child: Column(
             mainAxisSize: MainAxisSize.min,

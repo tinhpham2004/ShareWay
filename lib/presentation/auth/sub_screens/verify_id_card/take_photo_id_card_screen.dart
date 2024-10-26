@@ -44,7 +44,8 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
             hideLoading(context);
           }
         },
-        listenWhen: (previous, current) => previous.isLoading != current.isLoading,
+        listenWhen: (previous, current) =>
+            previous.isLoading != current.isLoading,
         child: BlocBuilder<TakePhotoIdCardBloc, TakePhotoIdCardState>(
           builder: (context, state) {
             if (state.isCameraInitialized) {
@@ -97,9 +98,7 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
         children: [
           Text(
             state.screen.title,
-            style: textTheme.titleMedium!.copyWith(
-              color: AppColor.primaryText,
-            ),
+            style: textTheme.titleMedium!,
           ),
           spaceH24,
           Row(
@@ -189,7 +188,7 @@ class _TakePhotoIdCardScreenState extends State<TakePhotoIdCardScreen> {
             top: Radius.circular(10.r),
           ),
         ),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

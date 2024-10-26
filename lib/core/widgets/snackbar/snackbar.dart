@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 
 void showErrorSnackbar(BuildContext context, String errorMessage) {
@@ -11,7 +12,7 @@ void showErrorSnackbar(BuildContext context, String errorMessage) {
     backgroundColor: AppColor.error,
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(10.r),
     ),
     action: SnackBarAction(
       label: 'Ẩn',
@@ -33,7 +34,7 @@ void showSuccessSnackbar(BuildContext context, String successMessage) {
     backgroundColor: AppColor.success,
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(10.r),
     ),
     action: SnackBarAction(
       label: 'Ẩn',

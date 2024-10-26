@@ -18,3 +18,7 @@ class AuthApi {
 class UserApi {
   static const getProfile = "/user/get-profile";
 }
+
+class MapApi {
+  static const autocomplete = "/map/autocomplete";
+}

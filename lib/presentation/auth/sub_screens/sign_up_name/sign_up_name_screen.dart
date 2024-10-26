@@ -40,12 +40,13 @@ class _SignUpNameScreenState extends State<SignUpNameScreen> {
             hideLoading(context);
           }
         },
-        listenWhen: (previous, current) => previous.isLoading != current.isLoading,
+        listenWhen: (previous, current) =>
+            previous.isLoading != current.isLoading,
         child: BlocBuilder<SignUpNameBloc, SignUpNameState>(
           builder: (context, state) {
             return Scaffold(
               body: Padding(
-                padding: EdgeInsets.only(left: 16.0, top: 64.h, right: 16.0),
+                padding: EdgeInsets.only(left: 16.w, top: 0.1.sh, right: 16.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -111,7 +112,6 @@ class _SignUpNameScreenState extends State<SignUpNameScreen> {
     return Text(
       'Tên của bạn là gì?',
       style: textTheme.headlineSmall!.copyWith(
-        color: AppColor.primaryText,
         fontWeight: FontWeight.w500,
       ),
     );

@@ -39,7 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   _buildBackground(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Column(
                       children: [
                         _buildHeader(),
@@ -68,7 +68,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         Text(
           'Bạn đã có tài khoản? ',
           style: textTheme.titleSmall!.copyWith(
-            color: AppColor.primaryText,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -113,7 +112,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           TextSpan(
             text: 'Welcome to Your ',
             style: textTheme.headlineMedium!.copyWith(
-              color: AppColor.primaryText,
               fontWeight: FontWeight.w700,
             ),
           ),

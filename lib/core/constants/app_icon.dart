@@ -25,4 +25,33 @@ class AppIcon {
   static Widget onboardingCall = Assets.icons.onboardingCall.svg();
   static Widget hitchRideService = Assets.icons.hitchRideService.svg();
   static Widget giveRideService = Assets.icons.giveRideService.svg();
+  static Widget mapButton = Assets.icons.mapButton.svg();
+
+  static Icon startLocation = Icon(
+    Icons.radio_button_checked,
+    size: size + 12.sp,
+  );
+  static Icon otherLocation = Icon(
+    Icons.location_on_rounded,
+    color: AppColor.primaryColor,
+    size: size + 12.sp,
+  );
+  static Widget swapLocation = Assets.icons.swapLocation.svg(
+    height: 25.h,
+    width: 25.w,
+  );
+  static Icon addLocation = Icon(
+    Icons.add_rounded,
+    color: AppColor.primaryColor,
+    size: size + 12.sp,
+  );
+  static Icon deleteLocation = Icon(
+    Icons.clear_rounded,
+    color: AppColor.primaryColor,
+    size: size + 12.sp,
+  );
+    static Icon time = Icon(
+    Icons.access_time,
+    color: AppColor.primaryColor,
+  );
 }

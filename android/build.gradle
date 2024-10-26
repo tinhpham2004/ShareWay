@@ -16,6 +16,16 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = 'mapbox'
+                password = project.findProperty('SDK_REGISTRY_TOKEN') ?: "sk.eyJ1IjoiY3JhenlhZHM2OSIsImEiOiJjbTJvYmNoNmEwZHNnMmtzOWpnNmg0b2ViIn0.POFEc-4mpOnQsH3ENlLCfQ"
+            }
+        }
     }
 }
 

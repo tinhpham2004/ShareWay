@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
@@ -17,13 +18,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColor.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20.r),
+          topRight: Radius.circular(20.r),
         ),
-        border: Border(
+        border: const Border(
           top: BorderSide(
             color: AppColor.c_FFECECEC,
             width: 2.0,
@@ -32,14 +33,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
         boxShadow: [
           BoxShadow(
             color: AppColor.c_40B6C8E4,
-            blurRadius: 20,
+            blurRadius: 20.r,
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.r),
+          topRight: Radius.circular(20.r),
         ),
         child: BottomNavigationBar(
           items: <BottomNavigationBarItem>[

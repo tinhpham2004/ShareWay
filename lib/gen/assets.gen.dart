@@ -45,6 +45,9 @@ class $AssetsIconsGen {
   SvgGenImage get homeNotification =>
       const SvgGenImage('assets/icons/home_notification.svg');
 
+  /// File path: assets/icons/map_button.svg
+  SvgGenImage get mapButton => const SvgGenImage('assets/icons/map_button.svg');
+
   /// File path: assets/icons/onboarding_call.svg
   SvgGenImage get onboardingCall =>
       const SvgGenImage('assets/icons/onboarding_call.svg');
@@ -65,6 +68,10 @@ class $AssetsIconsGen {
   SvgGenImage get shieldCheck =>
       const SvgGenImage('assets/icons/shield_check.svg');
 
+  /// File path: assets/icons/swap_location.svg
+  SvgGenImage get swapLocation =>
+      const SvgGenImage('assets/icons/swap_location.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
         account,
@@ -76,16 +83,22 @@ class $AssetsIconsGen {
         hitchRideService,
         home,
         homeNotification,
+        mapButton,
         onboardingCall,
         onboardingChat,
         onboardingLocationMark,
         onboardingPerson,
-        shieldCheck
+        shieldCheck,
+        swapLocation
       ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/current_location_mark.png
+  AssetGenImage get currentLocationMark =>
+      const AssetGenImage('assets/images/current_location_mark.png');
 
   /// File path: assets/images/map.png
   AssetGenImage get map => const AssetGenImage('assets/images/map.png');
@@ -103,7 +116,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [map, onboardingMan, splash, verifyIdCardBackground];
+      [currentLocationMark, map, onboardingMan, splash, verifyIdCardBackground];
 }
 
 class Assets {
