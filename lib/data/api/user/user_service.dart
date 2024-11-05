@@ -12,4 +12,13 @@ class UserService {
     );
     return response;
   }
+
+  Future<bool> registerDeviceToken(String deviceToken) async {
+    final response = await _service.post(
+      UserApi.registerDeviceToken,
+      data: {'device_token': deviceToken},
+      fromJson: (json) => json['success'] ?? false,
+    );
+    return response;
+  }
 }

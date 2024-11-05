@@ -7,10 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image/image.dart';
+import 'package:location/location.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/auth/auth_repository.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_id_card_input.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
+import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/bloc/take_photo_id_card_state.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/enums/button_title_enum.dart';
@@ -184,9 +186,11 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
       );
       final response = await _authRepository.verifyIdCard(input);
       if (response != null) {
+        onUpdateCurrentLocation();
         await Preferences.saveToken(
           accessToken: response.accessToken!,
           refreshToken: response.refreshToken!,
+          userId: response.appUser!.id!,
         );
         await Preferences.clearAuthData();
         GoRouter.of(context).go(
@@ -195,6 +199,22 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
         );
       } else {
         showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+      }
+    }
+  }
+
+  Future<void> onUpdateCurrentLocation() async {
+    Location location = Location();
+    PermissionStatus permissionStatus = await location.requestPermission();
+    if (permissionStatus == PermissionStatus.granted) {
+      final currentLocation = await location.getLocation();
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null) {
+        final geocode = Geocode(
+          latitude: currentLocation.latitude!,
+          longitude: currentLocation.longitude!,
+        );
+        await Preferences.saveCurrentLocation(geocode);
       }
     }
   }

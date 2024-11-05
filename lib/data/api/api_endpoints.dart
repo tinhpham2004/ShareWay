@@ -17,8 +17,18 @@ class AuthApi {
 
 class UserApi {
   static const getProfile = "/user/get-profile";
+  static const registerDeviceToken = "/user/register-device-token";
 }
 
 class MapApi {
   static const autocomplete = "/map/autocomplete";
+  static const geocode = "/map/geocode";
+  static const createGiveRide = "/map/give-ride";
+  static const suggestHitchRides = "/map/suggest-hitch-rides";
+}
+
+class VehicleApi {
+  static const getVehicles = "/vehicle/vehicles";
+  static const registerVehicle = "/vehicle/register-vehicle";
+  static const getUserVehicle = "/vehicle/get-vehicle";
 }

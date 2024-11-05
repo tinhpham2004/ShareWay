@@ -12,6 +12,13 @@ abstract class AppPath {
   static const activity = '/activity';
   static const chat = '/chat';
   static const account = '/account';
-  static const giveRide = '/give-ride';
+  static const giveRidePickLocation = '/give-ride-pick-location';
+  static const giveRidePickTime = '/give-ride-pick-time';
+  static const giveRidePickVehicle = '/give-ride-pick-vehicle';
+  static const giveRidePreview = '/give-ride-preview';
+  static const giveRideRecommendation = '/give-ride-recommendation';
+  static const giveRideRecommendationDetail = '$giveRideRecommendation/detail';
   static const hitchRide = '/hitch-ride';
+  static const manageVehicle = '/manage-vehicle';
+  static const addVehicle = '/add-vehicle';
 }

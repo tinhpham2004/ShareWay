@@ -9,7 +9,8 @@ class AutocompleteTermResponse {
 
   AutocompleteTermResponse({this.offset, this.value});
 
-  factory AutocompleteTermResponse.fromJson(Map<String, dynamic> json) => _$AutocompleteTermResponseFromJson(json);
+  factory AutocompleteTermResponse.fromJson(Map<String, dynamic> json) =>
+      _$AutocompleteTermResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$AutocompleteTermResponseToJson(this);
 }

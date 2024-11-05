@@ -9,7 +9,7 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
-import 'package:share_way_frontend/core/widgets/map/goong_map.dart';
+import 'package:share_way_frontend/core/widgets/map/pick_location_map.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/home/bloc/home_bloc.dart';
 import 'package:share_way_frontend/presentation/home/bloc/home_state.dart';
@@ -52,12 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
             bottomNavigationBar: const BottomNavigation(initialIndex: 0),
             body: Stack(
               children: [
-                if (state.isLoading)
-                  LoadingScreen()
-                else
-                  GoongMap(
-                    initialLocation: state.currentLocation,
-                  ),
+                PickLocationMap(),
                 Row(
                   children: [
                     Expanded(

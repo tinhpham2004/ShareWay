@@ -24,6 +24,7 @@ class AutocompletePredictionResponse {
   int? score;
   @JsonKey(name: 'plus_code')
   AutocompletePlusCodeResponse? plusCode;
+  double? distance;
 
   AutocompletePredictionResponse({
     this.description,
@@ -36,6 +37,7 @@ class AutocompletePredictionResponse {
     this.displayType,
     this.score,
     this.plusCode,
+    this.distance,
   });
 
   factory AutocompletePredictionResponse.fromJson(Map<String, dynamic> json) {

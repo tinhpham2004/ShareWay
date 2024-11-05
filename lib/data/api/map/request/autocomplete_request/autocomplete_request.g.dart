@@ -12,6 +12,7 @@ AutocompleteRequest _$AutocompleteRequestFromJson(Map<String, dynamic> json) =>
       limit: (json['limit'] as num?)?.toInt(),
       location: json['location'] as String?,
       moreCompound: json['more_compound'] as bool?,
+      currentLocation: json['current_location'] as String?,
     )..radius = (json['radius'] as num?)?.toInt();
 
 Map<String, dynamic> _$AutocompleteRequestToJson(
@@ -22,4 +23,5 @@ Map<String, dynamic> _$AutocompleteRequestToJson(
       'location': instance.location,
       'radius': instance.radius,
       'more_compound': instance.moreCompound,
+      'current_location': instance.currentLocation,
     };

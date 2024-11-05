@@ -4,11 +4,13 @@ class AutocompleteInput {
   String? location;
   int? radius;
   bool? moreCompound;
+  String? currentLocation;
 
   AutocompleteInput({
     required this.input,
     this.limit,
     this.location,
     this.moreCompound,
+    this.currentLocation,
   });
 }

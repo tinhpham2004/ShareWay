@@ -28,6 +28,7 @@ AutocompletePredictionResponse _$AutocompletePredictionResponseFromJson(
           ? null
           : AutocompletePlusCodeResponse.fromJson(
               json['plus_code'] as Map<String, dynamic>),
+      distance: (json['distance'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$AutocompletePredictionResponseToJson(
@@ -43,4 +44,5 @@ Map<String, dynamic> _$AutocompletePredictionResponseToJson(
       'display_type': instance.displayType,
       'score': instance.score,
       'plus_code': instance.plusCode,
+      'distance': instance.distance,
     };

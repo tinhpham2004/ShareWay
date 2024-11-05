@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
-import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
+import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/core/widgets/input/otp_field_input.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/otp/bloc/otp_bloc.dart';

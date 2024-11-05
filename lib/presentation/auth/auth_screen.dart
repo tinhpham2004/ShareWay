@@ -10,7 +10,7 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button_outline.dart';
 import 'package:share_way_frontend/core/widgets/decoration/app_input_decoration.dart';
-import 'package:share_way_frontend/core/widgets/dialog/loading_dialog.dart';
+import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_bloc.dart';
 import 'package:share_way_frontend/presentation/auth/bloc/auth_state.dart';
 

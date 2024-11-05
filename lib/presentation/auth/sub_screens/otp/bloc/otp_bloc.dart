@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:location/location.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_login_otp_input.dart';
 import 'package:share_way_frontend/domain/auth/input/verify_register_otp_input.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/auth/auth_repository.dart';
+import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/otp/bloc/otp_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
@@ -86,9 +88,11 @@ class OtpBloc extends Cubit<OtpState> {
           );
           final response = await _authRepository.verifyLoginOtp(input);
           if (response != null) {
+            onUpdateCurrentLocation();
             await Preferences.saveToken(
               accessToken: response.accessToken!,
               refreshToken: response.refreshToken!,
+              userId: response.appUser!.id!,
             );
             await Preferences.clearAuthData();
             GoRouter.of(context).go(
@@ -116,6 +120,22 @@ class OtpBloc extends Cubit<OtpState> {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     } finally {
       emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  Future<void> onUpdateCurrentLocation() async {
+    Location location = Location();
+    PermissionStatus permissionStatus = await location.requestPermission();
+    if (permissionStatus == PermissionStatus.granted) {
+      final currentLocation = await location.getLocation();
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null) {
+        final geocode = Geocode(
+          latitude: currentLocation.latitude!,
+          longitude: currentLocation.longitude!,
+        );
+        await Preferences.saveCurrentLocation(geocode);
+      }
     }
   }
 

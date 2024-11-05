@@ -18,4 +18,16 @@ class UserRepository {
     }
     return null;
   }
+
+  Future<bool> registerDeviceToken(String deviceToken) async {
+    try {
+      final response = await _service.registerDeviceToken(deviceToken);
+      return response;
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        throw ("$error + $statckTrace");
+      }
+    }
+    return false;
+  }
 }

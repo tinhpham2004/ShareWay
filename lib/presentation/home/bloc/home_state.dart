@@ -6,10 +6,8 @@ part 'home_state.g.dart';
 @CopyWith()
 class HomeState {
   final bool isLoading;
-  final LocationData? currentLocation;
 
   HomeState({
     this.isLoading = false,
-    this.currentLocation,
   });
 }

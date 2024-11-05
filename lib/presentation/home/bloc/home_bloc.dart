@@ -12,7 +12,7 @@ class HomeBloc extends Cubit<HomeState> {
   void onStart(BuildContext context) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await onGetCurrentLocation(context);
+      // TODO: Add Home logic
     } catch (e) {
       // TODO: Add Home logic
     } finally {
@@ -20,22 +20,11 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  Future<void> onGetCurrentLocation(BuildContext context) async {
-    Location location = Location();
-    PermissionStatus permissionStatus = await location.requestPermission();
-    if (permissionStatus == PermissionStatus.granted) {
-      final currentLocation = await location.getLocation();
-      emit(state.copyWith(currentLocation: currentLocation));
-    } else {
-      showErrorSnackbar(context, 'Xin hãy cho phép ứng dụng truy cập vị trí');
-    }
-  }
-
   void onGiveRidePressed(BuildContext context) {
-    GoRouter.of(context).go(AppPath.giveRide);
+    GoRouter.of(context).push(AppPath.giveRidePickLocation);
   }
 
   void onHitchRidePressed(BuildContext context) {
-    GoRouter.of(context).go(AppPath.hitchRide);
+    GoRouter.of(context).push(AppPath.hitchRide);
   }
 }

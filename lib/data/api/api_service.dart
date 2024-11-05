@@ -88,9 +88,11 @@ class ApiService {
       if (response.statusCode == 200) {
         final accessToken = response.data['data']['access_token'];
         final newRefreshToken = response.data['data']['refresh_token'];
+        final newUserId = response.data['data']['user_id'];
         await Preferences.saveToken(
           accessToken: accessToken,
           refreshToken: newRefreshToken,
+          userId: newUserId,
         );
         return true;
       }

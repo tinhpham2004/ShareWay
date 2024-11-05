@@ -20,7 +20,8 @@ class AutocompleteDataResponse {
     this.status,
   });
 
-  factory AutocompleteDataResponse.fromJson(Map<String, dynamic> json) => _$AutocompleteDataResponseFromJson(json);
+  factory AutocompleteDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$AutocompleteDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$AutocompleteDataResponseToJson(this);
 }

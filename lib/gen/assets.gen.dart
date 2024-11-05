@@ -21,11 +21,19 @@ class $AssetsIconsGen {
   /// File path: assets/icons/activity.svg
   SvgGenImage get activity => const SvgGenImage('assets/icons/activity.svg');
 
+  /// File path: assets/icons/back_to_current_location.svg
+  SvgGenImage get backToCurrentLocation =>
+      const SvgGenImage('assets/icons/back_to_current_location.svg');
+
   /// File path: assets/icons/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/icons/chat.svg');
 
   /// File path: assets/icons/clear_data.svg
   SvgGenImage get clearData => const SvgGenImage('assets/icons/clear_data.svg');
+
+  /// File path: assets/icons/current_location_mark.svg
+  SvgGenImage get currentLocationMark =>
+      const SvgGenImage('assets/icons/current_location_mark.svg');
 
   /// File path: assets/icons/give_ride_service.svg
   SvgGenImage get giveRideService =>
@@ -48,6 +56,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/map_button.svg
   SvgGenImage get mapButton => const SvgGenImage('assets/icons/map_button.svg');
 
+  /// File path: assets/icons/motorbike.svg
+  SvgGenImage get motorbike => const SvgGenImage('assets/icons/motorbike.svg');
+
   /// File path: assets/icons/onboarding_call.svg
   SvgGenImage get onboardingCall =>
       const SvgGenImage('assets/icons/onboarding_call.svg');
@@ -64,6 +75,14 @@ class $AssetsIconsGen {
   SvgGenImage get onboardingPerson =>
       const SvgGenImage('assets/icons/onboarding_person.svg');
 
+  /// File path: assets/icons/realtime_current_location_mark.svg
+  SvgGenImage get realtimeCurrentLocationMark =>
+      const SvgGenImage('assets/icons/realtime_current_location_mark.svg');
+
+  /// File path: assets/icons/ride_calendar.svg
+  SvgGenImage get rideCalendar =>
+      const SvgGenImage('assets/icons/ride_calendar.svg');
+
   /// File path: assets/icons/shield_check.svg
   SvgGenImage get shieldCheck =>
       const SvgGenImage('assets/icons/shield_check.svg');
@@ -76,18 +95,23 @@ class $AssetsIconsGen {
   List<SvgGenImage> get values => [
         account,
         activity,
+        backToCurrentLocation,
         chat,
         clearData,
+        currentLocationMark,
         giveRideService,
         google,
         hitchRideService,
         home,
         homeNotification,
         mapButton,
+        motorbike,
         onboardingCall,
         onboardingChat,
         onboardingLocationMark,
         onboardingPerson,
+        realtimeCurrentLocationMark,
+        rideCalendar,
         shieldCheck,
         swapLocation
       ];
@@ -100,12 +124,24 @@ class $AssetsImagesGen {
   AssetGenImage get currentLocationMark =>
       const AssetGenImage('assets/images/current_location_mark.png');
 
+  /// File path: assets/images/end_location_mark.png
+  AssetGenImage get endLocationMark =>
+      const AssetGenImage('assets/images/end_location_mark.png');
+
+  /// File path: assets/images/example_avatar.png
+  AssetGenImage get exampleAvatar =>
+      const AssetGenImage('assets/images/example_avatar.png');
+
   /// File path: assets/images/map.png
   AssetGenImage get map => const AssetGenImage('assets/images/map.png');
 
   /// File path: assets/images/onboarding_man.png
   AssetGenImage get onboardingMan =>
       const AssetGenImage('assets/images/onboarding_man.png');
+
+  /// File path: assets/images/realtime_current_location_mark.png
+  AssetGenImage get realtimeCurrentLocationMark =>
+      const AssetGenImage('assets/images/realtime_current_location_mark.png');
 
   /// File path: assets/images/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
@@ -115,8 +151,16 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/verify_id_card_background.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [currentLocationMark, map, onboardingMan, splash, verifyIdCardBackground];
+  List<AssetGenImage> get values => [
+        currentLocationMark,
+        endLocationMark,
+        exampleAvatar,
+        map,
+        onboardingMan,
+        realtimeCurrentLocationMark,
+        splash,
+        verifyIdCardBackground
+      ];
 }
 
 class Assets {

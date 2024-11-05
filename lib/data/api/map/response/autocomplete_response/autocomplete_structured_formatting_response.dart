@@ -11,9 +11,11 @@ class AutocompleteStructuredFormattingResponse {
 
   AutocompleteStructuredFormattingResponse({this.mainText, this.secondaryText});
 
-  factory AutocompleteStructuredFormattingResponse.fromJson(Map<String, dynamic> json) {
+  factory AutocompleteStructuredFormattingResponse.fromJson(
+      Map<String, dynamic> json) {
     return _$AutocompleteStructuredFormattingResponseFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$AutocompleteStructuredFormattingResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$AutocompleteStructuredFormattingResponseToJson(this);
 }

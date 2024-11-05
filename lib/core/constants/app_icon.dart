@@ -26,6 +26,8 @@ class AppIcon {
   static Widget hitchRideService = Assets.icons.hitchRideService.svg();
   static Widget giveRideService = Assets.icons.giveRideService.svg();
   static Widget mapButton = Assets.icons.mapButton.svg();
+  static Widget backToCurrentLocation =
+      Assets.icons.backToCurrentLocation.svg();
 
   static Icon startLocation = Icon(
     Icons.radio_button_checked,
@@ -50,8 +52,16 @@ class AppIcon {
     color: AppColor.primaryColor,
     size: size + 12.sp,
   );
-    static Icon time = Icon(
+  static Icon time = Icon(
     Icons.access_time,
     color: AppColor.primaryColor,
   );
+
+  static Icon rideClock = Icon(
+    Icons.access_time_filled_rounded,
+    color: AppColor.primaryColor,
+  );
+
+  static Widget rideCalendar = Assets.icons.rideCalendar.svg();
+  static Widget motorbike = Assets.icons.motorbike.svg();
 }

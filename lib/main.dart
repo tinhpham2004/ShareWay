@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:location/location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
+import 'package:share_way_frontend/domain/fcm/fcm_repository.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
+import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/user/user_repository.dart';
 import 'package:share_way_frontend/firebase_options.dart';
 import 'package:share_way_frontend/my_app.dart';
@@ -17,16 +21,26 @@ Future<void> main() async {
 
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MapboxOptions.setAccessToken(
-      'pk.eyJ1IjoiY3JhenlhZHM2OSIsImEiOiJjbTJvYjhmeWYwZWpiMmtva3dwOXowN2ZsIn0.fTz4hYCsaWCxF2izZtahEQ');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final userRepository = UserRepository();
+    final deviceToken = await FCMRepository.getDeviceToken();
+    if (deviceToken != null) {
+      final response = await userRepository.registerDeviceToken(deviceToken);
+      if (response) {
+        print('Device token registered with token: $deviceToken');
+      }
+    }
+
+  MapboxOptions.setAccessToken(
+      'pk.eyJ1IjoiY3JhenlhZHM2OSIsImEiOiJjbTJvYjhmeWYwZWpiMmtva3dwOXowN2ZsIn0.fTz4hYCsaWCxF2izZtahEQ');
+  await onUpdateCurrentLocation();
 }
 
 Future<GoRouter> initializeRouter() async {
   GoRouter router = AppRouter().router;
-  String initialRoute = AppPath.giveRide;
+  String initialRoute = AppPath.giveRidePickLocation;
   dynamic data;
 
   // final refreshToken = await Preferences.getRefreshToken();
@@ -49,4 +63,19 @@ Future<GoRouter> initializeRouter() async {
   router.go(initialRoute, extra: data);
 
   return router;
+}
+
+Future<void> onUpdateCurrentLocation() async {
+  Location location = Location();
+  PermissionStatus permissionStatus = await location.requestPermission();
+  if (permissionStatus == PermissionStatus.granted) {
+    final currentLocation = await location.getLocation();
+    if (currentLocation.latitude != null && currentLocation.longitude != null) {
+      final geocode = Geocode(
+        latitude: currentLocation.latitude!,
+        longitude: currentLocation.longitude!,
+      );
+      await Preferences.saveCurrentLocation(geocode);
+    }
+  }
 }
