@@ -62,6 +62,14 @@ class AppIcon {
     color: AppColor.primaryColor,
   );
 
+  static Icon search = Icon(
+    Icons.search,
+    color: AppColor.primaryColor,
+  );
+
   static Widget rideCalendar = Assets.icons.rideCalendar.svg();
   static Widget motorbike = Assets.icons.motorbike.svg();
+  static Widget money = Assets.icons.money.svg();
+  static Widget giveRideComplete = Assets.icons.giveRideComplete.svg();
+  static Widget hitchRideComplete = Assets.icons.hitchRideComplete.svg();
 }

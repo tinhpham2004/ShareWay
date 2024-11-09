@@ -85,7 +85,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 GoRouter.of(context).go(AppPath.activity);
                 break;
               case 2:
-                GoRouter.of(context).go(AppPath.chat);
+                GoRouter.of(context).go(AppPath.chatList);
                 break;
               case 3:
                 GoRouter.of(context).go(AppPath.account);

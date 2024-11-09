@@ -11,7 +11,8 @@ class SuggestHitchRidersDataResponse {
 
   SuggestHitchRidersDataResponse({this.rideRequests});
 
-  factory SuggestHitchRidersDataResponse.fromJson(Map<String, dynamic> json) => _$SuggestHitchRidersDataResponseFromJson(json);
+  factory SuggestHitchRidersDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$SuggestHitchRidersDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SuggestHitchRidersDataResponseToJson(this);
 }

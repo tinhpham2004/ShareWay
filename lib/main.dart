@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
-import 'package:share_way_frontend/domain/fcm/fcm_repository.dart';
+import 'package:share_way_frontend/domain/fcm/notification_repository.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/user/user_repository.dart';
+import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/firebase_options.dart';
 import 'package:share_way_frontend/my_app.dart';
 import 'package:share_way_frontend/router/app_path.dart';
@@ -15,26 +16,15 @@ import 'package:share_way_frontend/router/app_router.dart';
 
 Future<void> main() async {
   await initializeApp();
-  GoRouter router = await initializeRouter();
+  final router = await initializeRouter();
   runApp(MyApp(router: router));
 }
 
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  final userRepository = UserRepository();
-    final deviceToken = await FCMRepository.getDeviceToken();
-    if (deviceToken != null) {
-      final response = await userRepository.registerDeviceToken(deviceToken);
-      if (response) {
-        print('Device token registered with token: $deviceToken');
-      }
-    }
-
-  MapboxOptions.setAccessToken(
-      'pk.eyJ1IjoiY3JhenlhZHM2OSIsImEiOiJjbTJvYjhmeWYwZWpiMmtva3dwOXowN2ZsIn0.fTz4hYCsaWCxF2izZtahEQ');
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  initializeMapbox();
+  await initNotification();
   await onUpdateCurrentLocation();
 }
 
@@ -65,6 +55,18 @@ Future<GoRouter> initializeRouter() async {
   return router;
 }
 
+Future<void> initNotification() async {
+  final notificationRepository = NotificationRepository();
+  final deviceToken = await notificationRepository.getDeviceToken();
+  if (deviceToken != null) {
+    final userRepository = UserRepository();
+    final response = await userRepository.registerDeviceToken(deviceToken);
+    if (response) {
+      print('Device token registered with token: $deviceToken');
+    }
+  }
+}
+
 Future<void> onUpdateCurrentLocation() async {
   Location location = Location();
   PermissionStatus permissionStatus = await location.requestPermission();
@@ -78,4 +80,9 @@ Future<void> onUpdateCurrentLocation() async {
       await Preferences.saveCurrentLocation(geocode);
     }
   }
+}
+
+void initializeMapbox() {
+  MapboxOptions.setAccessToken(
+      'pk.eyJ1IjoiY3JhenlhZHM2OSIsImEiOiJjbTJvYjhmeWYwZWpiMmtva3dwOXowN2ZsIn0.fTz4hYCsaWCxF2izZtahEQ');
 }

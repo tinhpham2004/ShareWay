@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
@@ -11,20 +12,19 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
-import 'package:share_way_frontend/domain/map/map_repository.dart';
-import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
+import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
-import 'package:share_way_frontend/domain/user/user_repository.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
-import 'package:share_way_frontend/presentation/give_ride/give_ride_preview/bloc/give_ride_preview_state.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_state.dart';
-import 'package:share_way_frontend/router/app_path.dart';
 
 class GiveRideRecommendationDetailBloc
     extends Cubit<GiveRideRecommendationDetailState> {
   GiveRideRecommendationDetailBloc()
       : super(GiveRideRecommendationDetailState());
+
+  final _rideRepository = RideRepository();
 
   void onStart(HitchRideRecommendationOuput data) {
     emit(state.copyWith(
@@ -38,6 +38,11 @@ class GiveRideRecommendationDetailBloc
     } finally {
       emit(state.copyWith(isLoading: false));
     }
+  }
+
+  void _handleWebSocketEvent(Map<String, dynamic> event) {
+    // Xử lý event từ WebSocket
+    print('This is event: $event');
   }
 
   void onBack(BuildContext context) {
@@ -186,6 +191,22 @@ class GiveRideRecommendationDetailBloc
       context: context,
       location: currentLocation!,
     );
+  }
+
+  void onSendGiveRide(BuildContext context) async {
+    final input = RideRequestInput(
+      receiverId: state.hitchRideRecommendationOuput?.user?.id ?? '',
+      giveRideId: state.hitchRideRecommendationOuput?.giveRideId ?? '',
+      hitchRideId: state.hitchRideRecommendationOuput?.hitchRideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+    );
+    final response = await _rideRepository.sendGiveRide(input);
+
+    if (response == false) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      showSuccessSnackbar(context, 'Đã gửi yêu cầu thành công');
+    }
   }
 
   // void onContinue(BuildContext context) async {

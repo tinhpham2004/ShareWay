@@ -13,6 +13,7 @@ class CreateGiveRideOutput {
   final int? duration;
   final int? fare;
   final String? vehicle;
+  final String? vehicleId;
 
   CreateGiveRideOutput({
     this.giveRideId,
@@ -20,8 +21,9 @@ class CreateGiveRideOutput {
     this.polyline,
     this.distance,
     this.duration,
-    required this.fare,
+    this.fare,
     this.vehicle,
+    this.vehicleId,
   });
 
   factory CreateGiveRideOutput.fromApiModel(CreateGiveRideResponse response) {
@@ -59,6 +61,7 @@ class CreateGiveRideOutput {
       fare: response.data?.fare,
       vehicle:
           "${response.data?.vehicle?.name ?? ''} ${response.data?.vehicle?.licensePlate ?? ''}",
+      vehicleId: response.data?.vehicle?.vehicleId,
     );
   }
 }

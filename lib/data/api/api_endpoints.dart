@@ -24,11 +24,18 @@ class MapApi {
   static const autocomplete = "/map/autocomplete";
   static const geocode = "/map/geocode";
   static const createGiveRide = "/map/give-ride";
+  static const createHitchRide = "/map/hitch-ride";
   static const suggestHitchRides = "/map/suggest-hitch-rides";
+  static const suggestGiveRides = "/map/suggest-give-rides";
 }
 
 class VehicleApi {
   static const getVehicles = "/vehicle/vehicles";
   static const registerVehicle = "/vehicle/register-vehicle";
   static const getUserVehicle = "/vehicle/get-vehicle";
+}
+
+class RideApi {
+  static const hitchRideRequest = "/ride/hitch-ride-request";
+  static const givehRideRequest = "/ride/give-ride-request";
 }

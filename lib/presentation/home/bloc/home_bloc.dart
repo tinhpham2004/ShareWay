@@ -25,6 +25,6 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   void onHitchRidePressed(BuildContext context) {
-    GoRouter.of(context).push(AppPath.hitchRide);
+    GoRouter.of(context).push(AppPath.hitchRidePickLocation);
   }
 }

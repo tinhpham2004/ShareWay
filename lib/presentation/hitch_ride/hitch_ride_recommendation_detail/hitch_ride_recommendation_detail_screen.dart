@@ -5,27 +5,28 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
+import 'package:share_way_frontend/core/utils/date_time.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
-import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
-import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_bloc.dart';
-import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_state.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_bloc.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_state.dart';
 
-class GiveRideRecommendationDetailScreen extends StatefulWidget {
-  final HitchRideRecommendationOuput data;
+class HitchRideRecommendationDetailScreen extends StatefulWidget {
+  final GiveRideRecommendationOuput data;
 
-  GiveRideRecommendationDetailScreen({super.key, required this.data});
+  HitchRideRecommendationDetailScreen({super.key, required this.data});
 
   @override
-  State createState() => GiveRideRecommendationDetailScreenState();
+  State createState() => HitchRideRecommendationDetailScreenState();
 }
 
-class GiveRideRecommendationDetailScreenState
-    extends State<GiveRideRecommendationDetailScreen> {
-  late GiveRideRecommendationDetailBloc bloc;
+class HitchRideRecommendationDetailScreenState
+    extends State<HitchRideRecommendationDetailScreen> {
+  late HitchRideRecommendationDetailBloc bloc;
   final DraggableScrollableController _draggableScrollableController =
       DraggableScrollableController();
   final ValueNotifier<bool> _isExpanded = ValueNotifier(true);
@@ -33,7 +34,7 @@ class GiveRideRecommendationDetailScreenState
   @override
   void initState() {
     super.initState();
-    bloc = GiveRideRecommendationDetailBloc();
+    bloc = HitchRideRecommendationDetailBloc();
     _draggableScrollableController.addListener(() {
       _isExpanded.value = _draggableScrollableController.size > 0.15;
     });
@@ -50,8 +51,8 @@ class GiveRideRecommendationDetailScreenState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(widget.data),
-      child: BlocBuilder<GiveRideRecommendationDetailBloc,
-          GiveRideRecommendationDetailState>(
+      child: BlocBuilder<HitchRideRecommendationDetailBloc,
+          HitchRideRecommendationDetailState>(
         builder: (context, state) {
           if (state.currentLocation == null) {
             return LoadingScreen();
@@ -98,11 +99,11 @@ class GiveRideRecommendationDetailScreenState
   }
 
   Widget _showHitcherDetailBottomSheet() {
-    return BlocBuilder<GiveRideRecommendationDetailBloc,
-        GiveRideRecommendationDetailState>(
+    return BlocBuilder<HitchRideRecommendationDetailBloc,
+        HitchRideRecommendationDetailState>(
       builder: (context, state) {
         return AppBottomSheet(
-          height: 0.4.sh,
+          height: 0.45.sh,
           draggableScrollableController: _draggableScrollableController,
           isExpanded: _isExpanded,
           body: [
@@ -153,7 +154,7 @@ class GiveRideRecommendationDetailScreenState
     );
   }
 
-  Widget _buildRideInfor(GiveRideRecommendationDetailState state) {
+  Widget _buildRideInfor(HitchRideRecommendationDetailState state) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -164,20 +165,20 @@ class GiveRideRecommendationDetailScreenState
             children: [
               Flexible(
                 child: Text(
-                  state.hitchRideRecommendationOuput?.user?.fullName ?? '',
+                  state.giveRideRecommendationOuput?.user?.fullName ?? '',
                   style: textTheme.titleSmall,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Flexible(
-              //   child: Text(
-              //     state.fareString,
-              //     style: textTheme.titleSmall!.copyWith(
-              //       color: AppColor.primaryColor,
-              //       overflow: TextOverflow.ellipsis,
-              //     ),
-              //   ),
-              // ),
+              Flexible(
+                child: Text(
+                  '${state.giveRideRecommendationOuput?.fare?.toString()}đ',
+                  style: textTheme.titleSmall!.copyWith(
+                    color: AppColor.primaryColor,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
             ],
           ),
           subtitle: Row(
@@ -185,24 +186,65 @@ class GiveRideRecommendationDetailScreenState
             children: [
               Flexible(
                 child: Text(
-                  '${state.hitchRideRecommendationOuput?.distance}km - ${state.hitchRideRecommendationOuput?.duration} phút',
+                  '${state.giveRideRecommendationOuput?.distance}km - ${state.giveRideRecommendationOuput?.duration} phút',
                   style: textTheme.bodyMedium!.copyWith(
                     color: AppColor.secondaryColor,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
-              // Flexible(
-              //   child: Text(
-              //     '${state.createGiveRideOutput?.vehicle}km',
-              //     style: textTheme.bodyMedium!.copyWith(
-              //       color: AppColor.secondaryColor,
-              //       overflow: TextOverflow.ellipsis,
-              //     ),
-              //   ),
-              // ),
+              Flexible(
+                child: Text(
+                  '${state.giveRideRecommendationOuput?.vehicle?.name}',
+                  style: textTheme.bodyMedium!.copyWith(
+                    color: AppColor.secondaryColor,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
             ],
           ),
+        ),
+        _buildDivider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            spaceW16,
+            Row(
+              children: [
+                AppIcon.money,
+                spaceW4,
+                Text(
+                  'Tiền mặt',
+                  style: textTheme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
+              child: const VerticalDivider(
+                color: AppColor.secondary100,
+                width: 1,
+              ),
+            ),
+            Row(
+              children: [
+                AppIcon.time,
+                spaceW4,
+                Text(
+                  state.giveRideRecommendationOuput?.startTime
+                          ?.format(pattern: dd_MM_yyyy_hh_mm) ??
+                      '',
+                  style: textTheme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            spaceW16,
+          ],
         ),
       ],
     );
@@ -213,7 +255,8 @@ class GiveRideRecommendationDetailScreenState
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppButton(
-          title: 'Mời đi cùng',
+          title: 'Đặt xe',
+          onPressed: () => bloc.onSendHitchRide(context),
         ),
       ],
     );

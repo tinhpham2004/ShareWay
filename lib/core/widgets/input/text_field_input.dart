@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/widgets/decoration/app_input_decoration.dart';
 
 class TextFieldInput extends StatelessWidget {
@@ -7,6 +8,8 @@ class TextFieldInput extends StatelessWidget {
   final VoidCallback? onTap;
   final TextEditingController? controller;
   final String? initialValue;
+  final InputDecoration? decoration;
+  final EdgeInsets? padding;
   const TextFieldInput({
     super.key,
     this.onChanged,
@@ -14,17 +17,23 @@ class TextFieldInput extends StatelessWidget {
     this.onTap,
     this.controller,
     this.initialValue,
+    this.decoration,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: AppInputDecoration.textField(context: context),
-      onChanged: onChanged,
-      readOnly: isReadOnly,
-      onTap: onTap,
-      initialValue: initialValue,
+    return Container(
+      margin: padding,
+      child: TextFormField(
+        controller: controller,
+        decoration:
+            decoration ?? AppInputDecoration.textField(context: context),
+        onChanged: onChanged,
+        readOnly: isReadOnly,
+        onTap: onTap,
+        initialValue: initialValue,
+      ),
     );
   }
 }

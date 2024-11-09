@@ -14,6 +14,9 @@ abstract class _$GiveRideRecommendationStateCWProxy {
   GiveRideRecommendationState hitchRideRecommendationList(
       List<HitchRideRecommendationOuput> hitchRideRecommendationList);
 
+  GiveRideRecommendationState createGiveRideOutput(
+      CreateGiveRideOutput? createGiveRideOutput);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -24,6 +27,7 @@ abstract class _$GiveRideRecommendationStateCWProxy {
     bool? isLoading,
     bool? dataChange,
     List<HitchRideRecommendationOuput>? hitchRideRecommendationList,
+    CreateGiveRideOutput? createGiveRideOutput,
   });
 }
 
@@ -48,6 +52,11 @@ class _$GiveRideRecommendationStateCWProxyImpl
       this(hitchRideRecommendationList: hitchRideRecommendationList);
 
   @override
+  GiveRideRecommendationState createGiveRideOutput(
+          CreateGiveRideOutput? createGiveRideOutput) =>
+      this(createGiveRideOutput: createGiveRideOutput);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -59,6 +68,7 @@ class _$GiveRideRecommendationStateCWProxyImpl
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? dataChange = const $CopyWithPlaceholder(),
     Object? hitchRideRecommendationList = const $CopyWithPlaceholder(),
+    Object? createGiveRideOutput = const $CopyWithPlaceholder(),
   }) {
     return GiveRideRecommendationState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -76,6 +86,10 @@ class _$GiveRideRecommendationStateCWProxyImpl
           ? _value.hitchRideRecommendationList
           // ignore: cast_nullable_to_non_nullable
           : hitchRideRecommendationList as List<HitchRideRecommendationOuput>,
+      createGiveRideOutput: createGiveRideOutput == const $CopyWithPlaceholder()
+          ? _value.createGiveRideOutput
+          // ignore: cast_nullable_to_non_nullable
+          : createGiveRideOutput as CreateGiveRideOutput?,
     );
   }
 }

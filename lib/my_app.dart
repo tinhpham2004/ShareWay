@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
+import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final GoRouter router;
 
-  const MyApp({Key? key, required this.router}) : super(key: key);
+  MyApp({Key? key, required this.router}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -25,7 +31,7 @@ class MyApp extends StatelessWidget {
               selectionHandleColor: AppColor.primaryColor,
             ),
           ),
-          routerConfig: router,
+          routerConfig: widget.router,
           builder: (context, widget) {
             ScreenUtil.init(context);
             return SafeArea(child: widget!);

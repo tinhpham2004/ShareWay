@@ -22,6 +22,8 @@ abstract class _$CreateGiveRideOutputCWProxy {
 
   CreateGiveRideOutput vehicle(String? vehicle);
 
+  CreateGiveRideOutput vehicleId(String? vehicleId);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CreateGiveRideOutput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -36,6 +38,7 @@ abstract class _$CreateGiveRideOutputCWProxy {
     int? duration,
     int? fare,
     String? vehicle,
+    String? vehicleId,
   });
 }
 
@@ -71,6 +74,10 @@ class _$CreateGiveRideOutputCWProxyImpl
   CreateGiveRideOutput vehicle(String? vehicle) => this(vehicle: vehicle);
 
   @override
+  CreateGiveRideOutput vehicleId(String? vehicleId) =>
+      this(vehicleId: vehicleId);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CreateGiveRideOutput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -86,6 +93,7 @@ class _$CreateGiveRideOutputCWProxyImpl
     Object? duration = const $CopyWithPlaceholder(),
     Object? fare = const $CopyWithPlaceholder(),
     Object? vehicle = const $CopyWithPlaceholder(),
+    Object? vehicleId = const $CopyWithPlaceholder(),
   }) {
     return CreateGiveRideOutput(
       giveRideId: giveRideId == const $CopyWithPlaceholder()
@@ -117,6 +125,10 @@ class _$CreateGiveRideOutputCWProxyImpl
           ? _value.vehicle
           // ignore: cast_nullable_to_non_nullable
           : vehicle as String?,
+      vehicleId: vehicleId == const $CopyWithPlaceholder()
+          ? _value.vehicleId
+          // ignore: cast_nullable_to_non_nullable
+          : vehicleId as String?,
     );
   }
 }

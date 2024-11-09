@@ -7,13 +7,14 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
+import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation/bloc/give_ride_recommendation_bloc.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation/bloc/give_ride_recommendation_state.dart';
 
 class GiveRideRecommendationScreen extends StatefulWidget {
-  final String giveRideId;
-  const GiveRideRecommendationScreen({super.key, required this.giveRideId});
+  final CreateGiveRideOutput data;
+  const GiveRideRecommendationScreen({super.key, required this.data});
 
   @override
   State<GiveRideRecommendationScreen> createState() =>
@@ -34,7 +35,7 @@ class _GiveRideRecommendationScreenState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          bloc..onStart(context: context, giveRideId: widget.giveRideId),
+          bloc..onStart(context: context, createGiveRideOutput: widget.data),
       child:
           BlocListener<GiveRideRecommendationBloc, GiveRideRecommendationState>(
         listener: (context, state) {

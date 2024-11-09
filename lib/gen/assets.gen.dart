@@ -35,12 +35,20 @@ class $AssetsIconsGen {
   SvgGenImage get currentLocationMark =>
       const SvgGenImage('assets/icons/current_location_mark.svg');
 
+  /// File path: assets/icons/give_ride_complete.svg
+  SvgGenImage get giveRideComplete =>
+      const SvgGenImage('assets/icons/give_ride_complete.svg');
+
   /// File path: assets/icons/give_ride_service.svg
   SvgGenImage get giveRideService =>
       const SvgGenImage('assets/icons/give_ride_service.svg');
 
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
+
+  /// File path: assets/icons/hitch_ride_complete.svg
+  SvgGenImage get hitchRideComplete =>
+      const SvgGenImage('assets/icons/hitch_ride_complete.svg');
 
   /// File path: assets/icons/hitch_ride_service.svg
   SvgGenImage get hitchRideService =>
@@ -55,6 +63,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/map_button.svg
   SvgGenImage get mapButton => const SvgGenImage('assets/icons/map_button.svg');
+
+  /// File path: assets/icons/money.svg
+  SvgGenImage get money => const SvgGenImage('assets/icons/money.svg');
 
   /// File path: assets/icons/motorbike.svg
   SvgGenImage get motorbike => const SvgGenImage('assets/icons/motorbike.svg');
@@ -99,12 +110,15 @@ class $AssetsIconsGen {
         chat,
         clearData,
         currentLocationMark,
+        giveRideComplete,
         giveRideService,
         google,
+        hitchRideComplete,
         hitchRideService,
         home,
         homeNotification,
         mapButton,
+        money,
         motorbike,
         onboardingCall,
         onboardingChat,

@@ -51,7 +51,7 @@ class GiveRidePickTimeBloc extends Cubit<GiveRidePickTimeState> {
       locationList: state.createGiveRideInput?.locationList,
       startTime: state.selectedRadioIndex == 0
           ? DateTime.now()
-          : state.selectedDateTime,
+          : state.selectedDateTime ?? DateTime.now(),
     );
 
     GoRouter.of(context).push(AppPath.giveRidePickVehicle, extra: data);

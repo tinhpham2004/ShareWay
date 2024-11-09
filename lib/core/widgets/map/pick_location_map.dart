@@ -94,7 +94,9 @@ class _PickLocationMapState extends State<PickLocationMap> {
 
   @override
   Widget build(BuildContext context) {
-    if (currentLocation == null) return LoadingScreen();
+    if (currentLocation == null) {
+      return const Scaffold(backgroundColor: AppColor.white);
+    }
     return Scaffold(
       body: Stack(
         children: [
@@ -103,8 +105,8 @@ class _PickLocationMapState extends State<PickLocationMap> {
             styleUri: MapboxStyles.MAPBOX_STREETS,
             cameraOptions: CameraOptions(
                 center: Point(
-                    coordinates: Position(currentLocation!.longitude!,
-                        currentLocation!.latitude!)),
+                    coordinates: Position(
+                        currentLocation!.longitude, currentLocation!.latitude)),
                 zoom: 15.0),
             onScrollListener: widget.onChangeLocation != null
                 ? (scrollEventData) {

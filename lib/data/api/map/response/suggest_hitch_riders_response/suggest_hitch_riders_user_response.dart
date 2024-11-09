@@ -11,9 +11,11 @@ class SuggestHitchRidersUserResponse {
   @JsonKey(name: 'user_id')
   String? userId;
 
-  SuggestHitchRidersUserResponse({this.fullName, this.phoneNumber, this.userId});
+  SuggestHitchRidersUserResponse(
+      {this.fullName, this.phoneNumber, this.userId});
 
-  factory SuggestHitchRidersUserResponse.fromJson(Map<String, dynamic> json) => _$SuggestHitchRidersUserResponseFromJson(json);
+  factory SuggestHitchRidersUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$SuggestHitchRidersUserResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SuggestHitchRidersUserResponseToJson(this);
 }

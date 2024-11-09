@@ -4,10 +4,12 @@ import 'package:share_way_frontend/data/api/api_endpoints.dart';
 import 'package:share_way_frontend/data/api/api_service.dart';
 import 'package:share_way_frontend/data/api/map/request/autocomplete_request/autocomplete_request.dart';
 import 'package:share_way_frontend/data/api/map/request/create_give_ride_request/create_give_ride_request.dart';
+import 'package:share_way_frontend/data/api/map/request/create_hitch_ride_request/create_hitch_ride_request.dart';
 import 'package:share_way_frontend/data/api/map/request/geocode_request/geocode_request.dart';
 import 'package:share_way_frontend/data/api/map/response/autocomplete_response/autocomplete_response.dart';
 import 'package:share_way_frontend/data/api/map/response/create_give_ride_response/create_give_ride_response.dart';
 import 'package:share_way_frontend/data/api/map/response/geocode_response/geocode_response.dart';
+import 'package:share_way_frontend/data/api/map/response/suggest_give_riders_response/suggest_give_riders_response.dart';
 import 'package:share_way_frontend/data/api/map/response/suggest_hitch_riders_response/suggest_hitch_riders_response.dart';
 
 class MapService {
@@ -35,11 +37,24 @@ class MapService {
 
   Future<CreateGiveRideResponse?> createGiveRide(
       CreateGiveRideRequest request) async {
+    final tinh = request.toJson();
     final response = await _service.post(
       MapApi.createGiveRide,
       data: request.toJson(),
       fromJson: (json) => CreateGiveRideResponse.fromJson(json),
     );
+    // final response =
+    //     CreateGiveRideResponse.fromJson(jsonDecode(createGiveRideJson));
+    return response;
+  }
+
+  Future<String?> createHitchRide(CreateHitchRideRequest request) async {
+    final response = await _service.post(
+      MapApi.createHitchRide,
+      data: request.toJson(),
+      fromJson: (json) => json['data']['ride_request_id'],
+    );
+
     // final response =
     //     CreateGiveRideResponse.fromJson(jsonDecode(createGiveRideJson));
     return response;
@@ -56,7 +71,60 @@ class MapService {
     //     SuggestHitchRidersResponse.fromJson(jsonDecode(suggestHitchRidesJson));
     return response;
   }
+
+  Future<SuggestGiveRidersResponse?> suggestGiveRides(
+      String hitchRideId) async {
+    final response = await _service.post(
+      MapApi.suggestGiveRides,
+      data: {'ride_request_id': hitchRideId},
+      fromJson: (json) => SuggestGiveRidersResponse.fromJson(json),
+    );
+    // final response =
+    //     SuggestGiveRidersResponse.fromJson(jsonDecode(suggestGiveRidesJson));
+    return response;
+  }
 }
+
+const String suggestGiveRidesJson = '''
+{
+    "success": true,
+    "data": {
+        "ride_offers": [
+            {
+                "ride_offer_id": "3d7c0b3f-818c-4908-8bc0-21b997ab96d2",
+                "user": {
+                    "user_id": "701fd546-7357-4d24-b9e4-aabca7a8bab1",
+                    "phone_number": "+84777485801",
+                    "full_name": "Tính Đi Nhờ"
+                },
+                "vehicle": {
+                    "vehicle_id": "45a6bd0f-2123-4672-80ec-eb3d276e6a06",
+                    "name": "YAMAHA LEXI-BVY1",
+                    "fuel_consumed": 2.19,
+                    "license_plate": "70G1-82953"
+                },
+                "start_latitude": 10.88798,
+                "start_longitude": 106.78324,
+                "end_latitude": 10.87914,
+                "end_longitude": 106.80815,
+                "start_address": "Uốn tóc Thúy, Đông Hòa, Dĩ An, Bình Dương",
+                "end_address": "Đại học Quốc gia Hồ Chí Minh - Ký túc xá Khu A, Đông Hòa, Dĩ An, Bình Dương",
+                "encoded_polyline": "{pmaAgbwjS{@Lk@?kA_@aBg@gCw@qB[?eCAaAB_CAoAAUQwAESIe@U{@i@kAeAeCi@mAa@y@qAmCYe@]i@c@e@w@k@qAw@gAa@o@So@Ol@yDZwAf@aB~@uClA{CFQ`@gATs@B[PiBNsBTkB@Mt@qGfGe@dDWzDc@bC]zCk@b@I`@IhEy@`B[xBe@pFsA~Bu@PGGS]oA_@cAo@uAq@eAW[w@s@i@_@mAq@sDwBAWBSzB_E`D}FNWP[vCmF`D{FNW??P[pBoDxAz@xBlALHpIxE",
+                "distance": 4,
+                "duration": 695,
+                "driver_current_latitude": 10.8879893,
+                "driver_current_longitude": 106.7832941,
+                "start_time": "2034-11-08T20:16:00Z",
+                "end_time": "2034-11-08T20:27:35Z",
+                "status": "created",
+                "fare": 1826.46
+            }
+        ]
+    },
+    "message_en": "Successfully retrieved suggested ride offers",
+    "message_vi": "Lấy danh sách chuyến đi gợi ý thành công"
+}
+''';
 
 const String suggestHitchRidesJson = '''
 {

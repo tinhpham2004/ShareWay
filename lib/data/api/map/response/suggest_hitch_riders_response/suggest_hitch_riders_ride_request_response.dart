@@ -5,7 +5,6 @@ import 'suggest_hitch_riders_user_response.dart';
 part 'suggest_hitch_riders_ride_request_response.g.dart';
 
 @JsonSerializable()
-
 class SuggestHitchRidersRideRequestResponse {
   double? distance;
   int? duration;
@@ -55,9 +54,11 @@ class SuggestHitchRidersRideRequestResponse {
     this.user,
   });
 
-  factory SuggestHitchRidersRideRequestResponse.fromJson(Map<String, dynamic> json) {
+  factory SuggestHitchRidersRideRequestResponse.fromJson(
+      Map<String, dynamic> json) {
     return _$SuggestHitchRidersRideRequestResponseFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$SuggestHitchRidersRideRequestResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$SuggestHitchRidersRideRequestResponseToJson(this);
 }

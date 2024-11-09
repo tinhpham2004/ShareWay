@@ -201,7 +201,7 @@ class GiveRidePreviewBloc extends Cubit<GiveRidePreviewState> {
 
     GoRouter.of(context).push(
       AppPath.giveRideRecommendation,
-      extra: state.createGiveRideOutput?.giveRideId,  
+      extra: state.createGiveRideOutput,
     );
   }
 }

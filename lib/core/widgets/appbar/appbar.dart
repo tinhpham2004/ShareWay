@@ -9,9 +9,17 @@ import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 
 class Appbar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final Color? titleColor;
   final VoidCallback? onBack;
   final List<Widget>? actions;
-  Appbar({super.key, this.title, this.onBack, this.actions});
+  final Color? backgroundColor;
+  Appbar(
+      {super.key,
+      this.title,
+      this.onBack,
+      this.actions,
+      this.backgroundColor,
+      this.titleColor});
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -19,7 +27,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColor.transparent,
+      backgroundColor: backgroundColor ?? AppColor.transparent,
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -39,7 +47,9 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: Text(
         title ?? '',
-        style: textTheme.titleMedium!,
+        style: textTheme.titleMedium!.copyWith(
+          color: titleColor ?? AppColor.primaryText,
+        ),
       ),
       actions: actions,
     );

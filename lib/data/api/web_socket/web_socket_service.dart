@@ -1,19 +1,24 @@
+import 'dart:async';
+
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
 import 'dart:convert';
-import 'package:flutter/material.dart';
 
 class WebSocketService {
   late WebSocketChannel _channel;
-  final String _wsUrl = 'ws://shareway.hungnq.online/ws?user_id=';
+  final String _wsUrl = 'ws://shareway.hungnq.online/ws';
 
   void connect() async {
     final userId = await Preferences.getUserId();
-    _channel = WebSocketChannel.connect(Uri.parse('$_wsUrl$userId'));
-    _channel.stream.listen(_handleMessage, onError: _handleError, onDone: _handleDone);
+    print('Connecting to WebSocket with user ID: $userId');
+    _channel = WebSocketChannel.connect(Uri.parse('$_wsUrl?user_id=$userId'));
+    _channel.stream
+        .listen(_handleMessage, onError: _handleError, onDone: _handleDone);
   }
 
   void _handleMessage(dynamic message) {
+    print('Received message: $message');
     final parsedMessage = jsonDecode(message);
     switch (parsedMessage['type']) {
       case 'new-give-ride-request':
