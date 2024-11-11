@@ -38,4 +38,12 @@ class VehicleApi {
 class RideApi {
   static const hitchRideRequest = "/ride/hitch-ride-request";
   static const givehRideRequest = "/ride/give-ride-request";
+  static const acceptHitchRideRequest = "/ride/accept-hitch-ride-request";
+  static const acceptGiveRideRequest = "/ride/accept-give-ride-request";
+  static const cancelHitchRideRequest = "/ride/cancel-hitch-ride-request";
+  static const cancelGiveRideRequest = "/ride/cancel-give-ride-request";
+  static const startRide = "/ride/start-ride";
+  static const updateRideLocation = "/ride/update-ride-location";
+  static const endRide = "/ride/end-ride";
+  static const cancelRide = "/ride/cancel-ride";
 }

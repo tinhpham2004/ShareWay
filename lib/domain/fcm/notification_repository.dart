@@ -1,20 +1,22 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+Future<void> onHandleBackgroundMessage(RemoteMessage message) async {
+  print('Handling a background message body: ${message.notification?.body}');
+  // Process the message as needed, but avoid depending on external parameters.
+}
 
 class NotificationRepository {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  late void Function(NotificationResponse) onNotificationResponse;
 
-  NotificationRepository() {
+  NotificationRepository({required this.onNotificationResponse}) {
     _initializeLocalNotifications();
     _initializeFCM();
-  }
-
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // Handle background message
-    print("Handling a background message: ${message.messageId}");
   }
 
   void _initializeLocalNotifications() {
@@ -29,7 +31,7 @@ class NotificationRepository {
 
     _localNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: _onNotificationResponse,
+      onDidReceiveNotificationResponse: onNotificationResponse,
     );
   }
 
@@ -49,23 +51,19 @@ class NotificationRepository {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen(_showNotification);
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(onHandleBackgroundMessage);
   }
 
   void _showNotification(RemoteMessage message) async {
     final notification = message.notification;
     if (notification != null) {
       const androidDetails = AndroidNotificationDetails(
-          'your_channel_id', 'Your Channel Name',
-          channelDescription: 'Your channel description',
-          importance: Importance.max,
-          priority: Priority.high,
-          actions: [
-            AndroidNotificationAction('accept', 'Accept',
-                showsUserInterface: true),
-            AndroidNotificationAction('reject', 'Reject',
-                showsUserInterface: true),
-          ]);
+        'your_channel_id',
+        'Your Channel Name',
+        channelDescription: 'Your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+      );
       const iOSDetails = DarwinNotificationDetails();
       const notificationDetails = NotificationDetails(
         android: androidDetails,
@@ -77,26 +75,9 @@ class NotificationRepository {
         notification.title,
         notification.body,
         notificationDetails,
+        payload: jsonEncode(message.data),
       );
     }
-  }
-
-  void _onNotificationResponse(NotificationResponse response) {
-    if (response.actionId == 'accept') {
-      _handleAcceptAction();
-    } else if (response.actionId == 'reject') {
-      _handleRejectAction();
-    }
-  }
-
-  void _handleAcceptAction() {
-    // Handle the "Accept" action here
-    print("Accepted notification action");
-  }
-
-  void _handleRejectAction() {
-    // Handle the "Reject" action here
-    print("Rejected notification action");
   }
 
   Future<String?> getDeviceToken() async {

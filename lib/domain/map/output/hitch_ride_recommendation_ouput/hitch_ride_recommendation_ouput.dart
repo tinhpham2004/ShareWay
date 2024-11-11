@@ -1,5 +1,8 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/data/api/map/response/suggest_hitch_riders_response/suggest_hitch_riders_ride_request_response.dart';
+import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/new_hitch_ride_request/new_hitch_ride_request_data.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/user/output/app_user.dart';
 part 'hitch_ride_recommendation_ouput.g.dart';
@@ -17,6 +20,8 @@ class HitchRideRecommendationOuput {
   final AppUser? user;
   final String? giveRideId;
   final String? vehicleId;
+  final String? rideId;
+  final RideStatusEnum status;
 
   HitchRideRecommendationOuput({
     this.hitchRideId,
@@ -30,6 +35,8 @@ class HitchRideRecommendationOuput {
     this.user,
     this.giveRideId,
     this.vehicleId,
+    this.rideId,
+    this.status = RideStatusEnum.CREATED,
   });
 
   factory HitchRideRecommendationOuput.fromApiModel(
@@ -55,6 +62,63 @@ class HitchRideRecommendationOuput {
         id: response.user?.userId,
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
+      ),
+    );
+  }
+
+  factory HitchRideRecommendationOuput.fromNewHitchRideRequest(
+      NewHitchRideRequestData data) {
+    return HitchRideRecommendationOuput(
+      giveRideId: data.rideOfferId,
+      hitchRideId: data.rideRequestId,
+      distance: data.distance,
+      duration: (data.duration != null)
+          ? data.duration! ~/ 60 + (data.duration! % 60 == 0 ? 0 : 1)
+          : null,
+      polyline: data.encodedPolyline,
+      startLocation: Geocode(
+        latitude: data.startLatitude ?? 0.0,
+        longitude: data.startLongitude ?? 0.0,
+      ),
+      endLocation: Geocode(
+        latitude: data.endLatitude ?? 0.0,
+        longitude: data.endLongitude ?? 0.0,
+      ),
+      startTime: data.startTime,
+      endTime: data.endTime,
+      user: AppUser(
+        id: data.user?.id,
+        fullName: data.user?.fullName,
+        phoneNumber: data.user?.phoneNumber,
+      ),
+      vehicleId: data.vehicle?.vehicleId,
+    );
+  }
+
+    factory HitchRideRecommendationOuput.fromAcceptRideRequest(
+      AcceptRideRequestData data) {
+    return HitchRideRecommendationOuput(
+      giveRideId: data.rideOfferId,
+      hitchRideId: data.rideRequestId,
+      distance: data.distance,
+      duration: (data.duration != null)
+          ? data.duration! ~/ 60 + (data.duration! % 60 == 0 ? 0 : 1)
+          : null,
+      polyline: data.encodedPolyline,
+      startLocation: Geocode(
+        latitude: data.startLatitude ?? 0.0,
+        longitude: data.startLongitude ?? 0.0,
+      ),
+      endLocation: Geocode(
+        latitude: data.endLatitude ?? 0.0,
+        longitude: data.endLongitude ?? 0.0,
+      ),
+      startTime: data.startTime,
+      endTime: data.endTime,
+      vehicleId: data.vehicle?.vehicleId,
+      rideId: data.rideId,
+      user: AppUser(
+        id: data.receiverId,
       ),
     );
   }

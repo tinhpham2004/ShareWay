@@ -16,7 +16,7 @@ class CreateGiveRideDataResponse {
   String? startTime;
   @JsonKey(name: 'end_time')
   String? endTime;
-  int? fare;
+  double? fare;
   CreateGiveRideVehicleResponse? vehicle;
 
   CreateGiveRideDataResponse({

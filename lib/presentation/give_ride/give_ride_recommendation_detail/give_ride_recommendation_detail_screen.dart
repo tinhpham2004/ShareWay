@@ -5,6 +5,7 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
+import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
@@ -102,7 +103,8 @@ class GiveRideRecommendationDetailScreenState
         GiveRideRecommendationDetailState>(
       builder: (context, state) {
         return AppBottomSheet(
-          height: 0.4.sh,
+          height:
+              0.4.sh + state.hitchRideRecommendationOuput!.status.getDiffHeight,
           draggableScrollableController: _draggableScrollableController,
           isExpanded: _isExpanded,
           body: [
@@ -136,7 +138,7 @@ class GiveRideRecommendationDetailScreenState
                 _buildDivider(),
               ],
             ),
-            _buildContinueButton(),
+            _buildContinueButton(state),
           ],
         );
       },
@@ -208,14 +210,36 @@ class GiveRideRecommendationDetailScreenState
     );
   }
 
-  Widget _buildContinueButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildContinueButton(GiveRideRecommendationDetailState state) {
+    return Column(
       children: [
-        AppButton(
-          title: 'Mời đi cùng',
-          onPressed: () => bloc.onSendGiveRide(context),
-        ),
+        if (state.hitchRideRecommendationOuput?.status.getPrimaryButtonTitle !=
+            null)
+          Row(
+            children: [
+              AppButton(
+                title: state
+                    .hitchRideRecommendationOuput?.status.getPrimaryButtonTitle,
+                onPressed: () => bloc.onPrimaryButton(context),
+              ),
+            ],
+          ),
+        if (state
+                .hitchRideRecommendationOuput?.status.getSecondaryButtonTitle !=
+            null) ...[
+          spaceH12,
+          Row(
+            children: [
+              AppButton(
+                title: state.hitchRideRecommendationOuput?.status
+                    .getSecondaryButtonTitle,
+                backgroundColor: AppColor.primary100,
+                textColor: AppColor.primaryColor,
+                onPressed: () => bloc.onSecondaryButton(context),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

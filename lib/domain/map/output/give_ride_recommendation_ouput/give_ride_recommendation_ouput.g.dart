@@ -9,7 +9,7 @@ part of 'give_ride_recommendation_ouput.dart';
 abstract class _$GiveRideRecommendationOuputCWProxy {
   GiveRideRecommendationOuput giveRideId(String? giveRideId);
 
-  GiveRideRecommendationOuput distance(int? distance);
+  GiveRideRecommendationOuput distance(double? distance);
 
   GiveRideRecommendationOuput duration(int? duration);
 
@@ -39,7 +39,7 @@ abstract class _$GiveRideRecommendationOuputCWProxy {
   /// ````
   GiveRideRecommendationOuput call({
     String? giveRideId,
-    int? distance,
+    double? distance,
     int? duration,
     double? fare,
     String? polyline,
@@ -65,7 +65,7 @@ class _$GiveRideRecommendationOuputCWProxyImpl
       this(giveRideId: giveRideId);
 
   @override
-  GiveRideRecommendationOuput distance(int? distance) =>
+  GiveRideRecommendationOuput distance(double? distance) =>
       this(distance: distance);
 
   @override
@@ -136,7 +136,7 @@ class _$GiveRideRecommendationOuputCWProxyImpl
       distance: distance == const $CopyWithPlaceholder()
           ? _value.distance
           // ignore: cast_nullable_to_non_nullable
-          : distance as int?,
+          : distance as double?,
       duration: duration == const $CopyWithPlaceholder()
           ? _value.duration
           // ignore: cast_nullable_to_non_nullable

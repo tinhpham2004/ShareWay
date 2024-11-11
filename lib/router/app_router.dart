@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/domain/map/input/create_give_ride_input.dart';
 import 'package:share_way_frontend/domain/map/input/create_hitch_ride_input.dart';
@@ -37,9 +38,10 @@ class AppRouter {
 
   GoRouter get router => _router;
 
-  AppRouter()
+  AppRouter(GlobalKey<NavigatorState> navigatorKey)
       : _router = GoRouter(
           initialLocation: AppPath.onboarding,
+          navigatorKey: navigatorKey,
           routes: <GoRoute>[
             GoRoute(
               path: AppPath.error,

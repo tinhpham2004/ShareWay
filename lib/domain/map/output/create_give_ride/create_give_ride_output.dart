@@ -11,7 +11,7 @@ class CreateGiveRideOutput {
   final String? polyline;
   final int? distance;
   final int? duration;
-  final int? fare;
+  final double? fare;
   final String? vehicle;
   final String? vehicleId;
 

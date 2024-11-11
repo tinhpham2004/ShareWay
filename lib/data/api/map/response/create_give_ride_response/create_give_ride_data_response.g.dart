@@ -18,7 +18,7 @@ CreateGiveRideDataResponse _$CreateGiveRideDataResponseFromJson(
       duration: (json['duration'] as num?)?.toInt(),
       startTime: json['start_time'] as String?,
       endTime: json['end_time'] as String?,
-      fare: (json['fare'] as num?)?.toInt(),
+      fare: (json['fare'] as num?)?.toDouble(),
       vehicle: json['vehicle'] == null
           ? null
           : CreateGiveRideVehicleResponse.fromJson(

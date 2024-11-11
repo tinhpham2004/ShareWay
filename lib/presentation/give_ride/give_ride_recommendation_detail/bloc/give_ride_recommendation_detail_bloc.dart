@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +8,12 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
+import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';
+import 'package:share_way_frontend/domain/ride/input/matched_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
 import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
@@ -193,6 +194,56 @@ class GiveRideRecommendationDetailBloc
     );
   }
 
+  void onPrimaryButton(BuildContext context) async {
+    switch (state.hitchRideRecommendationOuput?.status) {
+      case RideStatusEnum.CREATED:
+        onSendGiveRide(context);
+        break;
+      case RideStatusEnum.RECEIVING:
+        onAcceptHitchRide(context);
+        break;
+      case RideStatusEnum.SENDING:
+        onCancelGiveRide(context);
+        break;
+      case RideStatusEnum.ACCEPTED:
+        onStartRide(context);
+        break;
+      case RideStatusEnum.ONGOING:
+        onEndRide(context);
+        break;
+      case RideStatusEnum.COMPLETED:
+        break;
+      case RideStatusEnum.CANCELLED:
+        break;
+      default:
+        break;
+    }
+  }
+
+  void onSecondaryButton(BuildContext context) async {
+    switch (state.hitchRideRecommendationOuput?.status) {
+      case RideStatusEnum.CREATED:
+        break;
+      case RideStatusEnum.RECEIVING:
+        onCancelHitchRide(context);
+        break;
+      case RideStatusEnum.SENDING:
+        break;
+      case RideStatusEnum.ACCEPTED:
+        onCancelRide(context);
+        break;
+      case RideStatusEnum.ONGOING:
+        onCancelRide(context);
+        break;
+      case RideStatusEnum.COMPLETED:
+        break;
+      case RideStatusEnum.CANCELLED:
+        break;
+      default:
+        break;
+    }
+  }
+
   void onSendGiveRide(BuildContext context) async {
     final input = RideRequestInput(
       receiverId: state.hitchRideRecommendationOuput?.user?.id ?? '',
@@ -205,19 +256,152 @@ class GiveRideRecommendationDetailBloc
     if (response == false) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.SENDING,
+        ),
+      ));
       showSuccessSnackbar(context, 'Đã gửi yêu cầu thành công');
     }
   }
 
-  // void onContinue(BuildContext context) async {
-  //   if (state.hitchRideRecommendationOuput?.giveRideId == null) {
-  //     showErrorSnackbar(context, 'Đã có lỗi xảy ra');
-  //     return;
-  //   }
+  void onAcceptHitchRide(BuildContext context) async {
+    final input = RideRequestInput(
+      receiverId: state.hitchRideRecommendationOuput?.user?.id ?? '',
+      giveRideId: state.hitchRideRecommendationOuput?.giveRideId ?? '',
+      hitchRideId: state.hitchRideRecommendationOuput?.hitchRideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+    );
+    final response = await _rideRepository.acceptHitchRide(input);
 
-  //   GoRouter.of(context).push(
-  //     AppPath.giveRideRecommendation,
-  //     extra: state.hitchRideRecommendationOuput?.giveRideId,
-  //   );
-  // }
+    if (response == null) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.ACCEPTED,
+          rideId: response,
+        ),
+      ));
+      showSuccessSnackbar(context, 'Đã chấp nhận yêu cầu thành công');
+    }
+  }
+
+  void onCancelGiveRide(BuildContext context) async {
+    final input = RideRequestInput(
+      receiverId: state.hitchRideRecommendationOuput?.user?.id ?? '',
+      giveRideId: state.hitchRideRecommendationOuput?.giveRideId ?? '',
+      hitchRideId: state.hitchRideRecommendationOuput?.hitchRideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+    );
+    final response = await _rideRepository.cancelGiveRide(input);
+
+    if (response == false) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.CREATED,
+        ),
+      ));
+      showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
+    }
+  }
+
+  void onCancelHitchRide(BuildContext context) async {
+    final input = RideRequestInput(
+      receiverId: state.hitchRideRecommendationOuput?.user?.id ?? '',
+      giveRideId: state.hitchRideRecommendationOuput?.giveRideId ?? '',
+      hitchRideId: state.hitchRideRecommendationOuput?.hitchRideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+    );
+    final response = await _rideRepository.cancelHitchRide(input);
+
+    if (response == false) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.CREATED,
+        ),
+      ));
+      showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
+    }
+  }
+
+  void onCancelRide(BuildContext context) async {
+    final input = CancelRideInput(
+      receiverId: state.hitchRideRecommendationOuput?.user?.id ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+      rideId: state.hitchRideRecommendationOuput?.rideId ?? '',
+    );
+    final response = await _rideRepository.cancelRide(input);
+
+    if (response == false) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.CANCELLED,
+        ),
+      ));
+      showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
+    }
+  }
+
+  void onStartRide(BuildContext context) async {
+    final input = MatchedRideInput(
+      rideId: state.hitchRideRecommendationOuput?.rideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+      currentLocation: state.currentLocation,
+    );
+    final response = await _rideRepository.startRide(input);
+
+    if (response == false) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.ONGOING,
+        ),
+      ));
+      showSuccessSnackbar(context, 'Đã bắt đầu chuyến đi');
+    }
+  }
+
+  void onUpdateCurrentLocation(BuildContext context) async {
+    final input = MatchedRideInput(
+      rideId: state.hitchRideRecommendationOuput?.rideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+      currentLocation: state.currentLocation,
+    );
+    final response = await _rideRepository.updateRideLocation(input);
+  }
+
+  void onEndRide(BuildContext context) async {
+    final input = MatchedRideInput(
+      rideId: state.hitchRideRecommendationOuput?.rideId ?? '',
+      vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
+      currentLocation: state.currentLocation,
+    );
+    final response = await _rideRepository.endRide(input);
+
+    if (response == false) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    } else {
+      emit(state.copyWith(
+        hitchRideRecommendationOuput:
+            state.hitchRideRecommendationOuput?.copyWith(
+          status: RideStatusEnum.COMPLETED,
+        ),
+      ));
+      showSuccessSnackbar(context, 'Đã kết thúc chuyến đi');
+    }
+  }
 }

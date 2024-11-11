@@ -31,8 +31,8 @@ class GiveRideRecommendationBloc extends Cubit<GiveRideRecommendationState> {
   }
 
   void onFetchHitchRideRecommendationList(BuildContext context) async {
-    final response = await _mapRepository
-        .getHitchRideRecommendationList(state.createGiveRideOutput?.giveRideId ?? '');
+    final response = await _mapRepository.getHitchRideRecommendationList(
+        state.createGiveRideOutput?.giveRideId ?? '');
 
     if (response == null) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');

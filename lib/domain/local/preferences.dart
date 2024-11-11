@@ -20,6 +20,8 @@ class Preferences {
     await prefs.setString(kAccessTokenKey, accessToken);
     await prefs.setString(kRefreshTokenKey, refreshToken);
     await prefs.setString(kUserIdey, userId);
+    print('Access token: $accessToken');
+    print('Refresh token: $refreshToken');
   }
 
   // Get access token

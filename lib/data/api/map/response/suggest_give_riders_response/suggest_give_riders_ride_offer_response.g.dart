@@ -9,7 +9,7 @@ part of 'suggest_give_riders_ride_offer_response.dart';
 SuggestGiveRidersRideOfferResponse _$SuggestGiveRidersRideOfferResponseFromJson(
         Map<String, dynamic> json) =>
     SuggestGiveRidersRideOfferResponse(
-      distance: (json['distance'] as num?)?.toInt(),
+      distance: (json['distance'] as num?)?.toDouble(),
       driverCurrentLatitude:
           (json['driver_current_latitude'] as num?)?.toDouble(),
       driverCurrentLongitude:

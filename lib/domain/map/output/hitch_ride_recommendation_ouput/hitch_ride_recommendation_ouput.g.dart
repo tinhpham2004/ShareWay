@@ -29,6 +29,10 @@ abstract class _$HitchRideRecommendationOuputCWProxy {
 
   HitchRideRecommendationOuput vehicleId(String? vehicleId);
 
+  HitchRideRecommendationOuput rideId(String? rideId);
+
+  HitchRideRecommendationOuput status(RideStatusEnum status);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -47,6 +51,8 @@ abstract class _$HitchRideRecommendationOuputCWProxy {
     AppUser? user,
     String? giveRideId,
     String? vehicleId,
+    String? rideId,
+    RideStatusEnum? status,
   });
 }
 
@@ -101,6 +107,13 @@ class _$HitchRideRecommendationOuputCWProxyImpl
       this(vehicleId: vehicleId);
 
   @override
+  HitchRideRecommendationOuput rideId(String? rideId) => this(rideId: rideId);
+
+  @override
+  HitchRideRecommendationOuput status(RideStatusEnum status) =>
+      this(status: status);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -120,6 +133,8 @@ class _$HitchRideRecommendationOuputCWProxyImpl
     Object? user = const $CopyWithPlaceholder(),
     Object? giveRideId = const $CopyWithPlaceholder(),
     Object? vehicleId = const $CopyWithPlaceholder(),
+    Object? rideId = const $CopyWithPlaceholder(),
+    Object? status = const $CopyWithPlaceholder(),
   }) {
     return HitchRideRecommendationOuput(
       hitchRideId: hitchRideId == const $CopyWithPlaceholder()
@@ -166,6 +181,14 @@ class _$HitchRideRecommendationOuputCWProxyImpl
           ? _value.vehicleId
           // ignore: cast_nullable_to_non_nullable
           : vehicleId as String?,
+      rideId: rideId == const $CopyWithPlaceholder()
+          ? _value.rideId
+          // ignore: cast_nullable_to_non_nullable
+          : rideId as String?,
+      status: status == const $CopyWithPlaceholder() || status == null
+          ? _value.status
+          // ignore: cast_nullable_to_non_nullable
+          : status as RideStatusEnum,
     );
   }
 }

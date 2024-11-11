@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
+import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/user/output/app_user.dart';

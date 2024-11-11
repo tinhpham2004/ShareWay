@@ -20,11 +20,13 @@ abstract class AppPath {
   static const giveRideRecommendation = '/give-ride-recommendation';
   static const giveRideRecommendationDetail = '$giveRideRecommendation/detail';
   static const giveRideComplete = '/give-ride-complete';
+  static const giveRideTracking = '/give-ride-tracking';
   static const hitchRidePickLocation = '/hitch-ride-pick-location';
   static const hitchRidePickTime = '/hitch-ride-pick-time';
   static const hitchRideReccomendation = '/hitch-ride-recommendation';
   static const hitchRideReccomendationDetail =
       '$hitchRideReccomendation/detail';
+  static const hitchRideTracking = '/hitch-ride-tracking';
   static const hitchRideComplete = '/hitch-ride-complete';
   static const manageVehicle = '/manage-vehicle';
   static const addVehicle = '/add-vehicle';

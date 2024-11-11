@@ -18,7 +18,7 @@ abstract class _$CreateGiveRideOutputCWProxy {
 
   CreateGiveRideOutput duration(int? duration);
 
-  CreateGiveRideOutput fare(int? fare);
+  CreateGiveRideOutput fare(double? fare);
 
   CreateGiveRideOutput vehicle(String? vehicle);
 
@@ -36,7 +36,7 @@ abstract class _$CreateGiveRideOutputCWProxy {
     String? polyline,
     int? distance,
     int? duration,
-    int? fare,
+    double? fare,
     String? vehicle,
     String? vehicleId,
   });
@@ -68,7 +68,7 @@ class _$CreateGiveRideOutputCWProxyImpl
   CreateGiveRideOutput duration(int? duration) => this(duration: duration);
 
   @override
-  CreateGiveRideOutput fare(int? fare) => this(fare: fare);
+  CreateGiveRideOutput fare(double? fare) => this(fare: fare);
 
   @override
   CreateGiveRideOutput vehicle(String? vehicle) => this(vehicle: vehicle);
@@ -120,7 +120,7 @@ class _$CreateGiveRideOutputCWProxyImpl
       fare: fare == const $CopyWithPlaceholder()
           ? _value.fare
           // ignore: cast_nullable_to_non_nullable
-          : fare as int?,
+          : fare as double?,
       vehicle: vehicle == const $CopyWithPlaceholder()
           ? _value.vehicle
           // ignore: cast_nullable_to_non_nullable

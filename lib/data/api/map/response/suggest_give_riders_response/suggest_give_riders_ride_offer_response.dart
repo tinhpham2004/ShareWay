@@ -7,7 +7,7 @@ part 'suggest_give_riders_ride_offer_response.g.dart';
 
 @JsonSerializable()
 class SuggestGiveRidersRideOfferResponse {
-  int? distance;
+  double? distance;
   @JsonKey(name: 'driver_current_latitude')
   double? driverCurrentLatitude;
   @JsonKey(name: 'driver_current_longitude')
