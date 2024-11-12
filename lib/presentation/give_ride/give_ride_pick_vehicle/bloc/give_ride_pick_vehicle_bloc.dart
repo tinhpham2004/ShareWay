@@ -67,7 +67,7 @@ class GiveRidePickVehicleBloc extends Cubit<GiveRidePickVehicleState> {
         return;
       }
 
-      GoRouter.of(context).go(AppPath.giveRidePreview, extra: response);
+      GoRouter.of(context).push(AppPath.giveRidePreview, extra: response);
     } catch (e) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     } finally {

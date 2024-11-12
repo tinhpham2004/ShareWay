@@ -8,7 +8,7 @@ class AcceptRideRequestVehicle {
   String? vehicleId;
   String? name;
   @JsonKey(name: 'fuel_consumed')
-  int? fuelConsumed;
+  double? fuelConsumed;
   @JsonKey(name: 'license_plate')
   String? licensePlate;
 

@@ -11,7 +11,7 @@ AcceptRideRequestVehicle _$AcceptRideRequestVehicleFromJson(
     AcceptRideRequestVehicle(
       vehicleId: json['vehicle_id'] as String?,
       name: json['name'] as String?,
-      fuelConsumed: (json['fuel_consumed'] as num?)?.toInt(),
+      fuelConsumed: (json['fuel_consumed'] as num?)?.toDouble(),
       licensePlate: json['license_plate'] as String?,
     );
 

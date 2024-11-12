@@ -12,7 +12,7 @@ AcceptRideRequestData _$AcceptRideRequestDataFromJson(
       rideId: json['ride_id'] as String?,
       rideOfferId: json['ride_offer_id'] as String?,
       rideRequestId: json['ride_request_id'] as String?,
-      receiverId: json['receiver_id'] as String?,
+      user: AcceptRideRequestData._userFromJson(json['user'] as String?),
       status: json['status'] as String?,
       startTime: AcceptRideRequestData._dateTimeFromString(
           json['start_time'] as String?),
@@ -54,7 +54,7 @@ Map<String, dynamic> _$AcceptRideRequestDataToJson(
       'ride_id': instance.rideId,
       'ride_offer_id': instance.rideOfferId,
       'ride_request_id': instance.rideRequestId,
-      'receiver_id': instance.receiverId,
+      'user': instance.user,
       'status': instance.status,
       'start_time': instance.startTime?.toIso8601String(),
       'end_time': instance.endTime?.toIso8601String(),

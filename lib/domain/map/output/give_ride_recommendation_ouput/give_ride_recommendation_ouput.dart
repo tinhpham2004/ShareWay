@@ -1,5 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:share_way_frontend/data/api/map/response/suggest_give_riders_response/suggest_give_riders_ride_offer_response.dart';
+import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request_data.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/user/output/app_user.dart';
@@ -20,6 +21,7 @@ class GiveRideRecommendationOuput {
   final AppUser? user;
   final GetVehicleOuput? vehicle;
   final String? hitchRideId;
+  final String? rideId;
 
   GiveRideRecommendationOuput({
     this.giveRideId,
@@ -34,6 +36,7 @@ class GiveRideRecommendationOuput {
     this.user,
     this.vehicle,
     this.hitchRideId,
+    this.rideId,
   });
 
   factory GiveRideRecommendationOuput.fromApiModel(
@@ -73,6 +76,7 @@ class GiveRideRecommendationOuput {
   factory GiveRideRecommendationOuput.fromNewGiveRideRequest(
       NewGiveRideRequestData data) {
     return GiveRideRecommendationOuput(
+      hitchRideId: data.rideRequestId,
       giveRideId: data.rideOfferId,
       distance: data.distance,
       duration: (data.duration != null)
@@ -101,6 +105,41 @@ class GiveRideRecommendationOuput {
         licensePlate: data.vehicle?.licensePlate,
       ),
       fare: data.fare,
+    );
+  }
+
+  factory GiveRideRecommendationOuput.fromAcceptRideRequest(
+      AcceptRideRequestData data) {
+    return GiveRideRecommendationOuput(
+      giveRideId: data.rideOfferId,
+      hitchRideId: data.rideRequestId,
+      distance: data.distance,
+      duration: (data.duration != null)
+          ? data.duration! ~/ 60 + (data.duration! % 60 == 0 ? 0 : 1)
+          : null,
+      polyline: data.encodedPolyline,
+      startLocation: Geocode(
+        latitude: data.startLatitude ?? 0.0,
+        longitude: data.startLongitude ?? 0.0,
+      ),
+      endLocation: Geocode(
+        latitude: data.endLatitude ?? 0.0,
+        longitude: data.endLongitude ?? 0.0,
+      ),
+      startTime: data.startTime,
+      endTime: data.endTime,
+      vehicle: GetVehicleOuput(
+        vehicleId: data.vehicle?.vehicleId,
+        name: data.vehicle?.name,
+        fuelConsumed: data.vehicle?.fuelConsumed,
+        licensePlate: data.vehicle?.licensePlate,
+      ),
+      rideId: data.rideId,
+      user: AppUser(
+        id: data.user?.id,
+        fullName: data.user?.fullName,
+        phoneNumber: data.user?.phoneNumber,
+      ),
     );
   }
 }

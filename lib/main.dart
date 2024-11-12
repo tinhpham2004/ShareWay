@@ -120,7 +120,7 @@ void _handleNewGiveRideRequest(NotificationResponse message) {
   if (newGiveRideRequest.data != null) {
     const initialRoute = AppPath.hitchRideReccomendationDetail;
     final extra = GiveRideRecommendationOuput.fromNewGiveRideRequest(
-        newGiveRideRequest.data ?? NewGiveRideRequestData());
+        newGiveRideRequest.data ?? NewGiveRideRequestData()).copyWith();
     navigatorKey.currentContext!.go(initialRoute, extra: extra);
   }
 }
@@ -139,8 +139,15 @@ void _handleNewHitchRideRequest(NotificationResponse message) {
 }
 
 void _handleAcceptedGiveRideRequest(NotificationResponse message) {
-  // Handle the accepted give ride request here
-  print('Handling accepted give ride request: $message');
+  final data = jsonDecode(message.payload!);
+
+  final acceptRideRequest = AcceptRideRequest.fromJson(data);
+  if (acceptRideRequest.data != null) {
+    const initialRoute = AppPath.giveRideRecommendationDetail;
+    final extra = GiveRideRecommendationOuput.fromAcceptRideRequest(
+            acceptRideRequest.data ?? AcceptRideRequestData());
+    navigatorKey.currentContext!.go(initialRoute, extra: extra);
+  }
 }
 
 void _handleAcceptedHitchRideRequest(NotificationResponse message) {

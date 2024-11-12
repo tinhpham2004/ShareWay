@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:go_router/go_router.dart';
+import 'package:location/location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
@@ -19,6 +20,7 @@ import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_state.dart';
+import 'package:share_way_frontend/router/app_path.dart';
 
 class GiveRideRecommendationDetailBloc
     extends Cubit<GiveRideRecommendationDetailState> {
@@ -372,10 +374,19 @@ class GiveRideRecommendationDetailBloc
         ),
       ));
       showSuccessSnackbar(context, 'Đã bắt đầu chuyến đi');
+      Timer.periodic(Duration(seconds: 3), (timer) {
+        if (state.hitchRideRecommendationOuput?.status ==
+            RideStatusEnum.ONGOING) {
+          onUpdateCurrentLocation(context);
+        } else {
+          timer.cancel();
+        }
+      });
     }
   }
 
   void onUpdateCurrentLocation(BuildContext context) async {
+    onUpdateLocation();
     final input = MatchedRideInput(
       rideId: state.hitchRideRecommendationOuput?.rideId ?? '',
       vehicleId: state.hitchRideRecommendationOuput?.vehicleId ?? '',
@@ -402,6 +413,20 @@ class GiveRideRecommendationDetailBloc
         ),
       ));
       showSuccessSnackbar(context, 'Đã kết thúc chuyến đi');
+      GoRouter.of(context).go(AppPath.giveRideComplete);
+    }
+  }
+
+  void onUpdateLocation() async {
+    Location location = Location();
+    final currentLocation = await location.getLocation();
+    if (currentLocation.latitude != null && currentLocation.longitude != null) {
+      final geocode = Geocode(
+        latitude: currentLocation.latitude!,
+        longitude: currentLocation.longitude!,
+      );
+      emit(state.copyWith(currentLocation: geocode));
+      await Preferences.saveCurrentLocation(geocode);
     }
   }
 }

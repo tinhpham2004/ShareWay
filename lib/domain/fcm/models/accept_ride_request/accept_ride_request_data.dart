@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_user.dart';
 
 import 'accept_ride_request_transaction.dart';
 import 'accept_ride_request_vehicle.dart';
@@ -15,8 +16,8 @@ class AcceptRideRequestData {
   String? rideOfferId;
   @JsonKey(name: 'ride_request_id')
   String? rideRequestId;
-  @JsonKey(name: 'receiver_id')
-  String? receiverId;
+  @JsonKey(name: 'user', fromJson: _userFromJson)
+  AcceptRideRequestUser? user;
   String? status;
   @JsonKey(name: 'start_time', fromJson: _dateTimeFromString)
   DateTime? startTime;
@@ -59,7 +60,7 @@ class AcceptRideRequestData {
     this.rideId,
     this.rideOfferId,
     this.rideRequestId,
-    this.receiverId,
+    this.user,
     this.status,
     this.startTime,
     this.endTime,
@@ -100,4 +101,7 @@ class AcceptRideRequestData {
       value != null
           ? AcceptRideRequestVehicle.fromJson(jsonDecode(value))
           : null;
+
+  static AcceptRideRequestUser? _userFromJson(String? value) =>
+      value != null ? AcceptRideRequestUser.fromJson(jsonDecode(value)) : null;
 }

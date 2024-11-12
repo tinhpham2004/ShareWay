@@ -95,7 +95,7 @@ class HitchRideRecommendationOuput {
     );
   }
 
-    factory HitchRideRecommendationOuput.fromAcceptRideRequest(
+  factory HitchRideRecommendationOuput.fromAcceptRideRequest(
       AcceptRideRequestData data) {
     return HitchRideRecommendationOuput(
       giveRideId: data.rideOfferId,
@@ -118,7 +118,9 @@ class HitchRideRecommendationOuput {
       vehicleId: data.vehicle?.vehicleId,
       rideId: data.rideId,
       user: AppUser(
-        id: data.receiverId,
+        id: data.user?.id,
+        fullName: data.user?.fullName,
+        phoneNumber: data.user?.phoneNumber,
       ),
     );
   }
