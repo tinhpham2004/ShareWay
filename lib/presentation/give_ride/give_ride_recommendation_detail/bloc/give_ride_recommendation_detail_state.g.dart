@@ -20,6 +20,11 @@ abstract class _$GiveRideRecommendationDetailStateCWProxy {
 
   GiveRideRecommendationDetailState user(AppUser? user);
 
+  GiveRideRecommendationDetailState riderLocation(Geocode? riderLocation);
+
+  GiveRideRecommendationDetailState userPointAnnotationManager(
+      PointAnnotationManager? userPointAnnotationManager);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -33,6 +38,8 @@ abstract class _$GiveRideRecommendationDetailStateCWProxy {
     HitchRideRecommendationOuput? hitchRideRecommendationOuput,
     List<List<double>>? coordinates,
     AppUser? user,
+    Geocode? riderLocation,
+    PointAnnotationManager? userPointAnnotationManager,
   });
 }
 
@@ -69,6 +76,15 @@ class _$GiveRideRecommendationDetailStateCWProxyImpl
   GiveRideRecommendationDetailState user(AppUser? user) => this(user: user);
 
   @override
+  GiveRideRecommendationDetailState riderLocation(Geocode? riderLocation) =>
+      this(riderLocation: riderLocation);
+
+  @override
+  GiveRideRecommendationDetailState userPointAnnotationManager(
+          PointAnnotationManager? userPointAnnotationManager) =>
+      this(userPointAnnotationManager: userPointAnnotationManager);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -83,6 +99,8 @@ class _$GiveRideRecommendationDetailStateCWProxyImpl
     Object? hitchRideRecommendationOuput = const $CopyWithPlaceholder(),
     Object? coordinates = const $CopyWithPlaceholder(),
     Object? user = const $CopyWithPlaceholder(),
+    Object? riderLocation = const $CopyWithPlaceholder(),
+    Object? userPointAnnotationManager = const $CopyWithPlaceholder(),
   }) {
     return GiveRideRecommendationDetailState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -111,6 +129,15 @@ class _$GiveRideRecommendationDetailStateCWProxyImpl
           ? _value.user
           // ignore: cast_nullable_to_non_nullable
           : user as AppUser?,
+      riderLocation: riderLocation == const $CopyWithPlaceholder()
+          ? _value.riderLocation
+          // ignore: cast_nullable_to_non_nullable
+          : riderLocation as Geocode?,
+      userPointAnnotationManager:
+          userPointAnnotationManager == const $CopyWithPlaceholder()
+              ? _value.userPointAnnotationManager
+              // ignore: cast_nullable_to_non_nullable
+              : userPointAnnotationManager as PointAnnotationManager?,
     );
   }
 }

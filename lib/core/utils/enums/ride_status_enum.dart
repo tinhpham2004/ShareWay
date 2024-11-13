@@ -9,7 +9,7 @@ enum RideStatusEnum {
   COMPLETED,
   CANCELLED;
 
-  String? get getPrimaryButtonTitle {
+  String? get getGiveRidePrimaryButtonTitle {
     switch (this) {
       case RideStatusEnum.CREATED:
         return 'Mời đi cùng';
@@ -30,7 +30,7 @@ enum RideStatusEnum {
     }
   }
 
-  String? get getSecondaryButtonTitle {
+  String? get getGiveRideSecondaryButtonTitle {
     switch (this) {
       case RideStatusEnum.CREATED:
         return null;
@@ -51,9 +51,51 @@ enum RideStatusEnum {
     }
   }
 
+  String? get getHitchRidePrimaryButtonTitle {
+    switch (this) {
+      case RideStatusEnum.CREATED:
+        return 'Mời đi cùng';
+      case RideStatusEnum.RECEIVING:
+        return 'Đồng ý';
+      case RideStatusEnum.SENDING:
+        return 'Gỡ lời mời';
+      case RideStatusEnum.ACCEPTED:
+        return 'Hủy chuyến';
+      case RideStatusEnum.ONGOING:
+        return 'Hủy chuyến';
+      case RideStatusEnum.COMPLETED:
+        return null;
+      case RideStatusEnum.CANCELLED:
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  String? get getHitchRideSecondaryButtonTitle {
+    switch (this) {
+      case RideStatusEnum.CREATED:
+        return null;
+      case RideStatusEnum.RECEIVING:
+        return 'Từ chối';
+      case RideStatusEnum.SENDING:
+        return null;
+      case RideStatusEnum.ACCEPTED:
+        return null;
+      case RideStatusEnum.ONGOING:
+        return null;
+      case RideStatusEnum.COMPLETED:
+        return null;
+      case RideStatusEnum.CANCELLED:
+        return null;
+      default:
+        return null;
+    }
+  }
+
   double get getDiffHeight {
-    if (getPrimaryButtonTitle != null) {
-      if (getSecondaryButtonTitle != null) {
+    if (getGiveRidePrimaryButtonTitle != null) {
+      if (getGiveRideSecondaryButtonTitle != null) {
         return 0.1.sh;
       } else {
         return 0.0;

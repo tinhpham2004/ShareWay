@@ -72,11 +72,12 @@ class NewGiveRideRequestData {
     this.fare,
   });
 
-  factory NewGiveRideRequestData.fromJson(Map<String, dynamic> json) => _$NewGiveRideRequestDataFromJson(json);
+  factory NewGiveRideRequestData.fromJson(Map<String, dynamic> json) =>
+      _$NewGiveRideRequestDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewGiveRideRequestDataToJson(this);
 
-    static double? _doubleFromString(String? value) =>
+  static double? _doubleFromString(String? value) =>
       value != null ? double.tryParse(value) : null;
 
   static int? _intFromString(String? value) =>
@@ -85,9 +86,8 @@ class NewGiveRideRequestData {
   static DateTime? _dateTimeFromString(String? value) =>
       value != null ? DateTime.tryParse(value) : null;
 
-  static NewGiveRideRequestUser? _userFromJson(String? value) => value != null
-      ? NewGiveRideRequestUser.fromJson(jsonDecode(value))
-      : null;
+  static NewGiveRideRequestUser? _userFromJson(String? value) =>
+      value != null ? NewGiveRideRequestUser.fromJson(jsonDecode(value)) : null;
 
   static NewGiveRideRequestVehicle? _vehicleFromJson(String? value) =>
       value != null

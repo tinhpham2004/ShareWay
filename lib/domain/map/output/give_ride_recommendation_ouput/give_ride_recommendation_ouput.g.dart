@@ -31,6 +31,8 @@ abstract class _$GiveRideRecommendationOuputCWProxy {
 
   GiveRideRecommendationOuput hitchRideId(String? hitchRideId);
 
+  GiveRideRecommendationOuput rideId(String? rideId);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -50,6 +52,7 @@ abstract class _$GiveRideRecommendationOuputCWProxy {
     AppUser? user,
     GetVehicleOuput? vehicle,
     String? hitchRideId,
+    String? rideId,
   });
 }
 
@@ -107,6 +110,9 @@ class _$GiveRideRecommendationOuputCWProxyImpl
       this(hitchRideId: hitchRideId);
 
   @override
+  GiveRideRecommendationOuput rideId(String? rideId) => this(rideId: rideId);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -127,6 +133,7 @@ class _$GiveRideRecommendationOuputCWProxyImpl
     Object? user = const $CopyWithPlaceholder(),
     Object? vehicle = const $CopyWithPlaceholder(),
     Object? hitchRideId = const $CopyWithPlaceholder(),
+    Object? rideId = const $CopyWithPlaceholder(),
   }) {
     return GiveRideRecommendationOuput(
       giveRideId: giveRideId == const $CopyWithPlaceholder()
@@ -177,6 +184,10 @@ class _$GiveRideRecommendationOuputCWProxyImpl
           ? _value.hitchRideId
           // ignore: cast_nullable_to_non_nullable
           : hitchRideId as String?,
+      rideId: rideId == const $CopyWithPlaceholder()
+          ? _value.rideId
+          // ignore: cast_nullable_to_non_nullable
+          : rideId as String?,
     );
   }
 }

@@ -27,6 +27,8 @@ class GiveRideRecommendationDetailState {
           }
         ]
       };
+  final Geocode? riderLocation;
+  final PointAnnotationManager? userPointAnnotationManager;
 
   GiveRideRecommendationDetailState({
     this.isLoading = false,
@@ -35,5 +37,7 @@ class GiveRideRecommendationDetailState {
     this.hitchRideRecommendationOuput,
     this.coordinates = const [],
     this.user,
+    this.riderLocation,
+    this.userPointAnnotationManager,
   });
 }

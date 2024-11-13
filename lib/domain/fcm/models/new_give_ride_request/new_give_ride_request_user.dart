@@ -10,7 +10,8 @@ class NewGiveRideRequestUser {
 
   NewGiveRideRequestUser({this.id, this.phoneNumber, this.fullName});
 
-  factory NewGiveRideRequestUser.fromJson(Map<String, dynamic> json) => _$NewGiveRideRequestUserFromJson(json);
+  factory NewGiveRideRequestUser.fromJson(Map<String, dynamic> json) =>
+      _$NewGiveRideRequestUserFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewGiveRideRequestUserToJson(this);
 }

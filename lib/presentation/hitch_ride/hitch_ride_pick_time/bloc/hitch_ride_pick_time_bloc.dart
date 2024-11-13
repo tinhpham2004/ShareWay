@@ -68,7 +68,8 @@ class HitchRidePickTimeBloc extends Cubit<HitchRidePickTimeState> {
         return;
       }
 
-      GoRouter.of(context).push(AppPath.hitchRideReccomendation, extra: response);
+      GoRouter.of(context)
+          .push(AppPath.hitchRideReccomendation, extra: response);
     } catch (e) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     } finally {

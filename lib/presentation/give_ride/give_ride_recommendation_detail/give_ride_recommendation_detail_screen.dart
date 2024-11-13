@@ -213,26 +213,27 @@ class GiveRideRecommendationDetailScreenState
   Widget _buildContinueButton(GiveRideRecommendationDetailState state) {
     return Column(
       children: [
-        if (state.hitchRideRecommendationOuput?.status.getPrimaryButtonTitle !=
+        if (state.hitchRideRecommendationOuput?.status
+                .getGiveRidePrimaryButtonTitle !=
             null)
           Row(
             children: [
               AppButton(
-                title: state
-                    .hitchRideRecommendationOuput?.status.getPrimaryButtonTitle,
+                title: state.hitchRideRecommendationOuput?.status
+                    .getGiveRidePrimaryButtonTitle,
                 onPressed: () => bloc.onPrimaryButton(context),
               ),
             ],
           ),
-        if (state
-                .hitchRideRecommendationOuput?.status.getSecondaryButtonTitle !=
+        if (state.hitchRideRecommendationOuput?.status
+                .getGiveRideSecondaryButtonTitle !=
             null) ...[
           spaceH12,
           Row(
             children: [
               AppButton(
                 title: state.hitchRideRecommendationOuput?.status
-                    .getSecondaryButtonTitle,
+                    .getGiveRideSecondaryButtonTitle,
                 backgroundColor: AppColor.primary100,
                 textColor: AppColor.primaryColor,
                 onPressed: () => bloc.onSecondaryButton(context),

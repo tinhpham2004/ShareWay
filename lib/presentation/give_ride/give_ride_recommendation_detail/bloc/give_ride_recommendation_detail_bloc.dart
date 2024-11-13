@@ -11,6 +11,7 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/fcm/models/update_ride_location/update_ride_location_data.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';
@@ -18,16 +19,35 @@ import 'package:share_way_frontend/domain/ride/input/matched_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
 import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
+import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
 class GiveRideRecommendationDetailBloc
     extends Cubit<GiveRideRecommendationDetailState> {
-  GiveRideRecommendationDetailBloc()
-      : super(GiveRideRecommendationDetailState());
-
   final _rideRepository = RideRepository();
+  late WebSocketRepository _webSocketRepository;
+
+  GiveRideRecommendationDetailBloc()
+      : super(GiveRideRecommendationDetailState()) {
+    _webSocketRepository = WebSocketRepository(
+      onUpdateRideLocation: onUpdateRiderLocation,
+    );
+  }
+
+  void onUpdateRiderLocation(UpdateRideLocationData data) {
+    if (data.riderCurrentLatitude == null ||
+        data.riderCurrentLongitude == null) {
+      return;
+    }
+    emit(state.copyWith(
+      riderLocation: Geocode(
+        latitude: data.riderCurrentLatitude!,
+        longitude: data.riderCurrentLongitude!,
+      ),
+    ));
+  }
 
   void onStart(HitchRideRecommendationOuput data) {
     emit(state.copyWith(
@@ -41,11 +61,6 @@ class GiveRideRecommendationDetailBloc
     } finally {
       emit(state.copyWith(isLoading: false));
     }
-  }
-
-  void _handleWebSocketEvent(Map<String, dynamic> event) {
-    // Xử lý event từ WebSocket
-    print('This is event: $event');
   }
 
   void onBack(BuildContext context) {
@@ -353,6 +368,7 @@ class GiveRideRecommendationDetailBloc
         ),
       ));
       showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
+      state.userPointAnnotationManager?.deleteAll();
     }
   }
 
@@ -374,6 +390,11 @@ class GiveRideRecommendationDetailBloc
         ),
       ));
       showSuccessSnackbar(context, 'Đã bắt đầu chuyến đi');
+      _webSocketRepository.connect();
+      final userPointAnnotationManager =
+          await state.mapboxMap?.annotations.createPointAnnotationManager();
+      emit(state.copyWith(
+          userPointAnnotationManager: userPointAnnotationManager));
       Timer.periodic(Duration(seconds: 3), (timer) {
         if (state.hitchRideRecommendationOuput?.status ==
             RideStatusEnum.ONGOING) {
@@ -393,6 +414,8 @@ class GiveRideRecommendationDetailBloc
       currentLocation: state.currentLocation,
     );
     final response = await _rideRepository.updateRideLocation(input);
+    updateLocationMarks();
+    state.userPointAnnotationManager?.deleteAll();
   }
 
   void onEndRide(BuildContext context) async {
@@ -413,9 +436,11 @@ class GiveRideRecommendationDetailBloc
         ),
       ));
       showSuccessSnackbar(context, 'Đã kết thúc chuyến đi');
+      _webSocketRepository.dispose();
       GoRouter.of(context).go(AppPath.giveRideComplete);
     }
   }
+
 
   void onUpdateLocation() async {
     Location location = Location();
@@ -427,6 +452,39 @@ class GiveRideRecommendationDetailBloc
       );
       emit(state.copyWith(currentLocation: geocode));
       await Preferences.saveCurrentLocation(geocode);
+    }
+  }
+
+  void updateLocationMarks() async {
+    try {
+      // Load the images (you can do this once and store the image data)
+      final ByteData driverBytes =
+          await rootBundle.load(Assets.images.realtimeCurrentLocationMark.path);
+      final Uint8List driverImageData = driverBytes.buffer.asUint8List();
+      final ByteData riderBytes =
+          await rootBundle.load(Assets.images.exampleAvatar.path);
+      final Uint8List riderImageData = riderBytes.buffer.asUint8List();
+
+      // Update driver location
+      PointAnnotationOptions driverAnnotationOptions = PointAnnotationOptions(
+          geometry: Point(
+              coordinates: Position(state.currentLocation!.longitude,
+                  state.currentLocation!.latitude)),
+          image: driverImageData,
+          iconSize: 2.0);
+      state.userPointAnnotationManager?.create(driverAnnotationOptions);
+
+      // Update rider location
+      PointAnnotationOptions riderAnnotationOptions = PointAnnotationOptions(
+          geometry: Point(
+              coordinates: Position(state.riderLocation!.longitude,
+                  state.riderLocation!.latitude)),
+          image: riderImageData,
+          iconSize: 2.0);
+      state.userPointAnnotationManager?.create(riderAnnotationOptions);
+    } catch (e) {
+      // Handle error
+      print('Error updating location marks: $e');
     }
   }
 }

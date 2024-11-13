@@ -1,6 +1,8 @@
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/cancel_ride_request/cancel_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_hitch_ride_request/new_hitch_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/update_ride_location/update_ride_location_data.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -9,21 +11,24 @@ import 'dart:convert';
 class WebSocketRepository {
   late WebSocketChannel _channel;
   final String _wsUrl = 'ws://shareway.hungnq.online/ws';
+  
 
-  // final void Function(NewGiveRideRequestData)? onNewGiveRideRequest;
+  final void Function(NewGiveRideRequestData)? onNewGiveRideRequest;
   final void Function(NewHitchRideRequestData)? onNewHitchRideRequest;
   final void Function(AcceptRideRequestData)? onAcceptGiveRideRequest;
   final void Function(AcceptRideRequestData)? onAcceptHitchRideRequest;
   final void Function(CancelRideRequestData)? onCancelGiveRideRequest;
   final void Function(CancelRideRequestData)? onCancelHitchRideRequest;
+  final void Function(UpdateRideLocationData)? onUpdateRideLocation;
 
   WebSocketRepository({
-    // this.onNewGiveRideRequest,
+    this.onNewGiveRideRequest,
     this.onNewHitchRideRequest,
     this.onAcceptGiveRideRequest,
     this.onAcceptHitchRideRequest,
     this.onCancelGiveRideRequest,
     this.onCancelHitchRideRequest,
+    this.onUpdateRideLocation,
   });
 
   void connect() async {
@@ -40,10 +45,10 @@ class WebSocketRepository {
     final data = model['data'];
     switch (type) {
       case 'new-give-ride-request':
-        // if (onNewGiveRideRequest != null) {
-        //   final newGiveRideRequestData = NewGiveRideRequestData.fromJson(data);
-        //   onNewGiveRideRequest!(newGiveRideRequestData);
-        // }
+        if (onNewGiveRideRequest != null) {
+          final newGiveRideRequestData = NewGiveRideRequestData.fromJson(data);
+          onNewGiveRideRequest!(newGiveRideRequestData);
+        }
         break;
       case 'new-hitch-ride-request':
         if (onNewHitchRideRequest != null) {
@@ -74,6 +79,12 @@ class WebSocketRepository {
         if (onCancelHitchRideRequest != null) {
           final cancelRideRequestData = CancelRideRequestData.fromJson(data);
           onCancelHitchRideRequest!(cancelRideRequestData);
+        }
+        break;
+      case 'update-ride-location':
+        if (onUpdateRideLocation != null) {
+          final updateRideLocationData = UpdateRideLocationData.fromJson(data);
+          onUpdateRideLocation!(updateRideLocationData);
         }
         break;
       default:
