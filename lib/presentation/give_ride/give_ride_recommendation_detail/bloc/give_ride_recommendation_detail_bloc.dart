@@ -441,7 +441,6 @@ class GiveRideRecommendationDetailBloc
     }
   }
 
-
   void onUpdateLocation() async {
     Location location = Location();
     final currentLocation = await location.getLocation();

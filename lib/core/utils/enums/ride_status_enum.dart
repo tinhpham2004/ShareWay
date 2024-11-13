@@ -93,10 +93,22 @@ enum RideStatusEnum {
     }
   }
 
-  double get getDiffHeight {
+  double get getGiveRideDiffHeight {
     if (getGiveRidePrimaryButtonTitle != null) {
       if (getGiveRideSecondaryButtonTitle != null) {
         return 0.1.sh;
+      } else {
+        return 0.0;
+      }
+    } else {
+      return -0.1.sh;
+    }
+  }
+
+  double get getHitchRideDiffHeight {
+    if (getHitchRidePrimaryButtonTitle != null) {
+      if (getHitchRideSecondaryButtonTitle != null) {
+        return 0.15.sh;
       } else {
         return 0.0;
       }

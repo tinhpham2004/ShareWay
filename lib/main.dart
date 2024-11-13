@@ -121,7 +121,7 @@ void _handleNewGiveRideRequest(NotificationResponse message) {
     const initialRoute = AppPath.hitchRideReccomendationDetail;
     final extra = GiveRideRecommendationOuput.fromNewGiveRideRequest(
             newGiveRideRequest.data ?? NewGiveRideRequestData())
-        .copyWith();
+        .copyWith(status: RideStatusEnum.RECEIVING);
     navigatorKey.currentContext!.go(initialRoute, extra: extra);
   }
 }
@@ -146,7 +146,8 @@ void _handleAcceptedGiveRideRequest(NotificationResponse message) {
   if (acceptRideRequest.data != null) {
     const initialRoute = AppPath.hitchRideReccomendationDetail;
     final extra = GiveRideRecommendationOuput.fromAcceptRideRequest(
-        acceptRideRequest.data ?? AcceptRideRequestData());
+            acceptRideRequest.data ?? AcceptRideRequestData())
+        .copyWith(status: RideStatusEnum.ACCEPTED);
     navigatorKey.currentContext!.go(initialRoute, extra: extra);
   }
 }

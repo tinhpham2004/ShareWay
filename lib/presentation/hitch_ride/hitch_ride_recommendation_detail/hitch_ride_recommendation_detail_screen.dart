@@ -103,7 +103,8 @@ class HitchRideRecommendationDetailScreenState
         HitchRideRecommendationDetailState>(
       builder: (context, state) {
         return AppBottomSheet(
-          height: 0.45.sh,
+          height: 0.45.sh +
+              state.giveRideRecommendationOuput!.status.getHitchRideDiffHeight,
           draggableScrollableController: _draggableScrollableController,
           isExpanded: _isExpanded,
           body: [
@@ -137,7 +138,7 @@ class HitchRideRecommendationDetailScreenState
                 _buildDivider(),
               ],
             ),
-            _buildContinueButton(),
+            _buildContinueButton(state),
           ],
         );
       },
@@ -250,14 +251,37 @@ class HitchRideRecommendationDetailScreenState
     );
   }
 
-  Widget _buildContinueButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildContinueButton(HitchRideRecommendationDetailState state) {
+    return Column(
       children: [
-        AppButton(
-          title: 'Đặt xe',
-          onPressed: () => bloc.onSendHitchRide(context),
-        ),
+        if (state.giveRideRecommendationOuput?.status
+                .getHitchRidePrimaryButtonTitle !=
+            null)
+          Row(
+            children: [
+              AppButton(
+                title: state.giveRideRecommendationOuput?.status
+                    .getHitchRidePrimaryButtonTitle,
+                onPressed: () => bloc.onPrimaryButton(context),
+              ),
+            ],
+          ),
+        if (state.giveRideRecommendationOuput?.status
+                .getHitchRideSecondaryButtonTitle !=
+            null) ...[
+          spaceH12,
+          Row(
+            children: [
+              AppButton(
+                title: state.giveRideRecommendationOuput?.status
+                    .getHitchRideSecondaryButtonTitle,
+                backgroundColor: AppColor.primary100,
+                textColor: AppColor.primaryColor,
+                onPressed: () => bloc.onSecondaryButton(context),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

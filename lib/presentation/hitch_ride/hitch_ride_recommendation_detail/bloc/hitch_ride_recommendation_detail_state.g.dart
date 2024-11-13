@@ -21,6 +21,9 @@ abstract class _$HitchRideRecommendationDetailStateCWProxy {
 
   HitchRideRecommendationDetailState user(AppUser? user);
 
+  HitchRideRecommendationDetailState userPointAnnotationManager(
+      PointAnnotationManager? userPointAnnotationManager);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -34,6 +37,7 @@ abstract class _$HitchRideRecommendationDetailStateCWProxy {
     GiveRideRecommendationOuput? giveRideRecommendationOuput,
     List<List<double>>? coordinates,
     AppUser? user,
+    PointAnnotationManager? userPointAnnotationManager,
   });
 }
 
@@ -71,6 +75,11 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
   HitchRideRecommendationDetailState user(AppUser? user) => this(user: user);
 
   @override
+  HitchRideRecommendationDetailState userPointAnnotationManager(
+          PointAnnotationManager? userPointAnnotationManager) =>
+      this(userPointAnnotationManager: userPointAnnotationManager);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -85,6 +94,7 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
     Object? giveRideRecommendationOuput = const $CopyWithPlaceholder(),
     Object? coordinates = const $CopyWithPlaceholder(),
     Object? user = const $CopyWithPlaceholder(),
+    Object? userPointAnnotationManager = const $CopyWithPlaceholder(),
   }) {
     return HitchRideRecommendationDetailState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -113,6 +123,11 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
           ? _value.user
           // ignore: cast_nullable_to_non_nullable
           : user as AppUser?,
+      userPointAnnotationManager:
+          userPointAnnotationManager == const $CopyWithPlaceholder()
+              ? _value.userPointAnnotationManager
+              // ignore: cast_nullable_to_non_nullable
+              : userPointAnnotationManager as PointAnnotationManager?,
     );
   }
 }

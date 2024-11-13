@@ -25,6 +25,7 @@ class HitchRideRecommendationDetailState {
           }
         ]
       };
+  final PointAnnotationManager? userPointAnnotationManager;
 
   HitchRideRecommendationDetailState({
     this.isLoading = false,
@@ -33,5 +34,6 @@ class HitchRideRecommendationDetailState {
     this.giveRideRecommendationOuput,
     this.coordinates = const [],
     this.user,
+    this.userPointAnnotationManager,
   });
 }

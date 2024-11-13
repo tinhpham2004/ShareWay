@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/data/api/map/response/suggest_give_riders_response/suggest_give_riders_ride_offer_response.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request_data.dart';
@@ -22,6 +23,7 @@ class GiveRideRecommendationOuput {
   final GetVehicleOuput? vehicle;
   final String? hitchRideId;
   final String? rideId;
+  final RideStatusEnum status;
 
   GiveRideRecommendationOuput({
     this.giveRideId,
@@ -37,6 +39,7 @@ class GiveRideRecommendationOuput {
     this.vehicle,
     this.hitchRideId,
     this.rideId,
+    this.status = RideStatusEnum.CREATED,
   });
 
   factory GiveRideRecommendationOuput.fromApiModel(
@@ -140,6 +143,7 @@ class GiveRideRecommendationOuput {
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
       ),
+      fare: data.fare,
     );
   }
 }
