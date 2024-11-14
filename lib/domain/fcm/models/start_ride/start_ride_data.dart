@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'update_ride_location_transaction.dart';
-import 'update_ride_location_vehicle.dart';
+import 'start_ride_transaction.dart';
+import 'start_ride_vehicle.dart';
 
-part 'update_ride_location_data.g.dart';
+part 'start_ride_data.g.dart';
 
 @JsonSerializable()
-class UpdateRideLocationData {
+class StartRideData {
   @JsonKey(name: 'ride_id')
   String? rideId;
   @JsonKey(name: 'ride_offer_id')
@@ -29,7 +29,7 @@ class UpdateRideLocationData {
   String? encodedPolyline;
   double? distance;
   int? duration;
-  UpdateRideLocationTransaction? transaction;
+  StartRideTransaction? transaction;
   @JsonKey(name: 'driver_current_latitude')
   double? driverCurrentLatitude;
   @JsonKey(name: 'driver_current_longitude')
@@ -46,9 +46,9 @@ class UpdateRideLocationData {
   double? endLatitude;
   @JsonKey(name: 'end_longitude')
   double? endLongitude;
-  UpdateRideLocationVehicle? vehicle;
+  StartRidevehicle? vehicle;
 
-  UpdateRideLocationData({
+  StartRideData({
     this.rideId,
     this.rideOfferId,
     this.rideRequestId,
@@ -74,8 +74,8 @@ class UpdateRideLocationData {
     this.vehicle,
   });
 
-  factory UpdateRideLocationData.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRideLocationDataFromJson(json);
+  factory StartRideData.fromJson(Map<String, dynamic> json) =>
+      _$StartRideDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UpdateRideLocationDataToJson(this);
+  Map<String, dynamic> toJson() => _$StartRideDataToJson(this);
 }

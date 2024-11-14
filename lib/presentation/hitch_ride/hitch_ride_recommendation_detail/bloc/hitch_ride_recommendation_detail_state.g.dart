@@ -24,6 +24,8 @@ abstract class _$HitchRideRecommendationDetailStateCWProxy {
   HitchRideRecommendationDetailState userPointAnnotationManager(
       PointAnnotationManager? userPointAnnotationManager);
 
+  HitchRideRecommendationDetailState driverLocation(Geocode? driverLocation);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -38,6 +40,7 @@ abstract class _$HitchRideRecommendationDetailStateCWProxy {
     List<List<double>>? coordinates,
     AppUser? user,
     PointAnnotationManager? userPointAnnotationManager,
+    Geocode? driverLocation,
   });
 }
 
@@ -80,6 +83,10 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
       this(userPointAnnotationManager: userPointAnnotationManager);
 
   @override
+  HitchRideRecommendationDetailState driverLocation(Geocode? driverLocation) =>
+      this(driverLocation: driverLocation);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -95,6 +102,7 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
     Object? coordinates = const $CopyWithPlaceholder(),
     Object? user = const $CopyWithPlaceholder(),
     Object? userPointAnnotationManager = const $CopyWithPlaceholder(),
+    Object? driverLocation = const $CopyWithPlaceholder(),
   }) {
     return HitchRideRecommendationDetailState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -128,6 +136,10 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
               ? _value.userPointAnnotationManager
               // ignore: cast_nullable_to_non_nullable
               : userPointAnnotationManager as PointAnnotationManager?,
+      driverLocation: driverLocation == const $CopyWithPlaceholder()
+          ? _value.driverLocation
+          // ignore: cast_nullable_to_non_nullable
+          : driverLocation as Geocode?,
     );
   }
 }

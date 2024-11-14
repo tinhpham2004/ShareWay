@@ -11,6 +11,9 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/cancel_ride_request/cancel_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/new_hitch_ride_request/new_hitch_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/update_ride_location/update_ride_location_data.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
@@ -33,7 +36,34 @@ class GiveRideRecommendationDetailBloc
       : super(GiveRideRecommendationDetailState()) {
     _webSocketRepository = WebSocketRepository(
       onUpdateRideLocation: onUpdateRiderLocation,
+      onNewHitchRideRequest: onNewHitchRideRequest,
+      onAcceptGiveRideRequest: onAcceptGiveRideRequest,
+      onCancelGiveRideRequest: onCancelGiveRideRequest,
     );
+    _webSocketRepository.connect();
+  }
+
+  void onNewHitchRideRequest(NewHitchRideRequestData data) {
+    emit(state.copyWith(
+      hitchRideRecommendationOuput:
+          HitchRideRecommendationOuput.fromNewHitchRideRequest(data)
+              .copyWith(status: RideStatusEnum.RECEIVING),
+    ));
+  }
+
+  void onAcceptGiveRideRequest(AcceptRideRequestData data) {
+    emit(state.copyWith(
+      hitchRideRecommendationOuput:
+          HitchRideRecommendationOuput.fromAcceptRideRequest(data)
+              .copyWith(status: RideStatusEnum.ACCEPTED),
+    ));
+  }
+
+  void onCancelGiveRideRequest(CancelRideRequestData data) {
+    emit(state.copyWith(
+      hitchRideRecommendationOuput: state.hitchRideRecommendationOuput
+          ?.copyWith(status: RideStatusEnum.CANCELLED),
+    ));
   }
 
   void onUpdateRiderLocation(UpdateRideLocationData data) {
@@ -390,7 +420,6 @@ class GiveRideRecommendationDetailBloc
         ),
       ));
       showSuccessSnackbar(context, 'Đã bắt đầu chuyến đi');
-      _webSocketRepository.connect();
       final userPointAnnotationManager =
           await state.mapboxMap?.annotations.createPointAnnotationManager();
       emit(state.copyWith(

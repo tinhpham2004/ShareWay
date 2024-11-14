@@ -47,8 +47,6 @@ class RideService {
   }
 
   Future<bool> cancelHitchRide(RideRequest request) async {
-    final tinh = jsonEncode(request.toJson());
-    print(tinh);
     final response = await _service.post(
       RideApi.cancelHitchRideRequest,
       data: request.toJson(),

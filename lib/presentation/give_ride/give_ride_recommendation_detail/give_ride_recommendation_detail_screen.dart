@@ -103,8 +103,8 @@ class GiveRideRecommendationDetailScreenState
         GiveRideRecommendationDetailState>(
       builder: (context, state) {
         return AppBottomSheet(
-          height:
-              0.4.sh + state.hitchRideRecommendationOuput!.status.getGiveRideDiffHeight,
+          height: 0.4.sh +
+              state.hitchRideRecommendationOuput!.status.getGiveRideDiffHeight,
           draggableScrollableController: _draggableScrollableController,
           isExpanded: _isExpanded,
           body: [

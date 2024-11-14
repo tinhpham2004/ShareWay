@@ -12,21 +12,41 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/cancel_ride_request/cancel_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/end_ride/end_ride_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/start_ride/start_ride_data.dart';
+import 'package:share_way_frontend/domain/fcm/models/update_ride_location/update_ride_location_data.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
 import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
+import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
+import 'package:share_way_frontend/main.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_state.dart';
+import 'package:share_way_frontend/router/app_path.dart';
 
 class HitchRideRecommendationDetailBloc
     extends Cubit<HitchRideRecommendationDetailState> {
-  HitchRideRecommendationDetailBloc()
-      : super(HitchRideRecommendationDetailState());
-
+  late WebSocketRepository _webSocketRepository;
   final _rideRepository = RideRepository();
+
+  HitchRideRecommendationDetailBloc()
+      : super(HitchRideRecommendationDetailState()) {
+    _webSocketRepository = WebSocketRepository(
+      onStartRide: onStartRide,
+      onUpdateRideLocation: onUpdateDriverLocation,
+      onEndRide: onEndRide,
+      onNewGiveRideRequest: onNewGiveRideRequest,
+      onAcceptHitchRideRequest: onAcceptHitchRideRequest,
+      onCancelHitchRideRequest: onCancelHitchRideRequest,
+    );
+    _webSocketRepository.connect();
+  }
 
   void onStart(GiveRideRecommendationOuput data) {
     emit(state.copyWith(
@@ -40,11 +60,6 @@ class HitchRideRecommendationDetailBloc
     } finally {
       emit(state.copyWith(isLoading: false));
     }
-  }
-
-  void _handleWebSocketEvent(Map<String, dynamic> event) {
-    // Xử lý event từ WebSocket
-    print('This is event: $event');
   }
 
   void onBack(BuildContext context) {
@@ -195,7 +210,7 @@ class HitchRideRecommendationDetailBloc
     );
   }
 
-    void onPrimaryButton(BuildContext context) async {
+  void onPrimaryButton(BuildContext context) async {
     switch (state.giveRideRecommendationOuput?.status) {
       case RideStatusEnum.CREATED:
         onSendHitchRide(context);
@@ -352,5 +367,111 @@ class HitchRideRecommendationDetailBloc
       showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
       state.userPointAnnotationManager?.deleteAll();
     }
+  }
+
+  void onStartRide(StartRideData data) async {
+    final userPointAnnotationManager =
+        await state.mapboxMap?.annotations.createPointAnnotationManager();
+    emit(
+      state.copyWith(
+        userPointAnnotationManager: userPointAnnotationManager,
+        giveRideRecommendationOuput:
+            GiveRideRecommendationOuput.fromStartRide(data).copyWith(
+          user: state.giveRideRecommendationOuput?.user,
+          status: RideStatusEnum.ONGOING,
+        ),
+      ),
+    );
+  }
+
+  void onUpdateDriverLocation(UpdateRideLocationData data) {
+    if (data.riderCurrentLatitude == null ||
+        data.riderCurrentLongitude == null) {
+      return;
+    }
+    state.userPointAnnotationManager?.deleteAll();
+    emit(state.copyWith(
+      driverLocation: Geocode(
+        latitude: data.driverCurrentLatitude!,
+        longitude: data.driverCurrentLongitude!,
+      ),
+      currentLocation: Geocode(
+        latitude: data.riderCurrentLatitude!,
+        longitude: data.riderCurrentLongitude!,
+      ),
+    ));
+    updateLocationMarks();
+  }
+
+  void onEndRide(EndRideData data) {
+    emit(
+      state.copyWith(
+        giveRideRecommendationOuput:
+            GiveRideRecommendationOuput.fromEndRide(data).copyWith(
+          user: state.giveRideRecommendationOuput?.user,
+          status: RideStatusEnum.COMPLETED,
+        ),
+      ),
+    );
+    _webSocketRepository.dispose();
+    state.userPointAnnotationManager?.deleteAll();
+    navigatorKey.currentContext?.go(AppPath.hitchRideComplete);
+  }
+
+  void updateLocationMarks() async {
+    try {
+      final ByteData riderBytes =
+          await rootBundle.load(Assets.images.realtimeCurrentLocationMark.path);
+      final Uint8List driverImageData = riderBytes.buffer.asUint8List();
+      final ByteData driverBytes =
+          await rootBundle.load(Assets.images.exampleAvatar.path);
+      final Uint8List riderImageData = driverBytes.buffer.asUint8List();
+
+      PointAnnotationOptions riderAnnotationOptions = PointAnnotationOptions(
+        geometry: Point(
+            coordinates: Position(state.driverLocation!.longitude,
+                state.driverLocation!.latitude)),
+        image: driverImageData,
+        iconSize: 2.0,
+      );
+      state.userPointAnnotationManager?.create(riderAnnotationOptions);
+
+      PointAnnotationOptions driverAnnotationOptions = PointAnnotationOptions(
+        geometry: Point(
+            coordinates: Position(state.currentLocation!.longitude,
+                state.currentLocation!.latitude)),
+        image: riderImageData,
+        iconSize: 2.0,
+      );
+      state.userPointAnnotationManager?.create(driverAnnotationOptions);
+    } catch (e) {
+      // Handle error
+      print('Error updating location marks: $e');
+    }
+  }
+
+  void onNewGiveRideRequest(NewGiveRideRequestData data) {
+    emit(state.copyWith(
+      giveRideRecommendationOuput:
+          GiveRideRecommendationOuput.fromNewGiveRideRequest(data).copyWith(
+        status: RideStatusEnum.RECEIVING,
+      ),
+    ));
+  }
+
+  void onAcceptHitchRideRequest(AcceptRideRequestData data) {
+    emit(state.copyWith(
+      giveRideRecommendationOuput:
+          GiveRideRecommendationOuput.fromAcceptRideRequest(data)
+              .copyWith(status: RideStatusEnum.ACCEPTED),
+    ));
+  }
+
+  void onCancelHitchRideRequest(CancelRideRequestData data) {
+    emit(state.copyWith(
+      giveRideRecommendationOuput: state.giveRideRecommendationOuput?.copyWith(
+        status: RideStatusEnum.CANCELLED,
+      ),
+    ));
   }
 }

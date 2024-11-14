@@ -26,6 +26,7 @@ class HitchRideRecommendationDetailState {
         ]
       };
   final PointAnnotationManager? userPointAnnotationManager;
+  final Geocode? driverLocation;
 
   HitchRideRecommendationDetailState({
     this.isLoading = false,
@@ -35,5 +36,6 @@ class HitchRideRecommendationDetailState {
     this.coordinates = const [],
     this.user,
     this.userPointAnnotationManager,
+    this.driverLocation,
   });
 }
