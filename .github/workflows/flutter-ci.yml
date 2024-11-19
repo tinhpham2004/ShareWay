@@ -11,15 +11,17 @@ on:
 jobs:
   build-android:
     name: Build Android
-    runs-on: ubuntu-latest
+    runs-on: self-hosted # Use self-hosted runner for Android
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
       
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 'stable'
+        run: |
+          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.13.6-stable.tar.xz
+          tar -xf flutter_linux_3.13.6-stable.tar.xz
+          export PATH="$PATH:pwd/flutter/bin"
+          flutter doctor -v
       
       - name: Install Dependencies
         run: flutter pub get
@@ -35,30 +37,3 @@ jobs:
         with:
           name: Android-APK
           path: build/app/outputs/flutter-apk/app-release.apk
-
-  build-ios:
-    name: Build iOS
-    runs-on: macos-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 'stable'
-      
-      - name: Install Dependencies
-        run: flutter pub get
-      
-      - name: Run Build Runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs
-
-      - name: Build iOS App
-        run: flutter build ios --no-codesign
-      
-      - name: Upload iOS Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: iOS-App
-          path: build/ios/ipa
