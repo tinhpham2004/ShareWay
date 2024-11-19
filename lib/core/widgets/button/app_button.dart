@@ -13,6 +13,8 @@ class AppButton extends StatelessWidget {
   final BoxShape shape;
   final Widget? icon;
   final EdgeInsetsGeometry? padding;
+  final bool isMargin;
+  final bool isBorder;
   final int flex;
 
   AppButton({
@@ -26,7 +28,9 @@ class AppButton extends StatelessWidget {
     this.shape = BoxShape.rectangle,
     this.icon,
     this.padding,
+    this.isMargin = false,
     this.flex = 1,
+    this.isBorder = true,
   });
 
   @override
@@ -37,6 +41,9 @@ class AppButton extends StatelessWidget {
         onTap: isEnabled ? onPressed : null,
         child: Container(
           padding: padding ?? EdgeInsets.symmetric(vertical: 16.h),
+          margin: isMargin
+              ? EdgeInsets.symmetric(horizontal: 16.w)
+              : EdgeInsets.zero,
           decoration: shape == BoxShape.rectangle
               ? BoxDecoration(
                   color: isEnabled
@@ -49,9 +56,11 @@ class AppButton extends StatelessWidget {
                   color: isEnabled
                       ? backgroundColor ?? AppColor.primaryColor
                       : AppColor.secondary200,
-                  border: Border.all(
-                    color: AppColor.secondary300,
-                  ),
+                  border: isBorder
+                      ? Border.all(
+                          color: AppColor.secondary300,
+                        )
+                      : null,
                 ),
           child: icon ??
               Text(

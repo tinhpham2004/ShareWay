@@ -35,7 +35,6 @@ class GiveRideRecommendationBloc extends Cubit<GiveRideRecommendationState> {
         state.createGiveRideOutput?.giveRideId ?? '');
 
     if (response == null) {
-      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
       return;
     }
 

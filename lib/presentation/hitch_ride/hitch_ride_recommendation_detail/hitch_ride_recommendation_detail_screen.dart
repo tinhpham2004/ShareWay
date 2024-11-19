@@ -6,6 +6,7 @@ import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/date_time.dart';
+import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
@@ -171,15 +172,25 @@ class HitchRideRecommendationDetailScreenState
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Flexible(
-                child: Text(
-                  '${state.giveRideRecommendationOuput?.fare?.toString()}đ',
-                  style: textTheme.titleSmall!.copyWith(
-                    color: AppColor.primaryColor,
-                    overflow: TextOverflow.ellipsis,
+              if (state.giveRideRecommendationOuput?.status ==
+                  RideStatusEnum.ACCEPTED)
+                Row(
+                  children: [
+                    AppIcon.rideCall,
+                    spaceW8,
+                    AppIcon.rideChat,
+                  ],
+                )
+              else
+                Flexible(
+                  child: Text(
+                    '${state.giveRideRecommendationOuput?.fare?.toString()}đ',
+                    style: textTheme.titleSmall!.copyWith(
+                      color: AppColor.primaryColor,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           subtitle: Row(
@@ -194,18 +205,74 @@ class HitchRideRecommendationDetailScreenState
                   ),
                 ),
               ),
-              Flexible(
-                child: Text(
-                  '${state.giveRideRecommendationOuput?.vehicle?.name}',
-                  style: textTheme.bodyMedium!.copyWith(
-                    color: AppColor.secondaryColor,
-                    overflow: TextOverflow.ellipsis,
+              if (state.giveRideRecommendationOuput?.status !=
+                  RideStatusEnum.ACCEPTED)
+                Flexible(
+                  child: Text(
+                    '${state.giveRideRecommendationOuput?.vehicle?.name}',
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: AppColor.secondaryColor,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
+        if (state.giveRideRecommendationOuput?.status ==
+            RideStatusEnum.ACCEPTED)
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Giá tiền',
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: AppColor.secondaryColor,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        '${state.giveRideRecommendationOuput?.fare?.toString()}đ',
+                        style: textTheme.titleSmall,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Thông tin xe',
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: AppColor.secondaryColor,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        '${state.giveRideRecommendationOuput?.vehicle?.name}',
+                        style: textTheme.titleSmall,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         _buildDivider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,6 +330,7 @@ class HitchRideRecommendationDetailScreenState
                 title: state.giveRideRecommendationOuput?.status
                     .getHitchRidePrimaryButtonTitle,
                 onPressed: () => bloc.onPrimaryButton(context),
+                isMargin: true,
               ),
             ],
           ),
@@ -278,6 +346,7 @@ class HitchRideRecommendationDetailScreenState
                 backgroundColor: AppColor.primary100,
                 textColor: AppColor.primaryColor,
                 onPressed: () => bloc.onSecondaryButton(context),
+                isMargin: true,
               ),
             ],
           ),

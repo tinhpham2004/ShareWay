@@ -21,6 +21,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/activity.svg
   SvgGenImage get activity => const SvgGenImage('assets/icons/activity.svg');
 
+  /// File path: assets/icons/audio_call.svg
+  SvgGenImage get audioCall => const SvgGenImage('assets/icons/audio_call.svg');
+
+  /// File path: assets/icons/audio_call_message.svg
+  SvgGenImage get audioCallMessage =>
+      const SvgGenImage('assets/icons/audio_call_message.svg');
+
   /// File path: assets/icons/back_to_current_location.svg
   SvgGenImage get backToCurrentLocation =>
       const SvgGenImage('assets/icons/back_to_current_location.svg');
@@ -64,6 +71,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/map_button.svg
   SvgGenImage get mapButton => const SvgGenImage('assets/icons/map_button.svg');
 
+  /// File path: assets/icons/missed_audio_call_message.svg
+  SvgGenImage get missedAudioCallMessage =>
+      const SvgGenImage('assets/icons/missed_audio_call_message.svg');
+
   /// File path: assets/icons/money.svg
   SvgGenImage get money => const SvgGenImage('assets/icons/money.svg');
 
@@ -86,6 +97,9 @@ class $AssetsIconsGen {
   SvgGenImage get onboardingPerson =>
       const SvgGenImage('assets/icons/onboarding_person.svg');
 
+  /// File path: assets/icons/pick_image.svg
+  SvgGenImage get pickImage => const SvgGenImage('assets/icons/pick_image.svg');
+
   /// File path: assets/icons/realtime_current_location_mark.svg
   SvgGenImage get realtimeCurrentLocationMark =>
       const SvgGenImage('assets/icons/realtime_current_location_mark.svg');
@@ -93,6 +107,16 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ride_calendar.svg
   SvgGenImage get rideCalendar =>
       const SvgGenImage('assets/icons/ride_calendar.svg');
+
+  /// File path: assets/icons/ride_call.svg
+  SvgGenImage get rideCall => const SvgGenImage('assets/icons/ride_call.svg');
+
+  /// File path: assets/icons/ride_chat.svg
+  SvgGenImage get rideChat => const SvgGenImage('assets/icons/ride_chat.svg');
+
+  /// File path: assets/icons/send_message.svg
+  SvgGenImage get sendMessage =>
+      const SvgGenImage('assets/icons/send_message.svg');
 
   /// File path: assets/icons/shield_check.svg
   SvgGenImage get shieldCheck =>
@@ -106,6 +130,8 @@ class $AssetsIconsGen {
   List<SvgGenImage> get values => [
         account,
         activity,
+        audioCall,
+        audioCallMessage,
         backToCurrentLocation,
         chat,
         clearData,
@@ -118,14 +144,19 @@ class $AssetsIconsGen {
         home,
         homeNotification,
         mapButton,
+        missedAudioCallMessage,
         money,
         motorbike,
         onboardingCall,
         onboardingChat,
         onboardingLocationMark,
         onboardingPerson,
+        pickImage,
         realtimeCurrentLocationMark,
         rideCalendar,
+        rideCall,
+        rideChat,
+        sendMessage,
         shieldCheck,
         swapLocation
       ];

@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
           routerConfig: widget.router,
           builder: (context, widget) {
             ScreenUtil.init(context);
-            return SafeArea(child: widget!);
+            return widget!;
           },
         );
       },

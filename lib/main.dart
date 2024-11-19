@@ -18,7 +18,6 @@ import 'package:share_way_frontend/domain/fcm/notification_repository.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
-import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/user/user_repository.dart';
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
@@ -39,14 +38,14 @@ Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initNotification();
-  initializeWebSocket();
+  // initializeWebSocket();
   initializeMapbox();
   await onUpdateCurrentLocation();
 }
 
 Future<GoRouter> initializeRouter() async {
   GoRouter router = AppRouter(navigatorKey).router;
-  String initialRoute = AppPath.onboarding;
+  String initialRoute = AppPath.chatRooms;
   dynamic extra;
 
   // final refreshToken = await Preferences.getRefreshToken();

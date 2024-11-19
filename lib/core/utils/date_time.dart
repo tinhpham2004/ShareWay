@@ -6,6 +6,15 @@ extension FormatDate on DateTime {
   String format({String? locale, required String pattern}) {
     return DateFormat(pattern, locale).format(this);
   }
+
+  bool isSameDay(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+
+  bool isToday() {
+    final now = DateTime.now();
+    return isSameDay(now);
+  }
 }
 
 const dd_mm_yyyy = 'dd/MM/yyyy';
@@ -21,3 +30,4 @@ const yyyy_mm = 'yyyy-MM';
 const EEEE_dd_MM_yyyy = 'EEEE, $dd_mm_yyyy';
 const EEEE_hh_mm_dd_MM_yyyy = 'EEEE, HH:mm - $dd_mm_yyyy';
 const hh_mm = 'HH:mm';
+const hh_mm_a = 'hh:mm a';

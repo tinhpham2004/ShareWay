@@ -11,30 +11,30 @@ import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
-import 'package:share_way_frontend/presentation/chat/bloc/chat_list_bloc.dart';
-import 'package:share_way_frontend/presentation/chat/bloc/chat_list_state.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_state.dart';
 
-class ChatListScreen extends StatefulWidget {
-  const ChatListScreen({super.key});
+class ChatRoomsScreen extends StatefulWidget {
+  const ChatRoomsScreen({super.key});
 
   @override
-  State<ChatListScreen> createState() => _ChatListScreenState();
+  State<ChatRoomsScreen> createState() => _ChatRoomsScreenState();
 }
 
-class _ChatListScreenState extends State<ChatListScreen> {
-  late ChatListBloc bloc;
+class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
+  late ChatRoomsBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    bloc = ChatListBloc();
+    bloc = ChatRoomsBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(),
-      child: BlocBuilder<ChatListBloc, ChatListState>(
+      child: BlocBuilder<ChatRoomsBloc, ChatRoomsState>(
         builder: (context, state) {
           return Scaffold(
             appBar: Appbar(
@@ -74,6 +74,12 @@ class _ChatListScreenState extends State<ChatListScreen> {
                             ),
                             borderRadius: BorderRadius.circular(10.r),
                           ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: AppColor.secondary300,
+                            ),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: AppColor.primaryColor,
@@ -96,13 +102,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
                         ),
                         child: ListView.separated(
                           shrinkWrap: true,
-                          itemCount: state.chatList.length,
+                          itemCount: state.chatRooms.length,
                           separatorBuilder: (context, index) => spaceH8,
                           itemBuilder: (context, index) {
-                            final item = state.chatList[index];
+                            final item = state.chatRooms[index];
                             return InkWell(
-                              // onTap: () => bloc.onSelectedHitcher(
-                              //     context: context, index: index),
+                              onTap: () => bloc.onSelectChat(
+                                  context: context, index: index),
                               child: Container(
                                 padding: EdgeInsets.all(8.w),
                                 margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -112,41 +118,22 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 child: ListTile(
-                                  leading: Stack(
-                                    alignment: Alignment.bottomRight,
-                                    children: [
-                                      Assets.images.exampleAvatar.image(),
-                                      Container(
-                                        height: 10.r,
-                                        width: 10.r,
-                                        decoration: BoxDecoration(
-                                          color: item.isOnline ?? false
-                                              ? AppColor.success
-                                              : AppColor.secondary300,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: AppColor.white,
-                                            width: 2.w,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  leading: Assets.images.exampleAvatar.image(),
                                   title: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          item.name ?? '',
+                                          item.receiver?.fullName ?? '',
                                           style: textTheme.titleSmall,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Flexible(
                                         child: Text(
-                                          item.time?.format(
-                                                  pattern: dd_mm_yyyy) ??
+                                          item.lastMessageAt
+                                                  ?.format(pattern: hh_mm_a) ??
                                               '',
                                           style: textTheme.bodyMedium!.copyWith(
                                             color: AppColor.secondaryColor,

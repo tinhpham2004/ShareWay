@@ -29,7 +29,6 @@ class HitchRideRecommendationBloc extends Cubit<HitchRideRecommendationState> {
         .getGiveRideRecommendationList(state.hitchRideId ?? '');
 
     if (response == null) {
-      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
       return;
     }
 

@@ -102,25 +102,46 @@ class _HitchRideRecommendationScreenState
                   ),
                   child: ListTile(
                     leading: Assets.images.exampleAvatar.image(),
-                    title: Text(
-                      item.user?.fullName ?? '',
-                      style: textTheme.titleSmall,
-                    ),
-                    subtitle: Text(
-                      '${item.distance}km - ${item.duration} phút',
-                      style: textTheme.bodyMedium!
-                          .copyWith(color: AppColor.secondary400),
-                    ),
-                    trailing: Column(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          item.fare != null ? '${item.fare}đ' : '',
-                          style: textTheme.titleSmall!.copyWith(
-                            color: AppColor.primaryColor,
+                        Flexible(
+                          child: Text(
+                            item.user?.fullName ?? '',
+                            style: textTheme.titleSmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            item.fare != null ? '${item.fare}đ' : '',
+                            style: textTheme.titleSmall!.copyWith(
+                              color: AppColor.primaryColor,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
+                    subtitle: Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            '${item.distance}km - ${item.duration} phút',
+                            style: textTheme.bodyMedium!
+                                .copyWith(color: AppColor.secondary400),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // trailing: Text(
+                    //   item.fare != null ? '${item.fare}đ' : '',
+                    //   style: textTheme.titleSmall!.copyWith(
+                    //     color: AppColor.primaryColor,
+                    //   ),
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
                   ),
                 ),
               );

@@ -9,6 +9,7 @@ import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 
 class Appbar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final Widget? titleWidget;
   final Color? titleColor;
   final VoidCallback? onBack;
   final List<Widget>? actions;
@@ -16,6 +17,7 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
   Appbar(
       {super.key,
       this.title,
+      this.titleWidget,
       this.onBack,
       this.actions,
       this.backgroundColor,
@@ -45,12 +47,13 @@ class Appbar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       centerTitle: true,
-      title: Text(
-        title ?? '',
-        style: textTheme.titleMedium!.copyWith(
-          color: titleColor ?? AppColor.primaryText,
-        ),
-      ),
+      title: titleWidget ??
+          Text(
+            title ?? '',
+            style: textTheme.titleMedium!.copyWith(
+              color: titleColor ?? AppColor.primaryText,
+            ),
+          ),
       actions: actions,
     );
   }

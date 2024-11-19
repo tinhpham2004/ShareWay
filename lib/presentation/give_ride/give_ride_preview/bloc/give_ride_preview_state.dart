@@ -24,9 +24,7 @@ class GiveRidePreviewState {
 
   String get fareString {
     final fare = createGiveRideOutput?.fare.toString() ?? '0';
-    final formattedFare = fare.replaceAllMapped(
-        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.');
-    return '$formattedFaređ';
+    return '$faređ';
   }
 
   final AppUser? user;

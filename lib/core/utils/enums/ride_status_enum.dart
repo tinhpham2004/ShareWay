@@ -106,9 +106,12 @@ enum RideStatusEnum {
   }
 
   double get getHitchRideDiffHeight {
+    if (this == RideStatusEnum.ACCEPTED) {
+      return 0.07.sh;
+    }
     if (getHitchRidePrimaryButtonTitle != null) {
       if (getHitchRideSecondaryButtonTitle != null) {
-        return 0.15.sh;
+        return 0.11.sh;
       } else {
         return 0.0;
       }

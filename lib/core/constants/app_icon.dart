@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
@@ -52,17 +54,17 @@ class AppIcon {
     color: AppColor.primaryColor,
     size: size + 12.sp,
   );
-  static Icon time = Icon(
+  static Icon time = const Icon(
     Icons.access_time,
     color: AppColor.primaryColor,
   );
 
-  static Icon rideClock = Icon(
+  static Icon rideClock = const Icon(
     Icons.access_time_filled_rounded,
     color: AppColor.primaryColor,
   );
 
-  static Icon search = Icon(
+  static Icon search = const Icon(
     Icons.search,
     color: AppColor.primaryColor,
   );
@@ -72,4 +74,14 @@ class AppIcon {
   static Widget money = Assets.icons.money.svg();
   static Widget giveRideComplete = Assets.icons.giveRideComplete.svg();
   static Widget hitchRideComplete = Assets.icons.hitchRideComplete.svg();
+  static Widget audioCall = Assets.icons.audioCall.svg();
+  static Widget audioCallMessage = Assets.icons.audioCallMessage.svg();
+  static Widget missedAudioCallMessage =
+      Assets.icons.missedAudioCallMessage.svg();
+  static Widget pickImage = Assets.icons.pickImage.svg(
+    fit: BoxFit.scaleDown,
+  );
+  static Widget sendMessage = Assets.icons.sendMessage.svg();
+  static Widget rideCall = Assets.icons.rideCall.svg();
+  static Widget rideChat = Assets.icons.rideChat.svg();
 }

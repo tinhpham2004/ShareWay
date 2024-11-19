@@ -11,7 +11,9 @@ import 'package:share_way_frontend/presentation/account/sub_screens/vehicle/mana
 import 'package:share_way_frontend/presentation/activity/activity_screen.dart';
 import 'package:share_way_frontend/presentation/auth/models/auth_data.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/take_photo_id_card_screen.dart';
-import 'package:share_way_frontend/presentation/chat/chat_list_screen.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
+import 'package:share_way_frontend/presentation/chat/chat_rooms_screen.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail_screen.dart';
 import 'package:share_way_frontend/presentation/error/error_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_complete/give_ride_complete_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_location/give_ride_pick_location_screen.dart';
@@ -99,9 +101,16 @@ class AppRouter {
               },
             ),
             GoRoute(
-              path: AppPath.chatList,
+              path: AppPath.chatRooms,
               builder: (context, state) {
-                return const ChatListScreen();
+                return const ChatRoomsScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.chatDetail,
+              builder: (context, state) {
+                final chatRoomsBloc = state.extra as ChatRoomsBloc;
+                return ChatDetailScreen(chatRoomsBloc: chatRoomsBloc);
               },
             ),
             GoRoute(

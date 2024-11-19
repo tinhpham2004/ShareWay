@@ -171,6 +171,15 @@ class GiveRideRecommendationDetailScreenState
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (state.hitchRideRecommendationOuput?.status ==
+                  RideStatusEnum.ACCEPTED)
+                Row(
+                  children: [
+                    AppIcon.rideCall,
+                    spaceW8,
+                    AppIcon.rideChat,
+                  ],
+                ),
               // Flexible(
               //   child: Text(
               //     state.fareString,
@@ -222,6 +231,7 @@ class GiveRideRecommendationDetailScreenState
                 title: state.hitchRideRecommendationOuput?.status
                     .getGiveRidePrimaryButtonTitle,
                 onPressed: () => bloc.onPrimaryButton(context),
+                isMargin: true,
               ),
             ],
           ),
@@ -237,6 +247,7 @@ class GiveRideRecommendationDetailScreenState
                 backgroundColor: AppColor.primary100,
                 textColor: AppColor.primaryColor,
                 onPressed: () => bloc.onSecondaryButton(context),
+                isMargin: true,
               ),
             ],
           ),

@@ -74,7 +74,8 @@ class EndRideData {
     this.vehicle,
   });
 
-  factory EndRideData.fromJson(Map<String, dynamic> json) => _$EndRideDataFromJson(json);
+  factory EndRideData.fromJson(Map<String, dynamic> json) =>
+      _$EndRideDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$EndRideDataToJson(this);
 }

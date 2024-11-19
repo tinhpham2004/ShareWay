@@ -8,7 +8,7 @@ class ApiService {
   late Dio _dio;
 
   // Base URL of your API
-  final String _baseUrl = 'https://shareway.hungnq.online';
+  final String _baseUrl = 'https://lokcet.xyz';
   static const kAccessToken = 'Authorization';
 
   ApiService() {

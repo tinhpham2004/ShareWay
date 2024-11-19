@@ -13,7 +13,7 @@ import 'dart:convert';
 
 class WebSocketRepository {
   late WebSocketChannel _channel;
-  final String _wsUrl = 'ws://shareway.hungnq.online/ws';
+  final String _wsUrl = 'ws://lokcet.xyz/ws';
 
   final void Function(NewGiveRideRequestData)? onNewGiveRideRequest;
   final void Function(NewHitchRideRequestData)? onNewHitchRideRequest;

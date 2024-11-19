@@ -47,3 +47,10 @@ class RideApi {
   static const endRide = "/ride/end-ride";
   static const cancelRide = "/ride/cancel-ride";
 }
+
+class ChatApi {
+  static const getChatRooms = "/chat/get-chat-rooms";
+  static const getChatMessages = "/chat/get-chat-messages";
+  static const sendMessage = "/chat/send-message";
+  static const sendImage = "/chat/send-image";
+}
