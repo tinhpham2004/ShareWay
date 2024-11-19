@@ -13,6 +13,8 @@ abstract class _$ChatRoomsStateCWProxy {
 
   ChatRoomsState selectedChat(ChatRoomsOutput? selectedChat);
 
+  ChatRoomsState assets(List<File> assets);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChatRoomsState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -23,6 +25,7 @@ abstract class _$ChatRoomsStateCWProxy {
     bool? isLoading,
     List<ChatRoomsOutput>? chatRooms,
     ChatRoomsOutput? selectedChat,
+    List<File>? assets,
   });
 }
 
@@ -44,6 +47,9 @@ class _$ChatRoomsStateCWProxyImpl implements _$ChatRoomsStateCWProxy {
       this(selectedChat: selectedChat);
 
   @override
+  ChatRoomsState assets(List<File> assets) => this(assets: assets);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChatRoomsState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -55,6 +61,7 @@ class _$ChatRoomsStateCWProxyImpl implements _$ChatRoomsStateCWProxy {
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? chatRooms = const $CopyWithPlaceholder(),
     Object? selectedChat = const $CopyWithPlaceholder(),
+    Object? assets = const $CopyWithPlaceholder(),
   }) {
     return ChatRoomsState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -69,6 +76,10 @@ class _$ChatRoomsStateCWProxyImpl implements _$ChatRoomsStateCWProxy {
           ? _value.selectedChat
           // ignore: cast_nullable_to_non_nullable
           : selectedChat as ChatRoomsOutput?,
+      assets: assets == const $CopyWithPlaceholder() || assets == null
+          ? _value.assets
+          // ignore: cast_nullable_to_non_nullable
+          : assets as List<File>,
     );
   }
 }

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
@@ -355,6 +358,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     borderRadius: BorderRadius.circular(30.r),
                                   ),
                                   suffixIcon: InkWell(
+                                    onTap: () => showImagePicker(),
                                     child: AppIcon.pickImage,
                                   ),
                                 ),
@@ -381,6 +385,122 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           );
         },
       ),
+    );
+  }
+
+  Future<void> showImagePicker() async {
+    bloc.chatRoomsBloc.onFetchAssets();
+    List<File> assets = List<File>.from(bloc.chatRoomsBloc.state.assets);
+
+    showModalBottomSheet(
+      backgroundColor: AppColor.white,
+      context: context,
+      isScrollControlled: true,
+      barrierColor: AppColor.transparent,
+      builder: (BuildContext context) {
+        return BlocProvider.value(
+          value: bloc,
+          child: BlocBuilder<ChatDetailBloc, ChatDetailState>(
+            builder: (context, state) {
+              return Container(
+                height: 0.5.sh,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(16.w),
+                      decoration: BoxDecoration(
+                        color: AppColor.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.r),
+                          topRight: Radius.circular(20.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColor.c_403A3A3A,
+                            offset: Offset(4.w, 4.h),
+                            blurRadius: 70.r,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Tất cả ảnh',
+                            style: textTheme.titleMedium,
+                          ),
+                          InkWell(
+                            onTap: () => bloc.onSendImage(context),
+                            child: Text(
+                              'Gửi',
+                              style: textTheme.titleSmall!.copyWith(
+                                color: AppColor.primaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 2,
+                          mainAxisSpacing: 2,
+                        ),
+                        itemCount: assets.length,
+                        itemBuilder: (context, index) {
+                          final asset = assets[index];
+                          return InkWell(
+                            onTap: () => bloc.onSelectImage(
+                                asset == state.selectedImage ? null : asset),
+                            child: Stack(
+                              children: [
+                                Positioned.fill(
+                                  child: Image.file(
+                                    asset,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 8.h,
+                                  right: 8.w,
+                                  child: Container(
+                                    width: 24.w,
+                                    height: 24.h,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: state.selectedImage == asset
+                                          ? AppColor.primaryColor
+                                          : AppColor.white,
+                                      border: Border.all(
+                                        color: state.selectedImage == asset
+                                            ? AppColor.primaryColor
+                                            : AppColor.secondary300,
+                                        width: 2.w,
+                                      ),
+                                    ),
+                                    child: state.selectedImage == asset
+                                        ? AppIcon.check
+                                        : null,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

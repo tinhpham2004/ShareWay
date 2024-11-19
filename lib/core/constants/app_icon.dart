@@ -84,4 +84,9 @@ class AppIcon {
   static Widget sendMessage = Assets.icons.sendMessage.svg();
   static Widget rideCall = Assets.icons.rideCall.svg();
   static Widget rideChat = Assets.icons.rideChat.svg();
+  static Widget check = Icon(
+    Icons.check,
+    size: size,
+    color: Colors.white,
+  );
 }

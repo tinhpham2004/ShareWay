@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:share_way_frontend/domain/chat/chat_repository.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_rooms_output/chat_rooms_output.dart';
@@ -19,10 +21,31 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
     emit(state.copyWith(isLoading: true));
     try {
       onFetchChatRooms();
+      onFetchAssets();
     } catch (e) {
       // TODO: Add onboarding logic
     } finally {
       emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  void onFetchAssets() async {
+    final permission = await PhotoManager.requestPermissionExtend();
+    if (permission.isAuth) {
+      final albums =
+          await PhotoManager.getAssetPathList(type: RequestType.image);
+      if (albums.isNotEmpty) {
+        final recentAlbum = albums.first;
+        final assetListRange =
+            await recentAlbum.getAssetListRange(start: 0, end: 100);
+
+        // Fetch files concurrently
+        final futures = assetListRange.map((asset) => asset.file);
+        final files = await Future.wait(futures);
+
+        final assets = files.whereType<File>().toList();
+        emit(state.copyWith(assets: assets));
+      }
     }
   }
 

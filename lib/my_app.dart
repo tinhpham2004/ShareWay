@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
-import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 
 class MyApp extends StatefulWidget {
   final GoRouter router;

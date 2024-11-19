@@ -13,6 +13,8 @@ abstract class _$ChatDetailStateCWProxy {
 
   ChatDetailState messageController(TextEditingController? messageController);
 
+  ChatDetailState selectedImage(File? selectedImage);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChatDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -23,6 +25,7 @@ abstract class _$ChatDetailStateCWProxy {
     bool? isLoading,
     List<ChatMessageOutput>? messages,
     TextEditingController? messageController,
+    File? selectedImage,
   });
 }
 
@@ -44,6 +47,10 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
       this(messageController: messageController);
 
   @override
+  ChatDetailState selectedImage(File? selectedImage) =>
+      this(selectedImage: selectedImage);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChatDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -55,6 +62,7 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? messages = const $CopyWithPlaceholder(),
     Object? messageController = const $CopyWithPlaceholder(),
+    Object? selectedImage = const $CopyWithPlaceholder(),
   }) {
     return ChatDetailState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -69,6 +77,10 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
           ? _value.messageController
           // ignore: cast_nullable_to_non_nullable
           : messageController as TextEditingController?,
+      selectedImage: selectedImage == const $CopyWithPlaceholder()
+          ? _value.selectedImage
+          // ignore: cast_nullable_to_non_nullable
+          : selectedImage as File?,
     );
   }
 }
