@@ -11,7 +11,7 @@ on:
 jobs:
   build-android:
     name: Build Android
-    runs-on: self-hosted # Use self-hosted runner for Android
+    runs-on: self-hosted
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -26,8 +26,16 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
       
+      - name: Cache Build Runner
+        uses: actions/cache@v3
+        with:
+          path: .dart_tool/build
+          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-runner-
+      
       - name: Run Build Runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+        run: flutter pub run build_runner build --delete-conflicting-outputs --low-resources-mode
 
       - name: Build Android APK
         run: flutter build apk --release
@@ -37,3 +45,4 @@ jobs:
         with:
           name: Android-APK-${{ github.run_number }}
           path: build/app/outputs/flutter-apk/app-release.apk
+
