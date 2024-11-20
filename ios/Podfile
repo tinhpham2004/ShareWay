@@ -1,13 +1,16 @@
 platform :ios, '12.0'
 
+# Disable input/output paths for CocoaPods (required for CI/CD setups)
+install! 'cocoapods', :disable_input_output_paths => true
+
 # Uncomment the next line if you're using Swift
 # use_frameworks!
 
 target 'Runner' do
-  # Flutter's generated Podfile contents
+  # Use frameworks for Swift compatibility
   use_frameworks!
-  # Add this line to include Flutter's iOS dependencies
-  install! 'cocoapods', :disable_input_output_paths => true
+  
+  # Flutter's generated Podfile dependencies
   flutter_application_path = File.join(File.dirname(File.realpath(__FILE__)), '..')
   load File.join(flutter_application_path, '.flutter-plugins')
   load File.join(flutter_application_path, '.flutter-plugins-dependencies')
