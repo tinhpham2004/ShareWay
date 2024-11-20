@@ -11,26 +11,16 @@ on:
 jobs:
   build-android:
     name: Build Android
-    runs-on: self-hosted
+    runs-on: self-hosted # Use self-hosted runner for Android
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
       
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-flutter-
-      
       - name: Set up Flutter
         run: |
-          # Download Flutter 3.4.4 to match your project environment
-          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.4.4-stable.tar.xz
-          tar -xf flutter_linux_3.4.4-stable.tar.xz
-          export PATH="$PATH:`pwd`/flutter/bin"
-          flutter --version
+          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.13.6-stable.tar.xz
+          tar -xf flutter_linux_3.13.6-stable.tar.xz
+          export PATH="$PATH:pwd/flutter/bin"
           flutter doctor -v
 
       
