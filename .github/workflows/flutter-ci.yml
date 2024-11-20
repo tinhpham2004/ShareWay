@@ -16,15 +16,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       
-      - name: Set up Flutter (Correct Version)
+      - name: Set up Flutter
         run: |
-          # Install the correct Flutter version matching your Dart SDK version requirement
-          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.4.4-stable.tar.xz
-          tar -xf flutter_linux_3.4.4-stable.tar.xz
-          export PATH="$PATH:$(pwd)/flutter/bin"
-          flutter doctor -v
+          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.0-stable.tar.xz
+          tar -xf flutter_linux_3.19.0-stable.tar.xz
+          export PATH="$PATH:`pwd`/flutter/bin"
+          # Update Dart SDK
+          flutter upgrade
           flutter --version
-
+          flutter doctor -v
+      
       - name: Install Dependencies
         run: flutter pub get
       
