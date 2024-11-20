@@ -75,10 +75,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-runner-
 
+      - name: Setup Ruby and CocoaPods
+        run: |
+          sudo gem update --system
+          sudo gem install cocoapods -v 1.16.1
+          pod repo remove trunk
+          pod setup
+
       - name: Install CocoaPods Dependencies
         run: |
           cd ios
-          pod install --repo-update
+          rm -rf Pods/
+          rm -rf Podfile.lock
+          flutter clean
+          flutter pub get
+          pod install --repo-update || (rm -rf Pods/ Podfile.lock && pod install --repo-update)
           cd ..
 
       - name: Build iOS App
