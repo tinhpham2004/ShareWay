@@ -22,9 +22,6 @@ jobs:
           tar -xf flutter_linux_3.24.5-stable.tar.xz
           echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
 
-      - name: Verify Flutter Installation
-        run: flutter doctor -v
-
       - name: Install Dependencies
         run: flutter pub get
 
