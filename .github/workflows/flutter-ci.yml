@@ -11,20 +11,28 @@ on:
 jobs:
   build-android:
     name: Build Android
-    runs-on: self-hosted # Use self-hosted runner for Android
+    runs-on: self-hosted
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
       
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+      
       - name: Set up Flutter
         run: |
-          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.0-stable.tar.xz
-          tar -xf flutter_linux_3.19.0-stable.tar.xz
+          # Download Flutter 3.4.4 to match your project environment
+          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.4.4-stable.tar.xz
+          tar -xf flutter_linux_3.4.4-stable.tar.xz
           export PATH="$PATH:`pwd`/flutter/bin"
-          # Update Dart SDK
-          flutter upgrade
           flutter --version
           flutter doctor -v
+
       
       - name: Install Dependencies
         run: flutter pub get
@@ -38,5 +46,5 @@ jobs:
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Android-APK
+          name: Android-APK-${{ github.run_number }}
           path: build/app/outputs/flutter-apk/app-release.apk
