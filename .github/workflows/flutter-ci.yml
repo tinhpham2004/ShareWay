@@ -3,7 +3,7 @@ name: Flutter CI/CD
 on:
   push:
     branches:
-      - main # Trigger on pushes to the main branch
+      - main
   pull_request:
     branches:
       - main
