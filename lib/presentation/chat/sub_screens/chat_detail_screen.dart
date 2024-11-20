@@ -242,35 +242,42 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                                       Radius.circular(10.r),
                                                 ),
                                               ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  item.messageType.getIcon(),
-                                                  SizedBox(width: 8.w),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
+                                              child: item.messageType ==
+                                                      MessageTypeEnum.IMAGE
+                                                  ? Image.network(
+                                                      item.message ?? '')
+                                                  : Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
                                                         item.messageType
-                                                            .getMessageTitle(),
-                                                        style: textTheme
-                                                            .titleSmall,
-                                                      ),
-                                                      Text(
-                                                        item.message ?? '',
-                                                        style: textTheme
-                                                            .bodyMedium!
-                                                            .copyWith(
-                                                          color: AppColor
-                                                              .secondary300,
+                                                            .getIcon(),
+                                                        SizedBox(width: 8.w),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              item.messageType
+                                                                  .getMessageTitle(),
+                                                              style: textTheme
+                                                                  .titleSmall,
+                                                            ),
+                                                            Text(
+                                                              item.message ??
+                                                                  '',
+                                                              style: textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(
+                                                                color: AppColor
+                                                                    .secondary300,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                      ],
+                                                    ),
                                             ),
                                       Padding(
                                         padding: EdgeInsets.only(

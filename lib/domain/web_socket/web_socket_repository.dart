@@ -1,6 +1,7 @@
+import 'package:share_way_frontend/data/api/chat/response/get_chat_messages_response/message_response.dart';
+import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/cancel_ride_request/cancel_ride_request_data.dart';
-import 'package:share_way_frontend/domain/fcm/models/end_ride/end_ride.dart';
 import 'package:share_way_frontend/domain/fcm/models/end_ride/end_ride_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_hitch_ride_request/new_hitch_ride_request_data.dart';
@@ -24,6 +25,9 @@ class WebSocketRepository {
   final void Function(UpdateRideLocationData)? onUpdateRideLocation;
   final void Function(StartRideData)? onStartRide;
   final void Function(EndRideData)? onEndRide;
+  final void Function(ChatMessageOutput)? onNewTextMessage;
+  final void Function(ChatMessageOutput)? onNewImageMessage;
+
 
   WebSocketRepository({
     this.onNewGiveRideRequest,
@@ -35,6 +39,8 @@ class WebSocketRepository {
     this.onUpdateRideLocation,
     this.onStartRide,
     this.onEndRide,
+    this.onNewTextMessage,
+    this.onNewImageMessage,
   });
 
   void connect() async {
@@ -103,6 +109,20 @@ class WebSocketRepository {
         if (onEndRide != null) {
           final endRide = EndRideData.fromJson(data);
           onEndRide!(endRide);
+        }
+        break;
+      case 'new-text-message':
+        if (onNewTextMessage != null) {
+          final response = MessageResponse.fromJson(data);
+          final message = ChatMessageOutput.fromApiModel(response);
+          onNewTextMessage!(message);
+        }
+        break;
+      case 'new-image-message':
+        if (onNewImageMessage != null) {
+          final response = MessageResponse.fromJson(data);
+          final message = ChatMessageOutput.fromApiModel(response);
+          onNewImageMessage!(message);
         }
         break;
       default:

@@ -20,8 +20,8 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
   void onStart() {
     emit(state.copyWith(isLoading: true));
     try {
-      onFetchChatRooms();
       onFetchAssets();
+      onFetchChatRooms();
     } catch (e) {
       // TODO: Add onboarding logic
     } finally {

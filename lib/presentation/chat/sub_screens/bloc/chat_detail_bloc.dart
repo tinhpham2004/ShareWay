@@ -10,13 +10,22 @@ import 'package:share_way_frontend/domain/chat/chat_repository.dart';
 import 'package:share_way_frontend/domain/chat/input/send_image_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_message_input.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
+import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/bloc/chat_detail_state.dart';
 
 class ChatDetailBloc extends Cubit<ChatDetailState> {
   final ChatRoomsBloc chatRoomsBloc;
   final _chatRepository = ChatRepository();
-  ChatDetailBloc({required this.chatRoomsBloc}) : super(ChatDetailState());
+  late WebSocketRepository _webSocketRepository;
+
+  ChatDetailBloc({required this.chatRoomsBloc}) : super(ChatDetailState()) {
+    _webSocketRepository = WebSocketRepository(
+      onNewTextMessage: onReceiveMessage,
+      onNewImageMessage: onReceiveImage,
+    );
+    _webSocketRepository.connect();
+  }
 
   void onStart() {
     final messageController = TextEditingController();
@@ -96,10 +105,28 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
     messages.add(response);
 
-    chatRoomsBloc.onUpdateLastMessage(response);
+    chatRoomsBloc.onUpdateLastMessage(response.copyWith(message: 'Hình ảnh'));
 
     emit(state.copyWith(messages: messages));
 
     GoRouter.of(context).pop();
+  }
+
+  void onReceiveMessage(ChatMessageOutput message) {
+    final messages = List<ChatMessageOutput>.from(state.messages);
+    messages.add(message);
+
+    chatRoomsBloc.onUpdateLastMessage(message);
+
+    emit(state.copyWith(messages: messages));
+  }
+
+  void onReceiveImage(ChatMessageOutput message) {
+    final messages = List<ChatMessageOutput>.from(state.messages);
+    messages.add(message);
+
+    chatRoomsBloc.onUpdateLastMessage(message.copyWith(message: 'Hình ảnh'));
+
+    emit(state.copyWith(messages: messages));
   }
 }
