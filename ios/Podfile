@@ -1,4 +1,4 @@
-platform :ios, '12.0'
+platform :ios, '10.0'
 
 # Disable input/output paths for CocoaPods (required for CI/CD setups)
 install! 'cocoapods', :disable_input_output_paths => true
@@ -10,10 +10,13 @@ target 'Runner' do
   # Use frameworks for Swift compatibility
   use_frameworks!
 
-  # Flutter's generated Podfile dependencies
+  # Ensure proper Flutter setup
   flutter_application_path = File.join(File.dirname(File.realpath(__FILE__)), '..')
   
-  # Load plugin dependencies (fixing the issue)
+  # Load plugin dependencies
   load File.join(flutter_application_path, '.flutter-plugins-dependencies')
-  
+
+  # Add camera_avfoundation explicitly if needed
+  pod 'camera_avfoundation', :path => '../.pub-cache/hosted/pub.dartlang.org/camera-0.10.0/ios'
+
 end
