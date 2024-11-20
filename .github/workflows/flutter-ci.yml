@@ -18,12 +18,11 @@ jobs:
       
       - name: Set up Flutter
         run: |
-          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.13.6-stable.tar.xz
-          tar -xf flutter_linux_3.13.6-stable.tar.xz
+          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.7.1-stable.tar.xz
+          tar -xf flutter_linux_3.7.1-stable.tar.xz
           export PATH="$PATH:pwd/flutter/bin"
           flutter doctor -v
 
-      
       - name: Install Dependencies
         run: flutter pub get
       
