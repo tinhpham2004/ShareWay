@@ -9,9 +9,11 @@ install! 'cocoapods', :disable_input_output_paths => true
 target 'Runner' do
   # Use frameworks for Swift compatibility
   use_frameworks!
-  
+
   # Flutter's generated Podfile dependencies
   flutter_application_path = File.join(File.dirname(File.realpath(__FILE__)), '..')
-  load File.join(flutter_application_path, '.flutter-plugins')
+  
+  # Load plugin dependencies (fixing the issue)
   load File.join(flutter_application_path, '.flutter-plugins-dependencies')
+  
 end
