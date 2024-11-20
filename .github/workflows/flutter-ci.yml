@@ -15,13 +15,15 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-      
+
       - name: Set up Flutter
         run: |
           curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
           tar -xf flutter_linux_3.24.5-stable.tar.xz
           echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
-          flutter doctor -v
+
+      - name: Verify Flutter Installation
+        run: flutter doctor -v
 
       - name: Install Dependencies
         run: flutter pub get
