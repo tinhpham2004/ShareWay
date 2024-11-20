@@ -17,6 +17,6 @@ target 'Runner' do
   load File.join(flutter_application_path, '.flutter-plugins-dependencies')
 
   # Add camera_avfoundation explicitly if needed
-  pod 'camera_avfoundation', :path => '../.pub-cache/hosted/pub.dartlang.org/camera-0.11.0/ios'
+  pod 'camera_avfoundation', :path => '../.pub-cache/hosted/pub.dartlang.org/camera-0.10.0/ios'
 
 end

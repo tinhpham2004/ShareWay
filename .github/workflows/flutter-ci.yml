@@ -48,57 +48,57 @@ jobs:
           name: ShareWay-Android-${{ github.run_number }}
           path: build/app/outputs/flutter-apk/app-release.apk
 
-  build-ios:
-    name: Build iOS
-    runs-on: macos-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+  # build-ios:
+  #   name: Build iOS
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v3
 
-      - name: Set up Flutter
-        run: |
-          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.24.5-stable.zip
-          unzip flutter_macos_3.24.5-stable.zip
-          echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
+  #     - name: Set up Flutter
+  #       run: |
+  #         curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.24.5-stable.zip
+  #         unzip flutter_macos_3.24.5-stable.zip
+  #         echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
 
-      - name: Verify Flutter Installation
-        run: flutter doctor -v
+  #     - name: Verify Flutter Installation
+  #       run: flutter doctor -v
 
-      - name: Install Dependencies
-        run: flutter pub get
+  #     - name: Install Dependencies
+  #       run: flutter pub get
 
-      - name: Cache Build Runner
-        uses: actions/cache@v3
-        with:
-          path: .dart_tool/build
-          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-runner-
+  #     - name: Cache Build Runner
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: .dart_tool/build
+  #         key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.yaml') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-build-runner-
 
-      - name: Setup Ruby and CocoaPods
-        run: |
-          sudo gem update --system
-          sudo gem install cocoapods -v 1.16.1
-          pod repo remove trunk
-          pod setup
+  #     - name: Setup Ruby and CocoaPods
+  #       run: |
+  #         sudo gem update --system
+  #         sudo gem install cocoapods -v 1.16.1
+  #         pod repo remove trunk
+  #         pod setup
 
-      - name: Install CocoaPods Dependencies
-        run: |
-          cd ios
-          rm -rf Pods/
-          rm -rf Podfile.lock
-          flutter clean
-          flutter pub get
-          pod install --repo-update || (rm -rf Pods/ Podfile.lock && pod install --repo-update)
-          cd ..
+  #     - name: Install CocoaPods Dependencies
+  #       run: |
+  #         cd ios
+  #         rm -rf Pods/
+  #         rm -rf Podfile.lock
+  #         flutter clean
+  #         flutter pub get
+  #         pod install --repo-update || (rm -rf Pods/ Podfile.lock && pod install --repo-update)
+  #         cd ..
 
-      - name: Build iOS App
-        run: flutter build ipa --release --no-codesign
+  #     - name: Build iOS App
+  #       run: flutter build ipa --release --no-codesign
 
-      - name: Upload iOS Artifact (ShareWay)
-        uses: actions/upload-artifact@v3
-        with:
-          name: ShareWay-iOS-${{ github.run_number }}
-          path: build/ios/ipa/*.ipa
+  #     - name: Upload iOS Artifact (ShareWay)
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: ShareWay-iOS-${{ github.run_number }}
+  #         path: build/ios/ipa/*.ipa
 
 
