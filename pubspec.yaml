@@ -30,7 +30,7 @@ dependencies:
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   google_sign_in: ^6.2.1
-  camera: ^0.10.6
+  camera: ^0.11.0
   permission_handler: ^11.3.1
   image: ^4.2.0
   flutter_native_splash: ^2.4.1
@@ -71,7 +71,6 @@ flutter_native_splash:
   image: assets/images/splash.png
   android: true
   ios: true
-
 
 flutter:
   uses-material-design: true
