@@ -118,14 +118,14 @@ class AppRouter {
             GoRoute(
               path: AppPath.call,
               builder: (context, state) {
-                // final data = state.extra as InitCallOutput;
-                final data = InitCallOutput(
-                  callId: 'callId',
-                  token: 'token',
-                  roomId: 'roomId',
-                  callerId: 'callerId',
-                  receiverId: 'receiverId',
-                );
+                final data = state.extra as InitCallOutput;
+                // final data = InitCallOutput(
+                //   callId: 'callId',
+                //   token: 'token',
+                //   roomId: 'roomId',
+                //   callerId: 'callerId',
+                //   receiverId: 'receiverId',
+                // );
                 return CallScreen(data: data);
               },
             ),

@@ -27,6 +27,8 @@ abstract class _$CallStateCWProxy {
 
   CallState currentTime(Duration currentTime);
 
+  CallState videoPosition(Offset videoPosition);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CallState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -44,6 +46,7 @@ abstract class _$CallStateCWProxy {
     int? remoteUid,
     Duration? remainingWaitingTime,
     Duration? currentTime,
+    Offset? videoPosition,
   });
 }
 
@@ -86,6 +89,10 @@ class _$CallStateCWProxyImpl implements _$CallStateCWProxy {
   CallState currentTime(Duration currentTime) => this(currentTime: currentTime);
 
   @override
+  CallState videoPosition(Offset videoPosition) =>
+      this(videoPosition: videoPosition);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CallState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -104,6 +111,7 @@ class _$CallStateCWProxyImpl implements _$CallStateCWProxy {
     Object? remoteUid = const $CopyWithPlaceholder(),
     Object? remainingWaitingTime = const $CopyWithPlaceholder(),
     Object? currentTime = const $CopyWithPlaceholder(),
+    Object? videoPosition = const $CopyWithPlaceholder(),
   }) {
     return CallState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -151,6 +159,11 @@ class _$CallStateCWProxyImpl implements _$CallStateCWProxy {
               ? _value.currentTime
               // ignore: cast_nullable_to_non_nullable
               : currentTime as Duration,
+      videoPosition:
+          videoPosition == const $CopyWithPlaceholder() || videoPosition == null
+              ? _value.videoPosition
+              // ignore: cast_nullable_to_non_nullable
+              : videoPosition as Offset,
     );
   }
 }

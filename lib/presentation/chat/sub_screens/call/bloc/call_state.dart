@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:flutter/material.dart';
 
 part 'call_state.g.dart';
 
@@ -17,6 +18,7 @@ class CallState {
   final int? remoteUid;
   final Duration remainingWaitingTime;
   final Duration currentTime;
+  final Offset videoPosition;
 
   String get getCallingTime {
     final hours = currentTime.inHours.toString().padLeft(2, '0');
@@ -24,7 +26,6 @@ class CallState {
     final seconds = (currentTime.inSeconds % 60).toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
   }
-
 
   CallState({
     this.isLoading = false,
@@ -37,5 +38,6 @@ class CallState {
     this.remoteUid,
     this.remainingWaitingTime = const Duration(seconds: 60),
     this.currentTime = Duration.zero,
+    this.videoPosition = const Offset(20, 20),
   });
 }

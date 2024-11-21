@@ -7,6 +7,7 @@ import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_bloc.dart';
@@ -36,57 +37,84 @@ class _CallScreenState extends State<CallScreen> {
       create: (context) => bloc..onStart(context),
       child: BlocBuilder<CallBloc, CallState>(
         builder: (context, state) {
+          if (state.isLoading) return LoadingScreen();
           return Scaffold(
             body: Stack(
               fit: StackFit.expand,
               children: [
                 // Blurred Background
-                state.isRemoteVideoOn ? AgoraVideoView(
-                            controller: VideoViewController.remote(
-                              rtcEngine: state.rtcEngine!,
-                              canvas: VideoCanvas(uid: state.remoteUid),
-                              connection:
-                                  RtcConnection(channelId: widget.data.roomId),
-                            ),
-                          ) : BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5.w, sigmaY: 5.h),
-                  child: Container(
-                    color: AppColor.c_40D6D4D4, // Darken the blurred area
-                    child: Image.asset(
-                      Assets.images.exampleAvatar
-                          .path, // Use your profile image asset
-                      fit: BoxFit.cover,
+                if (state.isRemoteVideoOn) ...[
+                  AgoraVideoView(
+                    controller: VideoViewController.remote(
+                      rtcEngine: state.rtcEngine!,
+                      canvas: VideoCanvas(uid: state.remoteUid),
+                      connection: RtcConnection(channelId: widget.data.roomId),
                     ),
                   ),
-                ),
+                ] else ...[
+                  BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5.w, sigmaY: 5.h),
+                    child: Container(
+                      color: AppColor.c_40D6D4D4, // Darken the blurred area
+                      child: Image.asset(
+                        Assets.images.exampleAvatar
+                            .path, // Use your profile image asset
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipOval(
+                          child: Image.asset(
+                            Assets.images.exampleAvatar.path,
+                            width: 120.w,
+                            height: 120.h,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        spaceH8,
+                        Text(
+                          state.currentTime != Duration.zero
+                              ? state.getCallingTime
+                              : 'Calling...',
+                          style: textTheme.titleMedium!.copyWith(
+                            color: AppColor.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
 
                 // Centered circular profile image
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          Assets.images.exampleAvatar
-                              .path,
-                          width: 120.w,
-                          height: 120.h,
-                          fit: BoxFit.cover,
+
+                if (state.isVideoOn)
+                  Positioned(
+                    left: state.videoPosition.dx,
+                    top: state.videoPosition.dy,
+                    child: GestureDetector(
+                      onPanUpdate: (details) => bloc.onVideoDragUpdate(details),
+                      child: Container(
+                        height: 200.h,
+                        width: 150.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: AgoraVideoView(
+                          controller: VideoViewController(
+                            rtcEngine: state.rtcEngine!,
+                            canvas: VideoCanvas(
+                              uid: state.uid,
+                            ),
+                          ),
                         ),
                       ),
-                      spaceH8,
-                      Text(
-                        state.currentTime != Duration.zero
-                            ? state.getCallingTime
-                            : 'Calling...',
-                        style: textTheme.titleMedium!.copyWith(
-                          color: AppColor.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
 
                 // Call Controls at the bottom
                 Align(

@@ -14,6 +14,7 @@ import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_m
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_state.dart';
+import 'package:share_way_frontend/router/app_path.dart';
 
 class ChatDetailBloc extends Cubit<ChatDetailState> {
   final ChatRoomsBloc chatRoomsBloc;
@@ -153,6 +154,8 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
       emit(state.copyWith(isSendingCall: false));
       return;
     }
+
+    GoRouter.of(context).go(AppPath.call, extra: response);
 
     emit(state.copyWith(isSendingCall: false));
   }
