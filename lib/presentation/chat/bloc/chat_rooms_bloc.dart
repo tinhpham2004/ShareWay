@@ -18,14 +18,11 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
   final _chatRepository = ChatRepository();
 
   void onStart() {
-    emit(state.copyWith(isLoading: true));
     try {
       onFetchAssets();
       onFetchChatRooms();
     } catch (e) {
       // TODO: Add onboarding logic
-    } finally {
-      emit(state.copyWith(isLoading: false));
     }
   }
 
@@ -50,12 +47,16 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
   }
 
   void onFetchChatRooms() async {
+    emit(state.copyWith(isLoading: true));
     final userId = await Preferences.getUserId();
-    if (userId == null) return;
+    if (userId == null) {
+      emit(state.copyWith(isLoading: false));
+      return;
+    }
 
     final chatRooms = await _chatRepository.getChatRooms(userId);
     if (chatRooms != null) {
-      emit(state.copyWith(chatRooms: chatRooms));
+      emit(state.copyWith(chatRooms: chatRooms, isLoading: false));
     }
   }
 

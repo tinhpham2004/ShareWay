@@ -177,6 +177,10 @@ class $AssetsImagesGen {
   AssetGenImage get exampleAvatar =>
       const AssetGenImage('assets/images/example_avatar.png');
 
+  /// File path: assets/images/fail_to_load_image.jpg
+  AssetGenImage get failToLoadImage =>
+      const AssetGenImage('assets/images/fail_to_load_image.jpg');
+
   /// File path: assets/images/map.png
   AssetGenImage get map => const AssetGenImage('assets/images/map.png');
 
@@ -200,6 +204,7 @@ class $AssetsImagesGen {
         currentLocationMark,
         endLocationMark,
         exampleAvatar,
+        failToLoadImage,
         map,
         onboardingMan,
         realtimeCurrentLocationMark,

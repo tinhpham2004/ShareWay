@@ -28,7 +28,6 @@ class WebSocketRepository {
   final void Function(ChatMessageOutput)? onNewTextMessage;
   final void Function(ChatMessageOutput)? onNewImageMessage;
 
-
   WebSocketRepository({
     this.onNewGiveRideRequest,
     this.onNewHitchRideRequest,

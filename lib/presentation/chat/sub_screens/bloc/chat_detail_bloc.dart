@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:share_way_frontend/domain/chat/chat_repository.dart';
+import 'package:share_way_frontend/domain/chat/input/init_call_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_image_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_message_input.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
@@ -29,28 +30,30 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
   void onStart() {
     final messageController = TextEditingController();
-    emit(state.copyWith(isLoading: true, messageController: messageController));
+    emit(state.copyWith(messageController: messageController));
     try {
       onFetchChatMessages();
     } catch (e) {
       print(e);
-    } finally {
-      emit(state.copyWith(isLoading: false));
     }
   }
 
   void onFetchChatMessages() async {
+    emit(state.copyWith(isLoading: true));
     final roomId = chatRoomsBloc.state.selectedChat?.roomId;
     if (roomId == null) {
+      emit(state.copyWith(isLoading: false));
       return;
     }
+
     final response = await _chatRepository.getChatMessages(roomId);
 
     if (response == null) {
+      emit(state.copyWith(isLoading: false));
       return;
     }
 
-    emit(state.copyWith(messages: response));
+    emit(state.copyWith(messages: response, isLoading: false));
   }
 
   void onBack(BuildContext context) {
@@ -58,6 +61,10 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
   }
 
   void onSendMessage(BuildContext context) async {
+    if (state.messageController?.text.isEmpty ?? true) {
+      return;
+    }
+    emit(state.copyWith(isSendingMessage: true));
     final input = SendMessageInput(
       message: state.messageController?.text ?? '',
       roomId: chatRoomsBloc.state.selectedChat?.roomId ?? '',
@@ -68,6 +75,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
     final response = await _chatRepository.sendMessage(input);
     if (response == null) {
+      emit(state.copyWith(isSendingMessage: false));
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
       return;
     }
@@ -78,7 +86,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
     chatRoomsBloc.onUpdateLastMessage(response);
 
-    emit(state.copyWith(messages: messages));
+    emit(state.copyWith(messages: messages, isSendingMessage: false));
   }
 
   void onSelectImage(File? image) async {
@@ -86,17 +94,19 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
   }
 
   void onSendImage(BuildContext context) async {
-    if (state.selectedImage == null) {
-      showErrorSnackbar(context, 'Vui lòng chọn ảnh');
-      return;
-    }
+    emit(state.copyWith(isSendingMessage: true));
+
+    GoRouter.of(context).pop();
+
     final input = SendImageInput(
       roomId: chatRoomsBloc.state.selectedChat?.roomId ?? '',
       image: state.selectedImage!,
       receiverId: chatRoomsBloc.state.selectedChat?.receiver?.id ?? '',
     );
     final response = await _chatRepository.sendImage(input);
+
     if (response == null) {
+      emit(state.copyWith(isSendingMessage: false));
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
       return;
     }
@@ -107,9 +117,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
     chatRoomsBloc.onUpdateLastMessage(response.copyWith(message: 'Hình ảnh'));
 
-    emit(state.copyWith(messages: messages));
-
-    GoRouter.of(context).pop();
+    emit(state.copyWith(messages: messages, isSendingMessage: false));
   }
 
   void onReceiveMessage(ChatMessageOutput message) {
@@ -128,5 +136,23 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     chatRoomsBloc.onUpdateLastMessage(message.copyWith(message: 'Hình ảnh'));
 
     emit(state.copyWith(messages: messages));
+  }
+
+  void onInitCall(BuildContext context) async {
+    emit(state.copyWith(isSendingCall: true));
+    final input = InitCallInput(
+      chatRoomId: chatRoomsBloc.state.selectedChat?.roomId ?? '',
+      receiverId: chatRoomsBloc.state.selectedChat?.receiver?.id ?? '',
+    );
+
+    final response = await _chatRepository.initCall(input);
+
+    if (response == null) {
+      showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+      emit(state.copyWith(isSendingCall: false));
+      return;
+    }
+
+    emit(state.copyWith(isSendingCall: false));
   }
 }

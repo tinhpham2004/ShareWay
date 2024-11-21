@@ -9,6 +9,10 @@ part of 'chat_detail_state.dart';
 abstract class _$ChatDetailStateCWProxy {
   ChatDetailState isLoading(bool isLoading);
 
+  ChatDetailState isSendingMessage(bool isSendingMessage);
+
+  ChatDetailState isSendingCall(bool isSendingCall);
+
   ChatDetailState messages(List<ChatMessageOutput> messages);
 
   ChatDetailState messageController(TextEditingController? messageController);
@@ -23,6 +27,8 @@ abstract class _$ChatDetailStateCWProxy {
   /// ````
   ChatDetailState call({
     bool? isLoading,
+    bool? isSendingMessage,
+    bool? isSendingCall,
     List<ChatMessageOutput>? messages,
     TextEditingController? messageController,
     File? selectedImage,
@@ -37,6 +43,14 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
 
   @override
   ChatDetailState isLoading(bool isLoading) => this(isLoading: isLoading);
+
+  @override
+  ChatDetailState isSendingMessage(bool isSendingMessage) =>
+      this(isSendingMessage: isSendingMessage);
+
+  @override
+  ChatDetailState isSendingCall(bool isSendingCall) =>
+      this(isSendingCall: isSendingCall);
 
   @override
   ChatDetailState messages(List<ChatMessageOutput> messages) =>
@@ -60,6 +74,8 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
   /// ````
   ChatDetailState call({
     Object? isLoading = const $CopyWithPlaceholder(),
+    Object? isSendingMessage = const $CopyWithPlaceholder(),
+    Object? isSendingCall = const $CopyWithPlaceholder(),
     Object? messages = const $CopyWithPlaceholder(),
     Object? messageController = const $CopyWithPlaceholder(),
     Object? selectedImage = const $CopyWithPlaceholder(),
@@ -69,6 +85,16 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
           ? _value.isLoading
           // ignore: cast_nullable_to_non_nullable
           : isLoading as bool,
+      isSendingMessage: isSendingMessage == const $CopyWithPlaceholder() ||
+              isSendingMessage == null
+          ? _value.isSendingMessage
+          // ignore: cast_nullable_to_non_nullable
+          : isSendingMessage as bool,
+      isSendingCall:
+          isSendingCall == const $CopyWithPlaceholder() || isSendingCall == null
+              ? _value.isSendingCall
+              // ignore: cast_nullable_to_non_nullable
+              : isSendingCall as bool,
       messages: messages == const $CopyWithPlaceholder() || messages == null
           ? _value.messages
           // ignore: cast_nullable_to_non_nullable

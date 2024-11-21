@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:share_way_frontend/data/api/api_endpoints.dart';
 import 'package:share_way_frontend/data/api/api_service.dart';
+import 'package:share_way_frontend/data/api/chat/request/init_call_request/init_call_request.dart';
 import 'package:share_way_frontend/data/api/chat/request/send_image_request/send_image_request.dart';
 import 'package:share_way_frontend/data/api/chat/request/send_message_request/send_message_request.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_messages_response/get_chat_messages_response.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_messages_response/message_response.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_rooms_response/get_chat_rooms_response.dart';
+import 'package:share_way_frontend/data/api/chat/response/init_call_response/init_call_response.dart';
 
 class ChatService {
   final _service = ApiService();
@@ -47,6 +49,15 @@ class ChatService {
       ChatApi.sendImage,
       data: request.toFormData(),
       fromJson: (json) => MessageResponse.fromJson(json['data']),
+    );
+    return response;
+  }
+
+  Future<InitCallResponse?> initCall(InitCallRequest request) async {
+    final response = await _service.get(
+      ChatApi.initiateCall,
+      params: request.toJson(),
+      fromJson: (json) => InitCallResponse.fromJson(json),
     );
     return response;
   }

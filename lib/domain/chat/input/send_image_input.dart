@@ -1,6 +1,6 @@
 import 'dart:io';
 
-class SendImageInput{
+class SendImageInput {
   final String receiverId;
   final String roomId;
   final File image;

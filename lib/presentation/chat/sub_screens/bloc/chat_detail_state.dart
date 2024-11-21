@@ -9,12 +9,16 @@ part 'chat_detail_state.g.dart';
 @CopyWith()
 class ChatDetailState {
   final bool isLoading;
+  final bool isSendingMessage;
+  final bool isSendingCall;
   final List<ChatMessageOutput> messages;
   final TextEditingController? messageController;
   final File? selectedImage;
 
   ChatDetailState({
     this.isLoading = false,
+    this.isSendingMessage = false,
+    this.isSendingCall = false,
     this.messages = const [],
     this.messageController,
     this.selectedImage,

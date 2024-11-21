@@ -53,4 +53,5 @@ class ChatApi {
   static const getChatMessages = "/chat/get-chat-messages";
   static const sendMessage = "/chat/send-message";
   static const sendImage = "/chat/send-image";
+  static const initiateCall = "/chat/initiate-call";
 }

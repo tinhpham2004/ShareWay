@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
@@ -13,6 +15,7 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
+import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/bloc/chat_detail_bloc.dart';
@@ -68,6 +71,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   icon: AppIcon.audioCall,
                   backgroundColor: AppColor.white,
                   padding: EdgeInsets.all(8.w),
+                  isEnabled: !state.isSendingCall,
+                  onPressed: () => bloc.onInitCall(context),
                 ),
                 spaceW16,
               ],
@@ -103,199 +108,275 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Expanded(
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                reverse: true,
-                                separatorBuilder: (context, index) => spaceH8,
-                                itemCount: state.messages.length,
-                                itemBuilder: (context, indexReverse) {
-                                  final index =
-                                      state.messages.length - 1 - indexReverse;
-                                  final item = state.messages[index];
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: item.senderId !=
-                                            bloc.chatRoomsBloc.state
-                                                .selectedChat?.receiver?.id
-                                        ? CrossAxisAlignment.end
-                                        : CrossAxisAlignment.start,
-                                    children: [
-                                      if (index == 0 ||
-                                          !state.messages[index].createdAt!
-                                              .isSameDay(state
-                                                  .messages[index - 1]
-                                                  .createdAt!)) ...[
-                                        Center(
-                                          child: Text(
-                                            state.messages[index].createdAt!
-                                                    .isToday()
-                                                ? 'TODAY'
-                                                : state
+                            state.isLoading
+                                ? const Expanded(
+                                    child: Center(child: LoadingWidget()))
+                                : Expanded(
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      reverse: true,
+                                      separatorBuilder: (context, index) =>
+                                          spaceH8,
+                                      itemCount: state.messages.length,
+                                      itemBuilder: (context, indexReverse) {
+                                        final index = state.messages.length -
+                                            1 -
+                                            indexReverse;
+                                        final item = state.messages[index];
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: item.senderId !=
+                                                  bloc
+                                                      .chatRoomsBloc
+                                                      .state
+                                                      .selectedChat
+                                                      ?.receiver
+                                                      ?.id
+                                              ? CrossAxisAlignment.end
+                                              : CrossAxisAlignment.start,
+                                          children: [
+                                            if (index == 0 ||
+                                                !state
                                                     .messages[index].createdAt!
-                                                    .format(
-                                                        pattern: dd_mm_yyyy),
-                                            style:
-                                                textTheme.bodyLarge!.copyWith(
-                                              color: AppColor.secondary300,
-                                            ),
-                                          ),
-                                        ),
-                                        spaceH16,
-                                      ],
-                                      item.messageType == MessageTypeEnum.TEXT
-                                          ? Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 4.h),
-                                              padding: EdgeInsets.all(12.w),
-                                              decoration: BoxDecoration(
-                                                color: item.senderId !=
-                                                        bloc
-                                                            .chatRoomsBloc
-                                                            .state
-                                                            .selectedChat
-                                                            ?.receiver
-                                                            ?.id
-                                                    ? AppColor.primaryColor
-                                                    : null,
-                                                border: item.senderId ==
-                                                        bloc
-                                                            .chatRoomsBloc
-                                                            .state
-                                                            .selectedChat
-                                                            ?.receiver
-                                                            ?.id
-                                                    ? Border.all(
+                                                    .isSameDay(state
+                                                        .messages[index - 1]
+                                                        .createdAt!)) ...[
+                                              Center(
+                                                child: Text(
+                                                  state.messages[index]
+                                                          .createdAt!
+                                                          .isToday()
+                                                      ? 'TODAY'
+                                                      : state.messages[index]
+                                                          .createdAt!
+                                                          .format(
+                                                              pattern:
+                                                                  dd_mm_yyyy),
+                                                  style: textTheme.bodyLarge!
+                                                      .copyWith(
+                                                    color:
+                                                        AppColor.secondary300,
+                                                  ),
+                                                ),
+                                              ),
+                                              spaceH16,
+                                            ],
+                                            item.messageType ==
+                                                    MessageTypeEnum.TEXT
+                                                ? Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 4.h),
+                                                    padding:
+                                                        EdgeInsets.all(12.w),
+                                                    decoration: BoxDecoration(
+                                                      color: item.senderId !=
+                                                              bloc
+                                                                  .chatRoomsBloc
+                                                                  .state
+                                                                  .selectedChat
+                                                                  ?.receiver
+                                                                  ?.id
+                                                          ? AppColor
+                                                              .primaryColor
+                                                          : null,
+                                                      border: item.senderId ==
+                                                              bloc
+                                                                  .chatRoomsBloc
+                                                                  .state
+                                                                  .selectedChat
+                                                                  ?.receiver
+                                                                  ?.id
+                                                          ? Border.all(
+                                                              color: AppColor
+                                                                  .secondary200,
+                                                            )
+                                                          : null,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft: item
+                                                                    .senderId !=
+                                                                bloc
+                                                                    .chatRoomsBloc
+                                                                    .state
+                                                                    .selectedChat
+                                                                    ?.receiver
+                                                                    ?.id
+                                                            ? Radius.circular(
+                                                                10.r)
+                                                            : Radius.circular(
+                                                                3.r),
+                                                        topRight: item
+                                                                    .senderId ==
+                                                                bloc
+                                                                    .chatRoomsBloc
+                                                                    .state
+                                                                    .selectedChat
+                                                                    ?.receiver
+                                                                    ?.id
+                                                            ? Radius.circular(
+                                                                10.r)
+                                                            : Radius.circular(
+                                                                3.r),
+                                                        bottomLeft:
+                                                            Radius.circular(
+                                                                10.r),
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                10.r),
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      item.message ?? '',
+                                                      style: textTheme
+                                                          .bodyLarge!
+                                                          .copyWith(
+                                                        color: item.senderId !=
+                                                                bloc
+                                                                    .chatRoomsBloc
+                                                                    .state
+                                                                    .selectedChat
+                                                                    ?.receiver
+                                                                    ?.id
+                                                            ? AppColor.white
+                                                            : AppColor
+                                                                .secondaryColor,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    padding:
+                                                        EdgeInsets.all(8.w),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
                                                         color: AppColor
                                                             .secondary200,
-                                                      )
-                                                    : null,
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: item.senderId !=
-                                                          bloc
-                                                              .chatRoomsBloc
-                                                              .state
-                                                              .selectedChat
-                                                              ?.receiver
-                                                              ?.id
-                                                      ? Radius.circular(10.r)
-                                                      : Radius.circular(3.r),
-                                                  topRight: item.senderId ==
-                                                          bloc
-                                                              .chatRoomsBloc
-                                                              .state
-                                                              .selectedChat
-                                                              ?.receiver
-                                                              ?.id
-                                                      ? Radius.circular(10.r)
-                                                      : Radius.circular(3.r),
-                                                  bottomLeft:
-                                                      Radius.circular(10.r),
-                                                  bottomRight:
-                                                      Radius.circular(10.r),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                item.message ?? '',
-                                                style: textTheme.bodyLarge!
-                                                    .copyWith(
-                                                  color: item.senderId !=
-                                                          bloc
-                                                              .chatRoomsBloc
-                                                              .state
-                                                              .selectedChat
-                                                              ?.receiver
-                                                              ?.id
-                                                      ? AppColor.white
-                                                      : AppColor.secondaryColor,
-                                                ),
-                                              ),
-                                            )
-                                          : Container(
-                                              padding: EdgeInsets.all(8.w),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: AppColor.secondary200,
-                                                ),
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: item.senderId !=
-                                                          bloc
-                                                              .chatRoomsBloc
-                                                              .state
-                                                              .selectedChat
-                                                              ?.receiver
-                                                              ?.id
-                                                      ? Radius.circular(10.r)
-                                                      : Radius.circular(3.r),
-                                                  topRight: item.senderId ==
-                                                          bloc
-                                                              .chatRoomsBloc
-                                                              .state
-                                                              .selectedChat
-                                                              ?.receiver
-                                                              ?.id
-                                                      ? Radius.circular(10.r)
-                                                      : Radius.circular(3.r),
-                                                  bottomLeft:
-                                                      Radius.circular(10.r),
-                                                  bottomRight:
-                                                      Radius.circular(10.r),
-                                                ),
-                                              ),
-                                              child: item.messageType ==
-                                                      MessageTypeEnum.IMAGE
-                                                  ? Image.network(
-                                                      item.message ?? '')
-                                                  : Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        item.messageType
-                                                            .getIcon(),
-                                                        SizedBox(width: 8.w),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              item.messageType
-                                                                  .getMessageTitle(),
-                                                              style: textTheme
-                                                                  .titleSmall,
-                                                            ),
-                                                            Text(
-                                                              item.message ??
-                                                                  '',
-                                                              style: textTheme
-                                                                  .bodyMedium!
-                                                                  .copyWith(
-                                                                color: AppColor
-                                                                    .secondary300,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft: item
+                                                                    .senderId !=
+                                                                bloc
+                                                                    .chatRoomsBloc
+                                                                    .state
+                                                                    .selectedChat
+                                                                    ?.receiver
+                                                                    ?.id
+                                                            ? Radius.circular(
+                                                                10.r)
+                                                            : Radius.circular(
+                                                                3.r),
+                                                        topRight: item
+                                                                    .senderId ==
+                                                                bloc
+                                                                    .chatRoomsBloc
+                                                                    .state
+                                                                    .selectedChat
+                                                                    ?.receiver
+                                                                    ?.id
+                                                            ? Radius.circular(
+                                                                10.r)
+                                                            : Radius.circular(
+                                                                3.r),
+                                                        bottomLeft:
+                                                            Radius.circular(
+                                                                10.r),
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                10.r),
+                                                      ),
+                                                    ),
+                                                    child: item.messageType ==
+                                                            MessageTypeEnum
+                                                                .IMAGE
+                                                        ? InkWell(
+                                                            onTap: () =>
+                                                                _showZoomableImageDialog(
+                                                                    context,
+                                                                    item.message ??
+                                                                        ''),
+                                                            child: Container(
+                                                              constraints:
+                                                                  BoxConstraints(
+                                                                maxWidth:
+                                                                    0.5.sw,
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl:
+                                                                    item.message ??
+                                                                        '',
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    const CircularProgressIndicator(
+                                                                  color: AppColor
+                                                                      .primaryColor,
+                                                                  strokeWidth:
+                                                                      2.0,
+                                                                ),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    Assets
+                                                                        .images
+                                                                        .failToLoadImage
+                                                                        .image(),
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
+                                                          )
+                                                        : Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              item.messageType
+                                                                  .getIcon(),
+                                                              SizedBox(
+                                                                  width: 8.w),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    item.messageType
+                                                                        .getMessageTitle(),
+                                                                    style: textTheme
+                                                                        .titleSmall,
+                                                                  ),
+                                                                  Text(
+                                                                    item.message ??
+                                                                        '',
+                                                                    style: textTheme
+                                                                        .bodyMedium!
+                                                                        .copyWith(
+                                                                      color: AppColor
+                                                                          .secondary300,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                  ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 8.w, right: 8.w),
+                                              child: Text(
+                                                item.createdAt?.format(
+                                                        pattern: hh_mm_a) ??
+                                                    '',
+                                                style: textTheme.labelSmall!
+                                                    .copyWith(
+                                                  color: AppColor.secondary300,
+                                                ),
+                                              ),
                                             ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 8.w, right: 8.w),
-                                        child: Text(
-                                          item.createdAt
-                                                  ?.format(pattern: hh_mm_a) ??
-                                              '',
-                                          style: textTheme.labelSmall!.copyWith(
-                                            color: AppColor.secondary300,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
                             SizedBox(height: 0.15.sh),
                           ],
                         ),
@@ -379,6 +460,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               isBorder: false,
                               padding: EdgeInsets.all(8.w),
                               isMargin: true,
+                              isEnabled: !state.isSendingMessage,
                               onPressed: () => bloc.onSendMessage(context),
                             )
                           ],
@@ -438,11 +520,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             style: textTheme.titleMedium,
                           ),
                           InkWell(
-                            onTap: () => bloc.onSendImage(context),
+                            onTap: state.selectedImage != null ? () => bloc.onSendImage(context) : null,
                             child: Text(
                               'Gửi',
                               style: textTheme.titleSmall!.copyWith(
-                                color: AppColor.primaryColor,
+                                color: state.selectedImage != null ? AppColor.primaryColor : AppColor.secondary300,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -508,6 +590,26 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
         );
       },
+    );
+  }
+
+  void _showZoomableImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.zero,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.r),
+          child: PhotoView(
+            imageProvider: CachedNetworkImageProvider(imageUrl),
+            backgroundDecoration:
+                const BoxDecoration(color: AppColor.transparent),
+            minScale: PhotoViewComputedScale.contained,
+            maxScale: PhotoViewComputedScale.covered * 2,
+          ),
+        ),
+      ),
     );
   }
 }

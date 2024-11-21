@@ -1,11 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:share_way_frontend/data/api/chat/chat_service.dart';
+import 'package:share_way_frontend/data/api/chat/request/init_call_request/init_call_request.dart';
 import 'package:share_way_frontend/data/api/chat/request/send_image_request/send_image_request.dart';
 import 'package:share_way_frontend/data/api/chat/request/send_message_request/send_message_request.dart';
+import 'package:share_way_frontend/domain/chat/input/init_call_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_image_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_message_input.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_rooms_output/chat_rooms_output.dart';
+import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 
 class ChatRepository {
   final _service = ChatService();
@@ -63,6 +66,21 @@ class ChatRepository {
           await _service.sendImage(SendImageRequest.toApiModel(input));
       if (response != null) {
         return ChatMessageOutput.fromApiModel(response);
+      }
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+    return null;
+  }
+
+  Future<InitCallOutput?> initCall(InitCallInput input) async {
+    try {
+      final response =
+          await _service.initCall(InitCallRequest.toApiModel(input));
+      if (response != null) {
+        return InitCallOutput.fromApiModel(response);
       }
     } catch (error, statckTrace) {
       if (kDebugMode) {

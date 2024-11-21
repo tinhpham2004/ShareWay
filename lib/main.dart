@@ -45,25 +45,25 @@ Future<void> initializeApp() async {
 
 Future<GoRouter> initializeRouter() async {
   GoRouter router = AppRouter(navigatorKey).router;
-  String initialRoute = AppPath.onboarding;
+  String initialRoute = AppPath.chatRooms;
   dynamic extra;
 
-  final refreshToken = await Preferences.getRefreshToken();
-  if (refreshToken != null) {
-    final userRepository = UserRepository();
-    final user = await userRepository.getProfile();
-    if (user != null) {
-      initialRoute = AppPath.home;
-      // data = user;
-    }
-  } else {
-    final authData = await Preferences.getAuthData();
-    if (authData != null) {
-      initialRoute =
-          authData.userId != null ? AppPath.verifyIdCard : AppPath.signUpName;
-      extra = authData;
-    }
-  }
+  // final refreshToken = await Preferences.getRefreshToken();
+  // if (refreshToken != null) {
+  //   final userRepository = UserRepository();
+  //   final user = await userRepository.getProfile();
+  //   if (user != null) {
+  //     initialRoute = AppPath.home;
+  //     // data = user;
+  //   }
+  // } else {
+  //   final authData = await Preferences.getAuthData();
+  //   if (authData != null) {
+  //     initialRoute =
+  //         authData.userId != null ? AppPath.verifyIdCard : AppPath.signUpName;
+  //     extra = authData;
+  //   }
+  // }
 
   router.go(initialRoute, extra: extra);
 
