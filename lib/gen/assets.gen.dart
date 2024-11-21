@@ -71,6 +71,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/map_button.svg
   SvgGenImage get mapButton => const SvgGenImage('assets/icons/map_button.svg');
 
+  /// File path: assets/icons/mic.svg
+  SvgGenImage get mic => const SvgGenImage('assets/icons/mic.svg');
+
   /// File path: assets/icons/missed_audio_call_message.svg
   SvgGenImage get missedAudioCallMessage =>
       const SvgGenImage('assets/icons/missed_audio_call_message.svg');
@@ -126,6 +129,12 @@ class $AssetsIconsGen {
   SvgGenImage get swapLocation =>
       const SvgGenImage('assets/icons/swap_location.svg');
 
+  /// File path: assets/icons/video.svg
+  SvgGenImage get video => const SvgGenImage('assets/icons/video.svg');
+
+  /// File path: assets/icons/volume.svg
+  SvgGenImage get volume => const SvgGenImage('assets/icons/volume.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
         account,
@@ -144,6 +153,7 @@ class $AssetsIconsGen {
         home,
         homeNotification,
         mapButton,
+        mic,
         missedAudioCallMessage,
         money,
         motorbike,
@@ -158,7 +168,9 @@ class $AssetsIconsGen {
         rideChat,
         sendMessage,
         shieldCheck,
-        swapLocation
+        swapLocation,
+        video,
+        volume
       ];
 }
 

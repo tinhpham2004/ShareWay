@@ -18,8 +18,8 @@ import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
-import 'package:share_way_frontend/presentation/chat/sub_screens/bloc/chat_detail_bloc.dart';
-import 'package:share_way_frontend/presentation/chat/sub_screens/bloc/chat_detail_state.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_state.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatRoomsBloc chatRoomsBloc;

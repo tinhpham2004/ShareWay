@@ -12,6 +12,7 @@ abstract class AppPath {
   static const activity = '/activity';
   static const chatRooms = '/chat-rooms';
   static const chatDetail = '$chatRooms/chat-detail';
+  static const call = '$chatRooms/call';
   static const account = '/account';
   static const giveRidePickLocation = '/give-ride-pick-location';
   static const giveRidePickTime = '/give-ride-pick-time';

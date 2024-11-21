@@ -13,7 +13,7 @@ import 'package:share_way_frontend/domain/chat/input/send_message_input.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
-import 'package:share_way_frontend/presentation/chat/sub_screens/bloc/chat_detail_state.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_state.dart';
 
 class ChatDetailBloc extends Cubit<ChatDetailState> {
   final ChatRoomsBloc chatRoomsBloc;
@@ -143,6 +143,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     final input = InitCallInput(
       chatRoomId: chatRoomsBloc.state.selectedChat?.roomId ?? '',
       receiverId: chatRoomsBloc.state.selectedChat?.receiver?.id ?? '',
+      expireTime: 60,
     );
 
     final response = await _chatRepository.initCall(input);

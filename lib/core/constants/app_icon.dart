@@ -89,4 +89,7 @@ class AppIcon {
     size: size,
     color: Colors.white,
   );
+  static Widget volume = Assets.icons.volume.svg();
+  static Widget mic = Assets.icons.mic.svg();
+
 }

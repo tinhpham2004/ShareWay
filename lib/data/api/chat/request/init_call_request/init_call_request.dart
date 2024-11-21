@@ -7,10 +7,12 @@ part 'init_call_request.g.dart';
 class InitCallRequest {
   @JsonKey(name: 'chatRoomID')
   String? chatRoomId;
-  @JsonKey(name: 'receiverID ')
+  @JsonKey(name: 'receiverID')
   String? receiverId;
+  @JsonKey(name: 'expireTime')
+  int? expireTime;
 
-  InitCallRequest({this.chatRoomId, this.receiverId});
+  InitCallRequest({this.chatRoomId, this.receiverId, this.expireTime});
 
   Map<String, dynamic> toJson() => _$InitCallRequestToJson(this);
 
@@ -18,6 +20,7 @@ class InitCallRequest {
     return InitCallRequest(
       chatRoomId: input.chatRoomId,
       receiverId: input.receiverId,
+      expireTime: input.expireTime,
     );
   }
 }

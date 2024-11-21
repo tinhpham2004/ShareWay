@@ -37,7 +37,7 @@ enum MessageTypeEnum {
       case MessageTypeEnum.MISSED_CALL:
         return AppIcon.missedAudioCallMessage;
       case MessageTypeEnum.VIDEOCALL:
-        return space0;
+        return AppIcon.audioCallMessage;
       default:
         return space0;
     }
