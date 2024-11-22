@@ -10,18 +10,30 @@ import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/chat/chat_repository.dart';
 import 'package:share_way_frontend/domain/chat/input/update_call_input.dart';
+import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
+import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_state.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:share_way_frontend/router/app_path.dart';
 
 class CallBloc extends Cubit<CallState> {
   Timer? countingTimer;
   Timer? waitingTimer;
 
-  final InitCallOutput data;
+  final ChatDetailBloc chatDetailBloc;
+  late InitCallOutput data;
   final _chatRepository = ChatRepository();
+  late WebSocketRepository _webSocketRepository;
 
-  CallBloc({required this.data}) : super(CallState());
+  CallBloc({required this.chatDetailBloc}) : super(CallState()) {
+    data = chatDetailBloc.state.initCallOutput!;
+    _webSocketRepository = WebSocketRepository(
+      onUpdateCall: onRemoteUserReject,
+    );
+    _webSocketRepository.connect();
+  }
   void onStart(BuildContext context) {
     try {
       onGetUid();
@@ -34,7 +46,7 @@ class CallBloc extends Cubit<CallState> {
 
   void onGetUid() async {
     final userId = await Preferences.getUserId();
-    emit(state.copyWith(uid: userId == data.callerId ? 0 : 1));
+    emit(state.copyWith(uid: userId == data.callerId ? 1 : 2));
   }
 
   void onToggleVolume() async {
@@ -42,6 +54,10 @@ class CallBloc extends Cubit<CallState> {
       await state.rtcEngine?.setEnableSpeakerphone(!state.isVolumeOn);
     }
     emit(state.copyWith(isVolumeOn: !state.isVolumeOn));
+  }
+
+  void onToggleSwitchCamera() async {
+    await state.rtcEngine?.switchCamera();
   }
 
   void onToggleMic() async {
@@ -62,30 +78,44 @@ class CallBloc extends Cubit<CallState> {
   }
 
   void onLeaveCall(BuildContext context) async {
-    if (state.remoteUid == null) {
-      // databaseService.UpdateCallMessage(widget.callId, 'rejected');
-      final input = UpdateCallInput(
-        callId: data.callId,
-        type: MessageTypeEnum.MISSED_CALL,
-        roomId: data.roomId,
-        duration: 0,
-        receiverId: data.receiverId,
-      );
-      final response = await _chatRepository.updateCallStatus(input);
-    } else {
-      // databaseService.UpdateCallMessage(
-      //     widget.callId, 'accepted' + callingTime);
-      final input = UpdateCallInput(
-        callId: data.callId,
-        type: MessageTypeEnum.CALL,
-        roomId: data.roomId,
-        duration: state.currentTime.inSeconds,
-        receiverId: data.receiverId,
-      );
-      final response = await _chatRepository.updateCallStatus(input);
+    // if (state.remoteUid == null) {
+    //   // databaseService.UpdateCallMessage(widget.callId, 'rejected');
+    //   final input = UpdateCallInput(
+    //     callId: data.callId,
+    //     type: MessageTypeEnum.MISSED_CALL,
+    //     roomId: data.roomId,
+    //     duration: 0,
+    //     receiverId: data.receiverId,
+    //   );
+    //   final response = await _chatRepository.updateCallStatus(input);
+    //   if (response == null) {
+    //     showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    //     return;
+    //   }
+    //   chatDetailBloc.onUpdateCall(response);
+    // } else {
+    //   // databaseService.UpdateCallMessage(
+    //   //     widget.callId, 'accepted' + callingTime);
+    //   final input = UpdateCallInput(
+    //     callId: data.callId,
+    //     type: MessageTypeEnum.CALL,
+    //     roomId: data.roomId,
+    //     duration: state.currentTime.inSeconds,
+    //     receiverId: data.receiverId,
+    //   );
+    //   final response = await _chatRepository.updateCallStatus(input);
+    //   if (response == null) {
+    //     showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+    //     return;
+    //   }
+    //   chatDetailBloc.onUpdateCall(response);
+    // }
+    if (waitingTimer != null) {
+      waitingTimer!.cancel();
     }
-    waitingTimer?.cancel();
-    countingTimer?.cancel();
+    if (countingTimer != null) {
+      countingTimer!.cancel();
+    }
     if (state.rtcEngine != null) {
       state.rtcEngine!.release();
       state.rtcEngine!.leaveChannel();
@@ -107,18 +137,29 @@ class CallBloc extends Cubit<CallState> {
         RtcEngineEventHandler(
           onRemoteVideoStateChanged:
               (connection, remoteUid, remoteVideoState, reason, elapsed) {
-            emit(state.copyWith(
-                isRemoteVideoOn: remoteVideoState ==
-                    RemoteVideoState.remoteVideoStateStarting));
+            if (remoteVideoState == RemoteVideoState.remoteVideoStateStarting) {
+              emit(state.copyWith(isRemoteVideoOn: true));
+            }
+            if (remoteVideoState == RemoteVideoState.remoteVideoStateStopped) {
+              emit(state.copyWith(isRemoteVideoOn: false));
+            }
           },
           onUserJoined: (connection, remoteUid, elapsed) {
             emit(state.copyWith(remoteUid: remoteUid));
+            if (waitingTimer != null) {
+              waitingTimer!.cancel();
+            }
             onStartCountingTimer();
           },
           onLeaveChannel: (connection, stats) {
-            GoRouter.of(context).pop();
+            if (GoRouter.of(context).canPop()) {
+              GoRouter.of(context).pop();
+            } else {
+              GoRouter.of(context)
+                  .go(AppPath.chatDetail, extra: chatDetailBloc.chatRoomsBloc);
+            }
           },
-          onUserOffline: (connection, _remoteUid, reason) async {
+          onUserOffline: (connection, remoteUid, reason) async {
             if (state.remoteUid == null) {
               // databaseService.UpdateCallMessage(widget.callId, 'rejected');
               final input = UpdateCallInput(
@@ -129,6 +170,11 @@ class CallBloc extends Cubit<CallState> {
                 receiverId: data.receiverId,
               );
               final response = await _chatRepository.updateCallStatus(input);
+              if (response == null) {
+                showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+                return;
+              }
+              chatDetailBloc.onUpdateCall(response);
             } else {
               // databaseService.UpdateCallMessage(
               //     widget.callId, 'accepted' + callingTime);
@@ -141,10 +187,19 @@ class CallBloc extends Cubit<CallState> {
                 receiverId: data.receiverId,
               );
               final response = await _chatRepository.updateCallStatus(input);
+              if (response == null) {
+                showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+                return;
+              }
+              chatDetailBloc.onUpdateCall(response);
             }
             emit(state.copyWith(remoteUid: null));
-            waitingTimer?.cancel();
-            countingTimer?.cancel();
+            if (waitingTimer != null) {
+              waitingTimer!.cancel();
+            }
+            if (countingTimer != null) {
+              countingTimer!.cancel();
+            }
             if (state.rtcEngine != null) {
               state.rtcEngine!.release();
               state.rtcEngine!.leaveChannel();
@@ -163,7 +218,7 @@ class CallBloc extends Cubit<CallState> {
       await state.rtcEngine?.joinChannel(
         token: data.token ?? '',
         channelId: data.roomId ?? '',
-        uid: state.uid ?? 0,
+        uid: state.uid ?? 1,
         options: options,
       );
       await state.rtcEngine?.enableLocalVideo(false);
@@ -194,7 +249,9 @@ class CallBloc extends Cubit<CallState> {
                   state.remainingWaitingTime - Duration(seconds: 1)));
         } else {
           timer.cancel();
-          countingTimer?.cancel();
+          if (countingTimer != null) {
+            countingTimer!.cancel();
+          }
           if (state.rtcEngine != null) {
             state.rtcEngine!.release();
             state.rtcEngine!.leaveChannel();
@@ -206,5 +263,20 @@ class CallBloc extends Cubit<CallState> {
 
   void onVideoDragUpdate(DragUpdateDetails details) {
     emit(state.copyWith(videoPosition: state.videoPosition + details.delta));
+  }
+
+  void onRemoteUserReject(ChatMessageOutput data) {
+    chatDetailBloc.onReceiveUpdateCall(data);
+    emit(state.copyWith(remoteUid: null));
+    if (waitingTimer != null) {
+      waitingTimer!.cancel();
+    }
+    if (countingTimer != null) {
+      countingTimer!.cancel();
+    }
+    if (state.rtcEngine != null) {
+      state.rtcEngine!.release();
+      state.rtcEngine!.leaveChannel();
+    }
   }
 }

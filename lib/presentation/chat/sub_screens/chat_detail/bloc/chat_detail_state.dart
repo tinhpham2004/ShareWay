@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
+import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 
 part 'chat_detail_state.g.dart';
 
@@ -14,6 +15,7 @@ class ChatDetailState {
   final List<ChatMessageOutput> messages;
   final TextEditingController? messageController;
   final File? selectedImage;
+  final InitCallOutput? initCallOutput;
 
   ChatDetailState({
     this.isLoading = false,
@@ -22,5 +24,6 @@ class ChatDetailState {
     this.messages = const [],
     this.messageController,
     this.selectedImage,
+    this.initCallOutput,
   });
 }

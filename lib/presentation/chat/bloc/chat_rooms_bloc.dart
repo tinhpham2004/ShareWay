@@ -46,7 +46,7 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
     }
   }
 
-  void onFetchChatRooms() async {
+  Future<void> onFetchChatRooms() async {
     emit(state.copyWith(isLoading: true));
     final userId = await Preferences.getUserId();
     if (userId == null) {

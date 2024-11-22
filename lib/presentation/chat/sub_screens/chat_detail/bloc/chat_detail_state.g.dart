@@ -19,6 +19,8 @@ abstract class _$ChatDetailStateCWProxy {
 
   ChatDetailState selectedImage(File? selectedImage);
 
+  ChatDetailState initCallOutput(InitCallOutput? initCallOutput);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChatDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -32,6 +34,7 @@ abstract class _$ChatDetailStateCWProxy {
     List<ChatMessageOutput>? messages,
     TextEditingController? messageController,
     File? selectedImage,
+    InitCallOutput? initCallOutput,
   });
 }
 
@@ -65,6 +68,10 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
       this(selectedImage: selectedImage);
 
   @override
+  ChatDetailState initCallOutput(InitCallOutput? initCallOutput) =>
+      this(initCallOutput: initCallOutput);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ChatDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -79,6 +86,7 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
     Object? messages = const $CopyWithPlaceholder(),
     Object? messageController = const $CopyWithPlaceholder(),
     Object? selectedImage = const $CopyWithPlaceholder(),
+    Object? initCallOutput = const $CopyWithPlaceholder(),
   }) {
     return ChatDetailState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -107,6 +115,10 @@ class _$ChatDetailStateCWProxyImpl implements _$ChatDetailStateCWProxy {
           ? _value.selectedImage
           // ignore: cast_nullable_to_non_nullable
           : selectedImage as File?,
+      initCallOutput: initCallOutput == const $CopyWithPlaceholder()
+          ? _value.initCallOutput
+          // ignore: cast_nullable_to_non_nullable
+          : initCallOutput as InitCallOutput?,
     );
   }
 }

@@ -15,6 +15,7 @@ import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/chat_rooms_screen.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/call_screen.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/chat_detail_screen.dart';
 import 'package:share_way_frontend/presentation/error/error_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_complete/give_ride_complete_screen.dart';
@@ -118,7 +119,7 @@ class AppRouter {
             GoRoute(
               path: AppPath.call,
               builder: (context, state) {
-                final data = state.extra as InitCallOutput;
+                final chatDetailBloc = state.extra as ChatDetailBloc;
                 // final data = InitCallOutput(
                 //   callId: 'callId',
                 //   token: 'token',
@@ -126,7 +127,7 @@ class AppRouter {
                 //   callerId: 'callerId',
                 //   receiverId: 'receiverId',
                 // );
-                return CallScreen(data: data);
+                return CallScreen(chatDetailBloc: chatDetailBloc);
               },
             ),
             GoRoute(

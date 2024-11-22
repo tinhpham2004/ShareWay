@@ -12,11 +12,12 @@ import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_state.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_bloc.dart';
 
 class CallScreen extends StatefulWidget {
-  final InitCallOutput data;
+  final ChatDetailBloc chatDetailBloc;
 
-  CallScreen({required this.data});
+  CallScreen({required this.chatDetailBloc});
 
   @override
   State<CallScreen> createState() => _CallScreenState();
@@ -27,7 +28,7 @@ class _CallScreenState extends State<CallScreen> {
 
   @override
   void initState() {
-    bloc = CallBloc(data: widget.data);
+    bloc = CallBloc(chatDetailBloc: widget.chatDetailBloc);
     super.initState();
   }
 
@@ -48,7 +49,9 @@ class _CallScreenState extends State<CallScreen> {
                     controller: VideoViewController.remote(
                       rtcEngine: state.rtcEngine!,
                       canvas: VideoCanvas(uid: state.remoteUid),
-                      connection: RtcConnection(channelId: widget.data.roomId),
+                      connection: RtcConnection(
+                          channelId: widget
+                              .chatDetailBloc.state.initCallOutput?.roomId),
                     ),
                   ),
                 ] else ...[
@@ -101,14 +104,14 @@ class _CallScreenState extends State<CallScreen> {
                       child: Container(
                         height: 200.h,
                         width: 150.w,
-                        decoration: BoxDecoration(
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: AgoraVideoView(
-                          controller: VideoViewController(
-                            rtcEngine: state.rtcEngine!,
-                            canvas: VideoCanvas(
-                              uid: state.uid,
+                          child: AgoraVideoView(
+                            controller: VideoViewController(
+                              rtcEngine: state.rtcEngine!,
+                              canvas: VideoCanvas(
+                                uid: 0,
+                              ),
                             ),
                           ),
                         ),
@@ -126,9 +129,11 @@ class _CallScreenState extends State<CallScreen> {
                       children: [
                         AppButton(
                           icon: Assets.icons.volume.svg(
-                              color: state.isVolumeOn
-                                  ? AppColor.primaryText
-                                  : AppColor.white),
+                            color: state.isVolumeOn
+                                ? AppColor.primaryText
+                                : AppColor.white,
+                            height: 16.h,
+                          ),
                           shape: BoxShape.circle,
                           backgroundColor: state.isVolumeOn
                               ? AppColor.white
@@ -137,8 +142,18 @@ class _CallScreenState extends State<CallScreen> {
                           onPressed: () => bloc.onToggleVolume(),
                         ),
                         AppButton(
+                          icon: Assets.icons.camera.svg(
+                            color: AppColor.white,
+                            height: 16.h,
+                          ),
+                          shape: BoxShape.circle,
+                          backgroundColor: AppColor.white.withOpacity(0.35),
+                          isBorder: false,
+                          onPressed: () => bloc.onToggleSwitchCamera(),
+                        ),
+                        AppButton(
                           icon: Assets.icons.missedAudioCallMessage
-                              .svg(height: 56.h),
+                              .svg(height: 48.h),
                           shape: BoxShape.circle,
                           backgroundColor: AppColor.transparent,
                           padding: EdgeInsets.zero,
@@ -147,7 +162,7 @@ class _CallScreenState extends State<CallScreen> {
                         ),
                         AppButton(
                           icon: Assets.icons.mic.svg(
-                            height: 24.h,
+                            height: 16.h,
                             color:
                                 state.isMicOn ? AppColor.error : AppColor.white,
                           ),
@@ -160,7 +175,7 @@ class _CallScreenState extends State<CallScreen> {
                         ),
                         AppButton(
                           icon: Assets.icons.video.svg(
-                              height: 24.h,
+                              height: 16.h,
                               color: state.isVideoOn
                                   ? AppColor.primaryText
                                   : AppColor.white),

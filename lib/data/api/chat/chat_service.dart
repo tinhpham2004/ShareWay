@@ -67,7 +67,7 @@ class ChatService {
     final response = await _service.post(
       ChatApi.updateCallStatus,
       data: request.toJson(),
-      fromJson: (json) => MessageResponse.fromJson(json),
+      fromJson: (json) => MessageResponse.fromJson(json['data']),
     );
     return response;
   }

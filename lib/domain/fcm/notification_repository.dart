@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:share_way_frontend/core/constants/app_color.dart';
 
 Future<void> onHandleBackgroundMessage(RemoteMessage message) async {
   print('Handling a background message body: ${message.notification?.body}');
@@ -57,15 +58,31 @@ class NotificationRepository {
   void _showNotification(RemoteMessage message) async {
     final notification = message.notification;
     if (notification != null) {
-      const androidDetails = AndroidNotificationDetails(
+      final androidDetails = AndroidNotificationDetails(
         'your_channel_id',
         'Your Channel Name',
         channelDescription: 'Your channel description',
         importance: Importance.max,
         priority: Priority.high,
+        actions: message.data['type'] == 'initiate-call'
+            ? [
+                const AndroidNotificationAction(
+                  'accept',
+                  'Đồng ý',
+                  titleColor: AppColor.success,
+                  showsUserInterface: true,
+                ),
+                const AndroidNotificationAction(
+                  'reject',
+                  'Từ chối',
+                  titleColor: AppColor.error,
+                  showsUserInterface: true,
+                ),
+              ]
+            : null,
       );
       const iOSDetails = DarwinNotificationDetails();
-      const notificationDetails = NotificationDetails(
+      final notificationDetails = NotificationDetails(
         android: androidDetails,
         iOS: iOSDetails,
       );

@@ -32,6 +32,9 @@ class $AssetsIconsGen {
   SvgGenImage get backToCurrentLocation =>
       const SvgGenImage('assets/icons/back_to_current_location.svg');
 
+  /// File path: assets/icons/camera.svg
+  SvgGenImage get camera => const SvgGenImage('assets/icons/camera.svg');
+
   /// File path: assets/icons/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/icons/chat.svg');
 
@@ -142,6 +145,7 @@ class $AssetsIconsGen {
         audioCall,
         audioCallMessage,
         backToCurrentLocation,
+        camera,
         chat,
         clearData,
         currentLocationMark,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
+import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
+import 'package:share_way_frontend/data/api/chat/request/init_call_request/init_call_request.dart';
+import 'package:share_way_frontend/data/api/chat/response/init_call_response/init_call_data_response.dart';
+import 'package:share_way_frontend/data/api/chat/response/init_call_response/init_call_response.dart';
+import 'package:share_way_frontend/domain/chat/chat_repository.dart';
+import 'package:share_way_frontend/domain/chat/input/update_call_input.dart';
+import 'package:share_way_frontend/domain/chat/output/chat_rooms_output/chat_rooms_output.dart';
+import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request.dart';
@@ -23,6 +32,10 @@ import 'package:share_way_frontend/domain/user/user_repository.dart';
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/firebase_options.dart';
 import 'package:share_way_frontend/my_app.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_state.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 import 'package:share_way_frontend/router/app_router.dart';
 
@@ -45,25 +58,25 @@ Future<void> initializeApp() async {
 
 Future<GoRouter> initializeRouter() async {
   GoRouter router = AppRouter(navigatorKey).router;
-  String initialRoute = AppPath.chatRooms;
+  String initialRoute = AppPath.onboarding;
   dynamic extra;
 
-  // final refreshToken = await Preferences.getRefreshToken();
-  // if (refreshToken != null) {
-  //   final userRepository = UserRepository();
-  //   final user = await userRepository.getProfile();
-  //   if (user != null) {
-  //     initialRoute = AppPath.home;
-  //     // data = user;
-  //   }
-  // } else {
-  //   final authData = await Preferences.getAuthData();
-  //   if (authData != null) {
-  //     initialRoute =
-  //         authData.userId != null ? AppPath.verifyIdCard : AppPath.signUpName;
-  //     extra = authData;
-  //   }
-  // }
+  final refreshToken = await Preferences.getRefreshToken();
+  if (refreshToken != null) {
+    final userRepository = UserRepository();
+    final user = await userRepository.getProfile();
+    if (user != null) {
+      initialRoute = AppPath.home;
+      // data = user;
+    }
+  } else {
+    final authData = await Preferences.getAuthData();
+    if (authData != null) {
+      initialRoute =
+          authData.userId != null ? AppPath.verifyIdCard : AppPath.signUpName;
+      extra = authData;
+    }
+  }
 
   router.go(initialRoute, extra: extra);
 
@@ -106,6 +119,9 @@ void onNotificationResponse(NotificationResponse response) {
         break;
       case 'cancel-hitch-ride-request':
         _handleCancelHitchRideRequest(response);
+        break;
+      case 'initiate-call':
+        _handleInitiateCall(response);
         break;
       default:
         print('Unknown message type: $type');
@@ -172,6 +188,40 @@ void _handleCancelGiveRideRequest(NotificationResponse message) {
 void _handleCancelHitchRideRequest(NotificationResponse message) {
   // Handle the cancelled hitch ride request here
   print('Handling cancelled hitch ride request: $message');
+}
+
+void _handleInitiateCall(NotificationResponse message) async {
+  final data = jsonDecode(message.payload!);
+  final initCallDataResponse =
+      InitCallDataResponse.fromJson(jsonDecode(data['data']));
+  const initialRoute = AppPath.call;
+  final initCallOutput =
+      InitCallOutput.fromApiModel(InitCallResponse(data: initCallDataResponse));
+  if (message.actionId == 'accept') {
+    final chatRoomsBloc = ChatRoomsBloc();
+    await chatRoomsBloc.onFetchChatRooms();
+    chatRoomsBloc.onFetchAssets();
+    chatRoomsBloc.emit(chatRoomsBloc.state.copyWith(
+      selectedChat: chatRoomsBloc.state.chatRooms.firstWhereOrNull(
+        (e) => e.roomId == initCallOutput.roomId,
+      ),
+    ));
+    final chatDetailBloc = ChatDetailBloc(chatRoomsBloc: chatRoomsBloc)
+      ..onStart();
+    chatDetailBloc
+        .emit(chatDetailBloc.state.copyWith(initCallOutput: initCallOutput));
+    navigatorKey.currentContext!.go(initialRoute, extra: chatDetailBloc);
+  } else if (message.actionId == 'reject') {
+    final _chatRepository = ChatRepository();
+    final input = UpdateCallInput(
+      callId: initCallOutput.callId,
+      type: MessageTypeEnum.MISSED_CALL,
+      roomId: initCallOutput.roomId,
+      duration: 0,
+      receiverId: initCallOutput.receiverId,
+    );
+    final response = await _chatRepository.updateCallStatus(input);
+  }
 }
 
 Future<void> onUpdateCurrentLocation() async {
