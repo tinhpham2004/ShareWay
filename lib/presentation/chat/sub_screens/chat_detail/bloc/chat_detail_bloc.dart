@@ -144,7 +144,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     final input = InitCallInput(
       chatRoomId: chatRoomsBloc.state.selectedChat?.roomId ?? '',
       receiverId: chatRoomsBloc.state.selectedChat?.receiver?.id ?? '',
-      expireTime: 60,
+      expireTime: 3600,
     );
 
     final response = await _chatRepository.initCall(input);

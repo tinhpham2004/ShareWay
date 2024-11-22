@@ -78,11 +78,9 @@ class CallBloc extends Cubit<CallState> {
     try {
       emit(state.copyWith(rtcEngine: createAgoraRtcEngine()));
       await [Permission.microphone, Permission.camera].request();
-      // await state.rtcEngine?.initialize(
-      //     const RtcEngineContext(appId: '0127a16f300f4d0997ba704e3e24b26a'));
 
       await state.rtcEngine?.initialize(
-          const RtcEngineContext(appId: '2dfb2247a90f4e9992409c5d654f2be9'));
+          const RtcEngineContext(appId: '0127a16f300f4d0997ba704e3e24b26a'));
 
       await state.rtcEngine?.enableVideo();
 
@@ -127,9 +125,9 @@ class CallBloc extends Cubit<CallState> {
         channelProfile: ChannelProfileType.channelProfileCommunication,
       );
 
+      print('token: ${data.token}');
+
       await state.rtcEngine?.joinChannel(
-        // token:
-        //     '0060127a16f300f4d0997ba704e3e24b26aIACYfW+EN4jOOWi9SuRBnxRAjUG3Bz+vFLLw9XrnTSMCY94/IoAAAAAAEAAqPbmhSa9AZwEAAQDZaz9n',
         token: data.token ?? '',
         channelId: data.roomId ?? '',
         uid: state.uid ?? 0,

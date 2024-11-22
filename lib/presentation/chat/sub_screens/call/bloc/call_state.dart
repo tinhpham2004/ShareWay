@@ -36,7 +36,7 @@ class CallState {
     this.rtcEngine,
     this.uid,
     this.remoteUid,
-    this.remainingWaitingTime = const Duration(seconds: 60),
+    this.remainingWaitingTime = const Duration(seconds: 3600),
     this.currentTime = Duration.zero,
     this.videoPosition = const Offset(20, 20),
   });

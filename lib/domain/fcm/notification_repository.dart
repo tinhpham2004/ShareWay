@@ -81,7 +81,13 @@ class NotificationRepository {
   }
 
   Future<String?> getDeviceToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    return token;
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      return token;
+    } catch (e) {
+      print(e);
+    } finally {
+      return null;
+    }
   }
 }
