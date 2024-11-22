@@ -143,6 +143,7 @@ class _CallScreenState extends State<CallScreen> {
                           backgroundColor: AppColor.transparent,
                           padding: EdgeInsets.zero,
                           isBorder: false,
+                          onPressed: () => bloc.onLeaveCall(context),
                         ),
                         AppButton(
                           icon: Assets.icons.mic.svg(

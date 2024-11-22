@@ -5,6 +5,7 @@ import 'package:share_way_frontend/data/api/api_service.dart';
 import 'package:share_way_frontend/data/api/chat/request/init_call_request/init_call_request.dart';
 import 'package:share_way_frontend/data/api/chat/request/send_image_request/send_image_request.dart';
 import 'package:share_way_frontend/data/api/chat/request/send_message_request/send_message_request.dart';
+import 'package:share_way_frontend/data/api/chat/request/update_call_request/update_call_request.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_messages_response/get_chat_messages_response.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_messages_response/message_response.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_rooms_response/get_chat_rooms_response.dart';
@@ -58,6 +59,15 @@ class ChatService {
       ChatApi.initiateCall,
       params: request.toJson(),
       fromJson: (json) => InitCallResponse.fromJson(json),
+    );
+    return response;
+  }
+
+  Future<MessageResponse?> updateCallStatus(UpdateCallRequest request) async {
+    final response = await _service.post(
+      ChatApi.updateCallStatus,
+      data: request.toJson(),
+      fromJson: (json) => MessageResponse.fromJson(json),
     );
     return response;
   }

@@ -9,10 +9,8 @@ class InitCallRequest {
   String? chatRoomId;
   @JsonKey(name: 'receiverID')
   String? receiverId;
-  @JsonKey(name: 'expireTime')
-  int? expireTime;
 
-  InitCallRequest({this.chatRoomId, this.receiverId, this.expireTime});
+  InitCallRequest({this.chatRoomId, this.receiverId});
 
   Map<String, dynamic> toJson() => _$InitCallRequestToJson(this);
 
@@ -20,7 +18,6 @@ class InitCallRequest {
     return InitCallRequest(
       chatRoomId: input.chatRoomId,
       receiverId: input.receiverId,
-      expireTime: input.expireTime,
     );
   }
 }

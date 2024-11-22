@@ -5,9 +5,24 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 enum MessageTypeEnum {
   TEXT,
   IMAGE,
-  AUDIOCALL,
-  MISSED_CALL,
-  VIDEOCALL;
+  CALL,
+  MISSED_CALL;
+
+
+  String getString() {
+    switch (this) {
+      case MessageTypeEnum.TEXT:
+        return 'text';
+      case MessageTypeEnum.IMAGE:
+        return 'image';
+      case MessageTypeEnum.CALL:
+        return 'call';
+      case MessageTypeEnum.MISSED_CALL:
+        return 'missed_call';
+      default:
+        return 'text';
+    }
+  }
 
   static MessageTypeEnum fromString(String value) {
     switch (value) {
@@ -15,10 +30,8 @@ enum MessageTypeEnum {
         return MessageTypeEnum.TEXT;
       case 'image':
         return MessageTypeEnum.IMAGE;
-      case 'voice_call':
-        return MessageTypeEnum.AUDIOCALL;
-      case 'video_call':
-        return MessageTypeEnum.VIDEOCALL;
+      case 'call':
+        return MessageTypeEnum.CALL;
       case 'missed_call':
         return MessageTypeEnum.MISSED_CALL;
       default:
@@ -32,12 +45,10 @@ enum MessageTypeEnum {
         return space0;
       case MessageTypeEnum.IMAGE:
         return space0;
-      case MessageTypeEnum.AUDIOCALL:
+      case MessageTypeEnum.CALL:
         return AppIcon.audioCallMessage;
       case MessageTypeEnum.MISSED_CALL:
         return AppIcon.missedAudioCallMessage;
-      case MessageTypeEnum.VIDEOCALL:
-        return AppIcon.audioCallMessage;
       default:
         return space0;
     }
@@ -49,12 +60,10 @@ enum MessageTypeEnum {
         return 'Tin nhắn';
       case MessageTypeEnum.IMAGE:
         return 'Hình ảnh';
-      case MessageTypeEnum.AUDIOCALL:
+      case MessageTypeEnum.CALL:
         return 'Cuộc gọi thoại';
       case MessageTypeEnum.MISSED_CALL:
         return 'Cuộc gọi nhỡ';
-      case MessageTypeEnum.VIDEOCALL:
-        return 'Cuộc gọi video';
       default:
         return 'Tin nhắn';
     }

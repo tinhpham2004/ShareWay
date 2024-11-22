@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/chat/chat_repository.dart';
+import 'package:share_way_frontend/domain/chat/input/update_call_input.dart';
 import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_state.dart';
@@ -16,6 +19,7 @@ class CallBloc extends Cubit<CallState> {
   Timer? waitingTimer;
 
   final InitCallOutput data;
+  final _chatRepository = ChatRepository();
 
   CallBloc({required this.data}) : super(CallState());
   void onStart(BuildContext context) {
@@ -57,12 +61,28 @@ class CallBloc extends Cubit<CallState> {
     emit(state.copyWith(isVideoOn: !state.isVideoOn));
   }
 
-  void onLeaveCall(BuildContext context) {
+  void onLeaveCall(BuildContext context) async {
     if (state.remoteUid == null) {
       // databaseService.UpdateCallMessage(widget.callId, 'rejected');
+      final input = UpdateCallInput(
+        callId: data.callId,
+        type: MessageTypeEnum.MISSED_CALL,
+        roomId: data.roomId,
+        duration: 0,
+        receiverId: data.receiverId,
+      );
+      final response = await _chatRepository.updateCallStatus(input);
     } else {
       // databaseService.UpdateCallMessage(
       //     widget.callId, 'accepted' + callingTime);
+      final input = UpdateCallInput(
+        callId: data.callId,
+        type: MessageTypeEnum.CALL,
+        roomId: data.roomId,
+        duration: state.currentTime.inSeconds,
+        receiverId: data.receiverId,
+      );
+      final response = await _chatRepository.updateCallStatus(input);
     }
     waitingTimer?.cancel();
     countingTimer?.cancel();
@@ -70,7 +90,6 @@ class CallBloc extends Cubit<CallState> {
       state.rtcEngine!.release();
       state.rtcEngine!.leaveChannel();
     }
-    GoRouter.of(context).pop();
   }
 
   void onInitCall(BuildContext context) async {
@@ -97,14 +116,31 @@ class CallBloc extends Cubit<CallState> {
             onStartCountingTimer();
           },
           onLeaveChannel: (connection, stats) {
-            // Get.toNamed(AppRoutes.message);
+            GoRouter.of(context).pop();
           },
-          onUserOffline: (connection, _remoteUid, reason) {
+          onUserOffline: (connection, _remoteUid, reason) async {
             if (state.remoteUid == null) {
               // databaseService.UpdateCallMessage(widget.callId, 'rejected');
+              final input = UpdateCallInput(
+                callId: data.callId,
+                type: MessageTypeEnum.MISSED_CALL,
+                roomId: data.roomId,
+                duration: 0,
+                receiverId: data.receiverId,
+              );
+              final response = await _chatRepository.updateCallStatus(input);
             } else {
               // databaseService.UpdateCallMessage(
               //     widget.callId, 'accepted' + callingTime);
+
+              final input = UpdateCallInput(
+                callId: data.callId,
+                type: MessageTypeEnum.CALL,
+                roomId: data.roomId,
+                duration: state.currentTime.inSeconds,
+                receiverId: data.receiverId,
+              );
+              final response = await _chatRepository.updateCallStatus(input);
             }
             emit(state.copyWith(remoteUid: null));
             waitingTimer?.cancel();
@@ -113,7 +149,6 @@ class CallBloc extends Cubit<CallState> {
               state.rtcEngine!.release();
               state.rtcEngine!.leaveChannel();
             }
-            GoRouter.of(context).pop();
           },
         ),
       );
@@ -124,8 +159,6 @@ class CallBloc extends Cubit<CallState> {
         clientRoleType: ClientRoleType.clientRoleBroadcaster,
         channelProfile: ChannelProfileType.channelProfileCommunication,
       );
-
-      print('token: ${data.token}');
 
       await state.rtcEngine?.joinChannel(
         token: data.token ?? '',

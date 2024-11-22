@@ -11,6 +11,7 @@ import 'package:share_way_frontend/domain/chat/input/init_call_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_image_input.dart';
 import 'package:share_way_frontend/domain/chat/input/send_message_input.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
+import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_state.dart';
@@ -25,6 +26,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     _webSocketRepository = WebSocketRepository(
       onNewTextMessage: onReceiveMessage,
       onNewImageMessage: onReceiveImage,
+      onUpdateCall: onUpdateCall,
     );
     _webSocketRepository.connect();
   }
@@ -121,6 +123,30 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     emit(state.copyWith(messages: messages, isSendingMessage: false));
   }
 
+  // void onInitiateCall(InitCallOutput output) async {
+  //   final messages = List<ChatMessageOutput>.from(state.messages);
+
+  //   final message = ChatMessageOutput(
+
+  //   );
+
+  //   messages.add(message);
+
+  //   chatRoomsBloc.onUpdateLastMessage(
+  //       message.copyWith(message: message.messageType.getMessageTitle()));
+
+  //   emit(state.copyWith(messages: messages));
+  // }
+
+  void onUpdateCall(ChatMessageOutput message) {
+    final messages = List<ChatMessageOutput>.from(state.messages);
+    messages.add(message);
+
+    chatRoomsBloc.onUpdateLastMessage(message.copyWith(message: message.messageType.getMessageTitle()));
+
+    emit(state.copyWith(messages: messages));
+  }
+
   void onReceiveMessage(ChatMessageOutput message) {
     final messages = List<ChatMessageOutput>.from(state.messages);
     messages.add(message);
@@ -144,7 +170,6 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     final input = InitCallInput(
       chatRoomId: chatRoomsBloc.state.selectedChat?.roomId ?? '',
       receiverId: chatRoomsBloc.state.selectedChat?.receiver?.id ?? '',
-      expireTime: 3600,
     );
 
     final response = await _chatRepository.initCall(input);
@@ -155,7 +180,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
       return;
     }
 
-    GoRouter.of(context).go(AppPath.call, extra: response);
+    GoRouter.of(context).push(AppPath.call, extra: response);
 
     emit(state.copyWith(isSendingCall: false));
   }

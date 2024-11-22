@@ -91,5 +91,4 @@ class AppIcon {
   );
   static Widget volume = Assets.icons.volume.svg();
   static Widget mic = Assets.icons.mic.svg();
-
 }

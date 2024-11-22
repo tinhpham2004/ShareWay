@@ -1,5 +1,7 @@
 import 'package:share_way_frontend/data/api/chat/response/get_chat_messages_response/message_response.dart';
+import 'package:share_way_frontend/data/api/chat/response/init_call_response/init_call_response.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
+import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/cancel_ride_request/cancel_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/end_ride/end_ride_data.dart';
@@ -27,6 +29,8 @@ class WebSocketRepository {
   final void Function(EndRideData)? onEndRide;
   final void Function(ChatMessageOutput)? onNewTextMessage;
   final void Function(ChatMessageOutput)? onNewImageMessage;
+  final void Function(InitCallOutput)? onInitiateCall;
+  final void Function(ChatMessageOutput)? onUpdateCall;
 
   WebSocketRepository({
     this.onNewGiveRideRequest,
@@ -40,6 +44,8 @@ class WebSocketRepository {
     this.onEndRide,
     this.onNewTextMessage,
     this.onNewImageMessage,
+    this.onInitiateCall,
+    this.onUpdateCall,
   });
 
   void connect() async {
@@ -122,6 +128,20 @@ class WebSocketRepository {
           final response = MessageResponse.fromJson(data);
           final message = ChatMessageOutput.fromApiModel(response);
           onNewImageMessage!(message);
+        }
+        break;
+      case 'initiate-call':
+        if (onInitiateCall != null) {
+          final response = InitCallResponse.fromJson(data);
+          final message = InitCallOutput.fromApiModel(response);
+          onInitiateCall!(message);
+        }
+        break;
+      case 'update-call-status':
+        if (onUpdateCall != null) {
+          final response = MessageResponse.fromJson(data);
+          final message = ChatMessageOutput.fromApiModel(response);
+          onUpdateCall!(message);
         }
         break;
       default:

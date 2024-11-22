@@ -22,7 +22,8 @@ class InitCallDataResponse {
     this.callId,
   });
 
-  factory InitCallDataResponse.fromJson(Map<String, dynamic> json) => _$InitCallDataResponseFromJson(json);
+  factory InitCallDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$InitCallDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$InitCallDataResponseToJson(this);
 }

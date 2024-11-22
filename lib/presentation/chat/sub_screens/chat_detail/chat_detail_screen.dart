@@ -520,11 +520,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             style: textTheme.titleMedium,
                           ),
                           InkWell(
-                            onTap: state.selectedImage != null ? () => bloc.onSendImage(context) : null,
+                            onTap: state.selectedImage != null
+                                ? () => bloc.onSendImage(context)
+                                : null,
                             child: Text(
                               'Gửi',
                               style: textTheme.titleSmall!.copyWith(
-                                color: state.selectedImage != null ? AppColor.primaryColor : AppColor.secondary300,
+                                color: state.selectedImage != null
+                                    ? AppColor.primaryColor
+                                    : AppColor.secondary300,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
