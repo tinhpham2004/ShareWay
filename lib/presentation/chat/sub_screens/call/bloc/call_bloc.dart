@@ -78,38 +78,38 @@ class CallBloc extends Cubit<CallState> {
   }
 
   void onLeaveCall(BuildContext context) async {
-    // if (state.remoteUid == null) {
-    //   // databaseService.UpdateCallMessage(widget.callId, 'rejected');
-    //   final input = UpdateCallInput(
-    //     callId: data.callId,
-    //     type: MessageTypeEnum.MISSED_CALL,
-    //     roomId: data.roomId,
-    //     duration: 0,
-    //     receiverId: data.receiverId,
-    //   );
-    //   final response = await _chatRepository.updateCallStatus(input);
-    //   if (response == null) {
-    //     showErrorSnackbar(context, 'Đã có lỗi xảy ra');
-    //     return;
-    //   }
-    //   chatDetailBloc.onUpdateCall(response);
-    // } else {
-    //   // databaseService.UpdateCallMessage(
-    //   //     widget.callId, 'accepted' + callingTime);
-    //   final input = UpdateCallInput(
-    //     callId: data.callId,
-    //     type: MessageTypeEnum.CALL,
-    //     roomId: data.roomId,
-    //     duration: state.currentTime.inSeconds,
-    //     receiverId: data.receiverId,
-    //   );
-    //   final response = await _chatRepository.updateCallStatus(input);
-    //   if (response == null) {
-    //     showErrorSnackbar(context, 'Đã có lỗi xảy ra');
-    //     return;
-    //   }
-    //   chatDetailBloc.onUpdateCall(response);
-    // }
+    if (state.remoteUid == null) {
+      // databaseService.UpdateCallMessage(widget.callId, 'rejected');
+      final input = UpdateCallInput(
+        callId: data.callId,
+        type: MessageTypeEnum.MISSED_CALL,
+        roomId: data.roomId,
+        duration: 0,
+        receiverId: data.receiverId,
+      );
+      final response = await _chatRepository.updateCallStatus(input);
+      if (response == null) {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+        return;
+      }
+      chatDetailBloc.onUpdateCall(response);
+    } else {
+      // databaseService.UpdateCallMessage(
+      //     widget.callId, 'accepted' + callingTime);
+      final input = UpdateCallInput(
+        callId: data.callId,
+        type: MessageTypeEnum.CALL,
+        roomId: data.roomId,
+        duration: state.currentTime.inSeconds,
+        receiverId: data.receiverId,
+      );
+      final response = await _chatRepository.updateCallStatus(input);
+      if (response == null) {
+        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+        return;
+      }
+      chatDetailBloc.onUpdateCall(response);
+    }
     if (waitingTimer != null) {
       waitingTimer!.cancel();
     }

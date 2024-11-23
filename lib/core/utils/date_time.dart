@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 extension FormatDate on DateTime {
   String format({String? locale, required String pattern}) {
-    return DateFormat(pattern, locale).format(this);
+    return DateFormat(pattern, locale).format(toLocal());
   }
 
   bool isSameDay(DateTime other) {
