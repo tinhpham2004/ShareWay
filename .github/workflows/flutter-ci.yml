@@ -18,8 +18,8 @@ jobs:
 
       - name: Set up Flutter
         run: |
-          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz
-          tar -xf flutter_linux_3.24.5-stable.tar.xz
+          curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.3-stable.tar.xz
+          tar -xf flutter_linux_3.22.3-stable.tar.xz
           echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
 
       - name: Install Dependencies
@@ -34,13 +34,13 @@ jobs:
             ${{ runner.os }}-build-runner-
 
       - name: Run Build Runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs --low-resources-mode
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Build Android APK
         run: flutter build apk --release
 
       - name: Upload Android Artifact (ShareWay)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ShareWay-Android-${{ github.run_number }}
           path: build/app/outputs/flutter-apk/app-release.apk
