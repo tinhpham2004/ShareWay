@@ -6,6 +6,7 @@ import 'package:share_way_frontend/data/api/ride/ride_service.dart';
 import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/matched_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
+import 'package:share_way_frontend/domain/ride/output/pending_ride_output.dart';
 
 class RideRepository {
   final _service = RideService();
@@ -135,5 +136,20 @@ class RideRepository {
       }
     }
     return false;
+  }
+
+    Future<PendingRideOutput?> getAllPendingRide() async {
+    try {
+      final result =
+          await _service.getAllPendingRide();
+      if(result != null){
+        return PendingRideOutput.fromApiModel(result);
+      }
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+    return null;
   }
 }

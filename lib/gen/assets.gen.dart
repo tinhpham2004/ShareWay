@@ -138,6 +138,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/volume.svg
   SvgGenImage get volume => const SvgGenImage('assets/icons/volume.svg');
 
+  /// File path: assets/icons/wallet.svg
+  SvgGenImage get wallet => const SvgGenImage('assets/icons/wallet.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
         account,
@@ -174,7 +177,8 @@ class $AssetsIconsGen {
         shieldCheck,
         swapLocation,
         video,
-        volume
+        volume,
+        wallet
       ];
 }
 

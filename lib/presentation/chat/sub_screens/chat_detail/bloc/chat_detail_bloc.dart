@@ -141,7 +141,8 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     final messages = List<ChatMessageOutput>.from(state.messages);
     messages.add(message);
 
-    chatRoomsBloc.onUpdateLastMessage(message.copyWith(message: message.messageType.getMessageTitle()));
+    chatRoomsBloc.onUpdateLastMessage(
+        message.copyWith(message: message.messageType.getMessageTitle()));
 
     emit(state.copyWith(messages: messages));
   }
@@ -180,8 +181,8 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
     }
     emit(state.copyWith(isSendingCall: false, initCallOutput: response));
 
-    GoRouter.of(context).push(AppPath.call, extra: context.read<ChatDetailBloc>());
-
+    GoRouter.of(context)
+        .push(AppPath.call, extra: context.read<ChatDetailBloc>());
   }
 
   void onUpdateCall(ChatMessageOutput message) async {
@@ -189,7 +190,8 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
     messages.add(message);
 
-    chatRoomsBloc.onUpdateLastMessage(message.copyWith(message: message.messageType.getMessageTitle()));
+    chatRoomsBloc.onUpdateLastMessage(
+        message.copyWith(message: message.messageType.getMessageTitle()));
 
     emit(state.copyWith(messages: messages));
   }

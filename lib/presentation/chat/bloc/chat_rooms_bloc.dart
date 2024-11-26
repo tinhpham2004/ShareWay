@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/chat/chat_repository.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_rooms_output/chat_rooms_output.dart';
@@ -17,16 +18,16 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
 
   final _chatRepository = ChatRepository();
 
-  void onStart() {
+  void onStart(BuildContext context) {
     try {
-      onFetchAssets();
+      onFetchAssets(context);
       onFetchChatRooms();
     } catch (e) {
       // TODO: Add onboarding logic
     }
   }
 
-  void onFetchAssets() async {
+  void onFetchAssets(BuildContext context) async {
     final permission = await PhotoManager.requestPermissionExtend();
     if (permission.isAuth) {
       final albums =
@@ -44,6 +45,9 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
         emit(state.copyWith(assets: assets));
       }
     }
+    // else{
+    //   showErrorSnackbar(context, permission.name);
+    // }
   }
 
   Future<void> onFetchChatRooms() async {

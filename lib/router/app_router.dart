@@ -36,6 +36,7 @@ import 'package:share_way_frontend/presentation/auth/sub_screens/otp/otp_screen.
 import 'package:share_way_frontend/presentation/onboarding/onboarding_screen.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/sign_up_name/sign_up_name_screen.dart';
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/verify_id_card_screen.dart';
+import 'package:share_way_frontend/presentation/pending_ride/pending_ride_screen.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
 class AppRouter {
@@ -272,6 +273,12 @@ class AppRouter {
               path: AppPath.hitchRideComplete,
               builder: (context, state) {
                 return HitchRideCompleteScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.pendingRide,
+              builder: (context, state) {
+                return PendingRideScreen();
               },
             ),
             GoRoute(

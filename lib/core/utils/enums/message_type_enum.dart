@@ -8,7 +8,6 @@ enum MessageTypeEnum {
   CALL,
   MISSED_CALL;
 
-
   String getString() {
     switch (this) {
       case MessageTypeEnum.TEXT:

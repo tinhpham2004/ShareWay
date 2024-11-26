@@ -1,6 +1,8 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/data/api/map/response/suggest_give_riders_response/suggest_give_riders_ride_offer_response.dart';
+import 'package:share_way_frontend/data/api/ride/response/pending_ride_response/pending_ride_offer_response.dart';
+import 'package:share_way_frontend/data/api/ride/response/pending_ride_response/pending_ride_request_response.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/end_ride/end_ride_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_give_ride_request/new_give_ride_request_data.dart';
@@ -206,6 +208,39 @@ class GiveRideRecommendationOuput {
       ),
       rideId: data.rideId,
       fare: data.fare,
+    );
+  }
+
+  factory GiveRideRecommendationOuput.fromPendingRide(PendingRideOfferResponse response){
+    return GiveRideRecommendationOuput(
+      giveRideId: response.rideOfferId,
+      distance: response.distance?.toDouble(),
+      duration: (response.duration != null)
+          ? response.duration! ~/ 60 + (response.duration! % 60 == 0 ? 0 : 1)
+          : null,
+      polyline: response.encodedPolyline,
+      startLocation: Geocode(
+        latitude: response.startLatitude ?? 0.0,
+        longitude: response.startLongitude ?? 0.0,
+      ),
+      endLocation: Geocode(
+        latitude: response.endLatitude ?? 0.0,
+        longitude: response.endLongitude ?? 0.0,
+      ),
+      startTime: response.startTime,
+      endTime: response.endTime,
+      user: AppUser(
+        id: response.user?.userId,
+        fullName: response.user?.fullName,
+        phoneNumber: response.user?.phoneNumber,
+      ),
+      vehicle: GetVehicleOuput(
+        vehicleId: response.vehicle?.vehicleId,
+        name: response.vehicle?.name,
+        fuelConsumed: response.vehicle?.fuelConsumed,
+        licensePlate: response.vehicle?.licensePlate,
+      ),
+      fare: response.fare,
     );
   }
 }

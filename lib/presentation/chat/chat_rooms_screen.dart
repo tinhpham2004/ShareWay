@@ -34,7 +34,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bloc..onStart(),
+      create: (context) => bloc..onStart(context),
       child: BlocBuilder<ChatRoomsBloc, ChatRoomsState>(
         builder: (context, state) {
           return Scaffold(

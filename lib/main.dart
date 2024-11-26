@@ -84,15 +84,19 @@ Future<GoRouter> initializeRouter() async {
 }
 
 Future<void> initNotification() async {
-  final notificationRepository =
-      NotificationRepository(onNotificationResponse: onNotificationResponse);
-  final deviceToken = await notificationRepository.getDeviceToken();
-  if (deviceToken != null) {
-    final userRepository = UserRepository();
-    final response = await userRepository.registerDeviceToken(deviceToken);
-    if (response) {
-      print('Device token registered with token: $deviceToken');
+  try {
+    final notificationRepository =
+        NotificationRepository(onNotificationResponse: onNotificationResponse);
+    final deviceToken = await notificationRepository.getDeviceToken();
+    if (deviceToken != null) {
+      final userRepository = UserRepository();
+      final response = await userRepository.registerDeviceToken(deviceToken);
+      if (response) {
+        print('Device token registered with token: $deviceToken');
+      }
     }
+  } catch (e) {
+    print(e);
   }
 }
 
@@ -200,7 +204,7 @@ void _handleInitiateCall(NotificationResponse message) async {
   if (message.actionId == 'accept') {
     final chatRoomsBloc = ChatRoomsBloc();
     await chatRoomsBloc.onFetchChatRooms();
-    chatRoomsBloc.onFetchAssets();
+    chatRoomsBloc.onFetchAssets(navigatorKey.currentContext!);
     chatRoomsBloc.emit(chatRoomsBloc.state.copyWith(
       selectedChat: chatRoomsBloc.state.chatRooms.firstWhereOrNull(
         (e) => e.roomId == initCallOutput.roomId,

@@ -33,6 +33,10 @@ abstract class _$HitchRideRecommendationOuputCWProxy {
 
   HitchRideRecommendationOuput status(RideStatusEnum status);
 
+  HitchRideRecommendationOuput startAddress(String? startAddress);
+
+  HitchRideRecommendationOuput endAddress(String? endAddress);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -53,6 +57,8 @@ abstract class _$HitchRideRecommendationOuputCWProxy {
     String? vehicleId,
     String? rideId,
     RideStatusEnum? status,
+    String? startAddress,
+    String? endAddress,
   });
 }
 
@@ -114,6 +120,14 @@ class _$HitchRideRecommendationOuputCWProxyImpl
       this(status: status);
 
   @override
+  HitchRideRecommendationOuput startAddress(String? startAddress) =>
+      this(startAddress: startAddress);
+
+  @override
+  HitchRideRecommendationOuput endAddress(String? endAddress) =>
+      this(endAddress: endAddress);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -135,6 +149,8 @@ class _$HitchRideRecommendationOuputCWProxyImpl
     Object? vehicleId = const $CopyWithPlaceholder(),
     Object? rideId = const $CopyWithPlaceholder(),
     Object? status = const $CopyWithPlaceholder(),
+    Object? startAddress = const $CopyWithPlaceholder(),
+    Object? endAddress = const $CopyWithPlaceholder(),
   }) {
     return HitchRideRecommendationOuput(
       hitchRideId: hitchRideId == const $CopyWithPlaceholder()
@@ -189,6 +205,14 @@ class _$HitchRideRecommendationOuputCWProxyImpl
           ? _value.status
           // ignore: cast_nullable_to_non_nullable
           : status as RideStatusEnum,
+      startAddress: startAddress == const $CopyWithPlaceholder()
+          ? _value.startAddress
+          // ignore: cast_nullable_to_non_nullable
+          : startAddress as String?,
+      endAddress: endAddress == const $CopyWithPlaceholder()
+          ? _value.endAddress
+          // ignore: cast_nullable_to_non_nullable
+          : endAddress as String?,
     );
   }
 }

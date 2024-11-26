@@ -91,4 +91,14 @@ class AppIcon {
   );
   static Widget volume = Assets.icons.volume.svg();
   static Widget mic = Assets.icons.mic.svg();
+  static Widget homeClock = Icon(
+    Icons.access_time,
+    size: size + 5.sp,
+  );
+  static Icon location_outlined = Icon(
+    Icons.location_on_outlined,
+    color: AppColor.primaryColor,
+    size: size + 12.sp,
+  );
+  static Widget wallet = Assets.icons.wallet.svg();
 }

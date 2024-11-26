@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:location/location.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/presentation/home/bloc/home_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
@@ -26,5 +27,9 @@ class HomeBloc extends Cubit<HomeState> {
 
   void onHitchRidePressed(BuildContext context) {
     GoRouter.of(context).push(AppPath.hitchRidePickLocation);
+  }
+
+  void onPendingRidePressed(BuildContext context) {
+    GoRouter.of(context).push(AppPath.pendingRide);
   }
 }

@@ -8,6 +8,8 @@ import 'package:share_way_frontend/core/constants/app_name.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
+import 'package:share_way_frontend/core/widgets/bottom_sheet/app_bottom_sheet.dart';
+import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/core/widgets/map/pick_location_map.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -22,23 +24,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late HomeBloc bloc;
+  final DraggableScrollableController _draggableScrollableController =
+      DraggableScrollableController();
+  final ValueNotifier<bool> _isExpanded = ValueNotifier(true);
 
   @override
   void initState() {
     super.initState();
     bloc = HomeBloc();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showPersistentBottomSheet();
+    _draggableScrollableController.addListener(() {
+      _isExpanded.value = _draggableScrollableController.size > 0.15;
     });
   }
 
-  void _showPersistentBottomSheet() {
-    _scaffoldKey.currentState?.showBottomSheet(
-      (context) => _buildBottomSheetContent(),
-      backgroundColor: Colors.transparent,
-    );
+  @override
+  void dispose() {
+    _draggableScrollableController.dispose();
+    _isExpanded.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,11 +52,16 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return Scaffold(
-            key: _scaffoldKey,
             bottomNavigationBar: const BottomNavigation(initialIndex: 0),
             body: Stack(
               children: [
                 PickLocationMap(),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: _buildServiceBottomSheet(),
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -90,20 +99,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                          color: AppColor.secondary300,
+                    InkWell(
+                      onTap: () => bloc.onPendingRidePressed(context),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColor.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: AppColor.secondary300,
+                          ),
                         ),
+                        margin: EdgeInsets.only(
+                          right: 16.w,
+                          top: 16.h,
+                        ),
+                        padding: EdgeInsets.all(16.w),
+                        child: AppIcon.homeClock,
                       ),
-                      margin: EdgeInsets.only(
-                        right: 16.w,
-                        top: 16.h,
-                      ),
-                      padding: EdgeInsets.all(16.w),
-                      child: Assets.icons.homeNotification.svg(),
                     ),
                   ],
                 ),
@@ -111,68 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildBottomSheetContent() {
-    return Transform.translate(
-      offset: Offset(0, 24.h),
-      child: Container(
-        padding: EdgeInsets.only(bottom: 24.h, left: 16.w, right: 16.w),
-        decoration: BoxDecoration(
-          color: AppColor.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.r),
-            topRight: Radius.circular(20.r),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: AppColor.c_403A3A3A,
-              offset: Offset(4.w, 4.h),
-              blurRadius: 70.r,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            spaceH12,
-            const Row(
-              children: [
-                Spacer(),
-                Expanded(
-                  child: Divider(
-                    color: AppColor.secondary300,
-                    thickness: 5,
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
-            spaceH24,
-            Row(
-              children: [
-                Text(
-                  'Dịch vụ của $appName',
-                  style: textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            spaceH12,
-            Row(
-              children: [
-                _buildHitchRideServiceButton(),
-                spaceW16,
-                _buildGiveRideServiceButton(),
-              ],
-            ),
-            spaceH24,
-          ],
-        ),
       ),
     );
   }
@@ -237,6 +187,48 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildServiceBottomSheet() {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        return AppBottomSheet(
+          height: 0.45.sh,
+          draggableScrollableController: _draggableScrollableController,
+          isExpanded: _isExpanded,
+          body: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  spaceH12,
+                  Row(
+                    children: [
+                      Text(
+                        'Dịch vụ của $appName',
+                        style: textTheme.headlineSmall!.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  spaceH12,
+                  Row(
+                    children: [
+                      _buildHitchRideServiceButton(),
+                      spaceW16,
+                      _buildGiveRideServiceButton(),
+                    ],
+                  ),
+                  spaceH24,
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

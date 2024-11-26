@@ -478,7 +478,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   Future<void> showImagePicker() async {
-    bloc.chatRoomsBloc.onFetchAssets();
+    bloc.chatRoomsBloc.onFetchAssets(context);
     List<File> assets = List<File>.from(bloc.chatRoomsBloc.state.assets);
 
     showModalBottomSheet(
