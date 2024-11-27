@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:share_way_frontend/core/utils/enums/gender_enum.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/data/api/map/response/suggest_give_riders_response/suggest_give_riders_ride_offer_response.dart';
 import 'package:share_way_frontend/data/api/ride/response/pending_ride_response/pending_ride_offer_response.dart';
@@ -69,6 +70,8 @@ class GiveRideRecommendationOuput {
         id: response.user?.userId,
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
+        avatarUrl: response.user?.avatarUrl,
+        gender: GenderEnum.fromString(response.user?.gender ?? ''),
       ),
       vehicle: GetVehicleOuput(
         vehicleId: response.vehicle?.vehicleId,
@@ -104,6 +107,8 @@ class GiveRideRecommendationOuput {
         id: data.user?.id,
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
+        avatarUrl: data.user?.avatarUrl,
+        gender: GenderEnum.fromString(data.user?.gender ?? ''),
       ),
       vehicle: GetVehicleOuput(
         vehicleId: data.vehicle?.vehicleId,
@@ -146,6 +151,8 @@ class GiveRideRecommendationOuput {
         id: data.user?.id,
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
+        avatarUrl: data.user?.avatarUrl,
+        gender: GenderEnum.fromString(data.user?.gender ?? ''),
       ),
       fare: data.fare,
     );
@@ -233,6 +240,8 @@ class GiveRideRecommendationOuput {
         id: response.user?.userId,
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
+        avatarUrl: response.user?.avatarUrl,
+        gender: GenderEnum.fromString(response.user?.gender ?? ''),
       ),
       vehicle: GetVehicleOuput(
         vehicleId: response.vehicle?.vehicleId,

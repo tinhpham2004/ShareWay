@@ -12,6 +12,8 @@ NewHitchRideRequestUser _$NewHitchRideRequestUserFromJson(
       id: json['user_id'] as String?,
       phoneNumber: json['phone_number'] as String?,
       fullName: json['full_name'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
+      gender: json['gender'] as String?,
     );
 
 Map<String, dynamic> _$NewHitchRideRequestUserToJson(
@@ -20,4 +22,6 @@ Map<String, dynamic> _$NewHitchRideRequestUserToJson(
       'user_id': instance.id,
       'phone_number': instance.phoneNumber,
       'full_name': instance.fullName,
+      'avatar_url': instance.avatarUrl,
+      'gender': instance.gender,
     };

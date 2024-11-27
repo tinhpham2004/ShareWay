@@ -12,6 +12,8 @@ SuggestGiveRidersUserResponse _$SuggestGiveRidersUserResponseFromJson(
       fullName: json['full_name'] as String?,
       phoneNumber: json['phone_number'] as String?,
       userId: json['user_id'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
+      gender: json['gender'] as String?,
     );
 
 Map<String, dynamic> _$SuggestGiveRidersUserResponseToJson(
@@ -20,4 +22,6 @@ Map<String, dynamic> _$SuggestGiveRidersUserResponseToJson(
       'full_name': instance.fullName,
       'phone_number': instance.phoneNumber,
       'user_id': instance.userId,
+      'avatar_url': instance.avatarUrl,
+      'gender': instance.gender,
     };

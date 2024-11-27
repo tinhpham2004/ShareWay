@@ -5,6 +5,7 @@ import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
+import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation/bloc/hitch_ride_recommendation_bloc.dart';
@@ -101,7 +102,9 @@ class _HitchRideRecommendationScreenState
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: ListTile(
-                    leading: Assets.images.exampleAvatar.image(),
+                    leading: AppAvatar(
+                      avatarUrl: item.user?.avatarUrl ?? '',
+                    ),
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

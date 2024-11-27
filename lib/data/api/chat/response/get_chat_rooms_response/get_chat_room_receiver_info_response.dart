@@ -10,9 +10,18 @@ class GetChatRoomReceiverInfoResponse {
   String? phoneNumber;
   @JsonKey(name: 'user_id')
   String? userId;
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+  @JsonKey(name: 'gender')
+  String? gender;
 
-  GetChatRoomReceiverInfoResponse(
-      {this.fullName, this.phoneNumber, this.userId});
+  GetChatRoomReceiverInfoResponse({
+    this.fullName,
+    this.phoneNumber,
+    this.userId,
+    this.avatarUrl,
+    this.gender,
+  });
 
   factory GetChatRoomReceiverInfoResponse.fromJson(Map<String, dynamic> json) {
     return _$GetChatRoomReceiverInfoResponseFromJson(json);

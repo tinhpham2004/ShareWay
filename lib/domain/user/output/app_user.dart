@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:share_way_frontend/core/utils/enums/gender_enum.dart';
 import 'package:share_way_frontend/data/api/user/response/user_response/user_response.dart';
 part 'app_user.g.dart';
 
@@ -13,6 +14,8 @@ class AppUser {
   String? phoneNumber;
   String? role;
   DateTime? updatedAt;
+  String? avatarUrl;
+  GenderEnum gender;
 
   AppUser({
     this.createdAt,
@@ -24,6 +27,8 @@ class AppUser {
     this.phoneNumber,
     this.role,
     this.updatedAt,
+    this.avatarUrl,
+    this.gender = GenderEnum.MALE,
   });
 
   factory AppUser.fromApiModel(UserResponse data) {
@@ -37,6 +42,8 @@ class AppUser {
       phoneNumber: data.phoneNumber,
       role: data.role,
       updatedAt: data.updatedAt,
+      avatarUrl: data.avatarUrl,
+      gender: GenderEnum.fromString(data.gender ?? ''),
     );
   }
 }

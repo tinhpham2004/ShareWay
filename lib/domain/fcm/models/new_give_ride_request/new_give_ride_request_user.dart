@@ -11,7 +11,19 @@ class NewGiveRideRequestUser {
   @JsonKey(name: 'full_name')
   String? fullName;
 
-  NewGiveRideRequestUser({this.id, this.phoneNumber, this.fullName});
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+
+  @JsonKey(name: 'gender')
+  String? gender;
+
+  NewGiveRideRequestUser({
+    this.id,
+    this.phoneNumber,
+    this.fullName,
+    this.avatarUrl,
+    this.gender,
+  });
 
   factory NewGiveRideRequestUser.fromJson(Map<String, dynamic> json) =>
       _$NewGiveRideRequestUserFromJson(json);

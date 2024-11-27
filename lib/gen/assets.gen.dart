@@ -189,6 +189,10 @@ class $AssetsImagesGen {
   AssetGenImage get currentLocationMark =>
       const AssetGenImage('assets/images/current_location_mark.png');
 
+  /// File path: assets/images/default_avatar.png
+  AssetGenImage get defaultAvatar =>
+      const AssetGenImage('assets/images/default_avatar.png');
+
   /// File path: assets/images/end_location_mark.png
   AssetGenImage get endLocationMark =>
       const AssetGenImage('assets/images/end_location_mark.png');
@@ -222,6 +226,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         currentLocationMark,
+        defaultAvatar,
         endLocationMark,
         exampleAvatar,
         failToLoadImage,

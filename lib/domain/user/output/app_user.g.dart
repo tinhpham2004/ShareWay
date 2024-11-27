@@ -25,6 +25,10 @@ abstract class _$AppUserCWProxy {
 
   AppUser updatedAt(DateTime? updatedAt);
 
+  AppUser avatarUrl(String? avatarUrl);
+
+  AppUser gender(GenderEnum gender);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `AppUser(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -41,6 +45,8 @@ abstract class _$AppUserCWProxy {
     String? phoneNumber,
     String? role,
     DateTime? updatedAt,
+    String? avatarUrl,
+    GenderEnum? gender,
   });
 }
 
@@ -78,6 +84,12 @@ class _$AppUserCWProxyImpl implements _$AppUserCWProxy {
   AppUser updatedAt(DateTime? updatedAt) => this(updatedAt: updatedAt);
 
   @override
+  AppUser avatarUrl(String? avatarUrl) => this(avatarUrl: avatarUrl);
+
+  @override
+  AppUser gender(GenderEnum gender) => this(gender: gender);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `AppUser(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -95,6 +107,8 @@ class _$AppUserCWProxyImpl implements _$AppUserCWProxy {
     Object? phoneNumber = const $CopyWithPlaceholder(),
     Object? role = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
+    Object? avatarUrl = const $CopyWithPlaceholder(),
+    Object? gender = const $CopyWithPlaceholder(),
   }) {
     return AppUser(
       createdAt: createdAt == const $CopyWithPlaceholder()
@@ -133,6 +147,14 @@ class _$AppUserCWProxyImpl implements _$AppUserCWProxy {
           ? _value.updatedAt
           // ignore: cast_nullable_to_non_nullable
           : updatedAt as DateTime?,
+      avatarUrl: avatarUrl == const $CopyWithPlaceholder()
+          ? _value.avatarUrl
+          // ignore: cast_nullable_to_non_nullable
+          : avatarUrl as String?,
+      gender: gender == const $CopyWithPlaceholder() || gender == null
+          ? _value.gender
+          // ignore: cast_nullable_to_non_nullable
+          : gender as GenderEnum,
     );
   }
 }

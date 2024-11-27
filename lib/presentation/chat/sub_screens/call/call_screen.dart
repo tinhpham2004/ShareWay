@@ -7,6 +7,7 @@ import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -59,9 +60,10 @@ class _CallScreenState extends State<CallScreen> {
                     filter: ImageFilter.blur(sigmaX: 5.w, sigmaY: 5.h),
                     child: Container(
                       color: AppColor.c_40D6D4D4, // Darken the blurred area
-                      child: Image.asset(
-                        Assets.images.exampleAvatar
-                            .path, // Use your profile image asset
+                      child: AppAvatar(
+                        avatarUrl: widget.chatDetailBloc.chatRoomsBloc.state
+                                .selectedChat?.receiver?.avatarUrl ??
+                            '',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -71,11 +73,12 @@ class _CallScreenState extends State<CallScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ClipOval(
-                          child: Image.asset(
-                            Assets.images.exampleAvatar.path,
+                          child: AppAvatar(
+                            avatarUrl: widget.chatDetailBloc.chatRoomsBloc.state
+                                    .selectedChat?.receiver?.avatarUrl ??
+                                '',
                             width: 120.w,
                             height: 120.h,
-                            fit: BoxFit.cover,
                           ),
                         ),
                         spaceH8,

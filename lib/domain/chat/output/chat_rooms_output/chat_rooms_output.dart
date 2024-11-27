@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:share_way_frontend/core/utils/enums/gender_enum.dart';
 import 'package:share_way_frontend/data/api/chat/response/get_chat_rooms_response/chat_room_response.dart';
 import 'package:share_way_frontend/domain/user/output/app_user.dart';
 
@@ -25,6 +26,8 @@ class ChatRoomsOutput {
         id: response.receiverInfo?.userId,
         fullName: response.receiverInfo?.fullName,
         phoneNumber: response.receiverInfo?.phoneNumber,
+        avatarUrl: response.receiverInfo?.avatarUrl,
+        gender: GenderEnum.fromString(response.receiverInfo?.gender ?? ''),
       ),
       lastMessage: response.lastMessage,
       lastMessageAt: response.lastMessageAt,

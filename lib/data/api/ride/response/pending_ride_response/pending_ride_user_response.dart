@@ -10,10 +10,21 @@ class PendingRideUserResponse {
   String? phoneNumber;
   @JsonKey(name: 'full_name')
   String? fullName;
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+  @JsonKey(name: 'gender')
+  String? gender;
 
-  PendingRideUserResponse({this.userId, this.phoneNumber, this.fullName});
+  PendingRideUserResponse({
+    this.userId,
+    this.phoneNumber,
+    this.fullName,
+    this.avatarUrl,
+    this.gender,
+  });
 
-  factory PendingRideUserResponse.fromJson(Map<String, dynamic> json) => _$PendingRideUserResponseFromJson(json);
+  factory PendingRideUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$PendingRideUserResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PendingRideUserResponseToJson(this);
 }

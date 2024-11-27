@@ -9,6 +9,7 @@ import 'package:share_way_frontend/core/utils/date_time.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
+import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -125,8 +126,10 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                                             BorderRadius.circular(8.r),
                                       ),
                                       child: ListTile(
-                                        leading:
-                                            Assets.images.exampleAvatar.image(),
+                                        leading: AppAvatar(
+                                          avatarUrl:
+                                              item.receiver?.avatarUrl ?? '',
+                                        ),
                                         title: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,

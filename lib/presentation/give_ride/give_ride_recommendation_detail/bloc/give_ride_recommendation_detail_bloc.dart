@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart'
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
+import 'dart:ui' as ui;
 
 class GiveRideRecommendationDetailBloc
     extends Cubit<GiveRideRecommendationDetailState> {
@@ -35,7 +37,7 @@ class GiveRideRecommendationDetailBloc
   GiveRideRecommendationDetailBloc()
       : super(GiveRideRecommendationDetailState()) {
     _webSocketRepository = WebSocketRepository(
-      onUpdateRideLocation: onUpdateRiderLocation,
+      // onUpdateRideLocation: onUpdateRiderLocation,
       onNewHitchRideRequest: onNewHitchRideRequest,
       onAcceptGiveRideRequest: onAcceptGiveRideRequest,
       onCancelGiveRideRequest: onCancelGiveRideRequest,
@@ -66,18 +68,18 @@ class GiveRideRecommendationDetailBloc
     ));
   }
 
-  void onUpdateRiderLocation(UpdateRideLocationData data) {
-    if (data.riderCurrentLatitude == null ||
-        data.riderCurrentLongitude == null) {
-      return;
-    }
-    emit(state.copyWith(
-      riderLocation: Geocode(
-        latitude: data.riderCurrentLatitude!,
-        longitude: data.riderCurrentLongitude!,
-      ),
-    ));
-  }
+  // void onUpdateRiderLocation(UpdateRideLocationData data) {
+  //   if (data.riderCurrentLatitude == null ||
+  //       data.riderCurrentLongitude == null) {
+  //     return;
+  //   }
+  //   emit(state.copyWith(
+  //     riderLocation: Geocode(
+  //       latitude: data.riderCurrentLatitude!,
+  //       longitude: data.riderCurrentLongitude!,
+  //     ),
+  //   ));
+  // }
 
   void onStart(HitchRideRecommendationOuput data) {
     emit(state.copyWith(
@@ -489,30 +491,68 @@ class GiveRideRecommendationDetailBloc
       final ByteData driverBytes =
           await rootBundle.load(Assets.images.realtimeCurrentLocationMark.path);
       final Uint8List driverImageData = driverBytes.buffer.asUint8List();
-      final ByteData riderBytes =
-          await rootBundle.load(Assets.images.exampleAvatar.path);
+
+      final ByteData riderBytes = await getByteDataFromCachedNetworkImage(
+              state.hitchRideRecommendationOuput?.user?.avatarUrl ?? '') ??
+          await rootBundle.load(Assets.images.defaultAvatar.path);
+
       final Uint8List riderImageData = riderBytes.buffer.asUint8List();
 
       // Update driver location
       PointAnnotationOptions driverAnnotationOptions = PointAnnotationOptions(
-          geometry: Point(
-              coordinates: Position(state.currentLocation!.longitude,
-                  state.currentLocation!.latitude)),
-          image: driverImageData,
-          iconSize: 2.0);
+        geometry: Point(
+            coordinates: Position(state.currentLocation!.longitude,
+                state.currentLocation!.latitude)),
+        image: driverImageData,
+        iconSize: driverImageData.length <= 2420 ? 2.0 : 1.0,
+      );
       state.userPointAnnotationManager?.create(driverAnnotationOptions);
 
       // Update rider location
       PointAnnotationOptions riderAnnotationOptions = PointAnnotationOptions(
-          geometry: Point(
-              coordinates: Position(state.riderLocation!.longitude,
-                  state.riderLocation!.latitude)),
-          image: riderImageData,
-          iconSize: 2.0);
+        geometry: Point(
+            coordinates: Position(state.currentLocation!.longitude,
+                state.currentLocation!.latitude)),
+        image: riderImageData,
+        iconSize: riderImageData.length <= 2420 ? 2.0 : 1.0,
+      );
       state.userPointAnnotationManager?.create(riderAnnotationOptions);
     } catch (e) {
       // Handle error
       print('Error updating location marks: $e');
+    }
+  }
+
+  Future<ByteData?> getByteDataFromCachedNetworkImage(String imageUrl) async {
+    try {
+      final Completer<ui.Image> completer = Completer<ui.Image>();
+
+      // Load the image using CachedNetworkImage
+      final imageProvider = CachedNetworkImageProvider(imageUrl);
+
+      // Resolve the image
+      imageProvider.resolve(const ImageConfiguration()).addListener(
+            ImageStreamListener(
+              (ImageInfo info, bool _) {
+                completer.complete(info.image);
+              },
+              onError: (Object error, StackTrace? stackTrace) {
+                completer.completeError(error, stackTrace);
+              },
+            ),
+          );
+
+      // Wait for the image to be loaded
+      final ui.Image image = await completer.future;
+
+      // Convert the image to ByteData
+      final ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+
+      return byteData;
+    } catch (e) {
+      print('Error: $e');
+      return null;
     }
   }
 }

@@ -10,8 +10,18 @@ class MatchRideUserResponse {
   String? phoneNumber;
   @JsonKey(name: 'user_id')
   String? userId;
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+  @JsonKey(name: 'gender')
+  String? gender;
 
-  MatchRideUserResponse({this.fullName, this.phoneNumber, this.userId});
+  MatchRideUserResponse({
+    this.fullName,
+    this.phoneNumber,
+    this.userId,
+    this.avatarUrl,
+    this.gender,
+  });
 
   factory MatchRideUserResponse.fromJson(Map<String, dynamic> json) =>
       _$MatchRideUserResponseFromJson(json);

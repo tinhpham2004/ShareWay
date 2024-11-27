@@ -20,6 +20,8 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
+      avatarUrl: json['avatar_url'] as String?,
+      gender: json['gender'] as String?,
     );
 
 Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
@@ -33,4 +35,6 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'phone_number': instance.phoneNumber,
       'role': instance.role,
       'updated_at': instance.updatedAt?.toIso8601String(),
+      'avatar_url': instance.avatarUrl,
+      'gender': instance.gender,
     };

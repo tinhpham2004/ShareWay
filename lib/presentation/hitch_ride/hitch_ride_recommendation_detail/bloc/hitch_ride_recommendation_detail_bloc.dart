@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/main.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
+import 'dart:ui' as ui;
 
 class HitchRideRecommendationDetailBloc
     extends Cubit<HitchRideRecommendationDetailState> {
@@ -423,8 +425,10 @@ class HitchRideRecommendationDetailBloc
       final ByteData riderBytes =
           await rootBundle.load(Assets.images.realtimeCurrentLocationMark.path);
       final Uint8List driverImageData = riderBytes.buffer.asUint8List();
-      final ByteData driverBytes =
-          await rootBundle.load(Assets.images.exampleAvatar.path);
+
+      final ByteData driverBytes = await getByteDataFromCachedNetworkImage(
+              state.giveRideRecommendationOuput?.user?.avatarUrl ?? '') ??
+          await rootBundle.load(Assets.images.defaultAvatar.path);
       final Uint8List riderImageData = driverBytes.buffer.asUint8List();
 
       PointAnnotationOptions riderAnnotationOptions = PointAnnotationOptions(
@@ -432,7 +436,7 @@ class HitchRideRecommendationDetailBloc
             coordinates: Position(state.driverLocation!.longitude,
                 state.driverLocation!.latitude)),
         image: driverImageData,
-        iconSize: 2.0,
+        iconSize: driverImageData.length <= 2420 ? 2.0 : 1.0,
       );
       state.userPointAnnotationManager?.create(riderAnnotationOptions);
 
@@ -441,12 +445,45 @@ class HitchRideRecommendationDetailBloc
             coordinates: Position(state.currentLocation!.longitude,
                 state.currentLocation!.latitude)),
         image: riderImageData,
-        iconSize: 2.0,
+        iconSize: riderImageData.length <= 2420 ? 2.0 : 1.0,
       );
       state.userPointAnnotationManager?.create(driverAnnotationOptions);
     } catch (e) {
       // Handle error
       print('Error updating location marks: $e');
+    }
+  }
+
+  Future<ByteData?> getByteDataFromCachedNetworkImage(String imageUrl) async {
+    try {
+      final Completer<ui.Image> completer = Completer<ui.Image>();
+
+      // Load the image using CachedNetworkImage
+      final imageProvider = CachedNetworkImageProvider(imageUrl);
+
+      // Resolve the image
+      imageProvider.resolve(const ImageConfiguration()).addListener(
+            ImageStreamListener(
+              (ImageInfo info, bool _) {
+                completer.complete(info.image);
+              },
+              onError: (Object error, StackTrace? stackTrace) {
+                completer.completeError(error, stackTrace);
+              },
+            ),
+          );
+
+      // Wait for the image to be loaded
+      final ui.Image image = await completer.future;
+
+      // Convert the image to ByteData
+      final ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+
+      return byteData;
+    } catch (e) {
+      print('Error: $e');
+      return null;
     }
   }
 

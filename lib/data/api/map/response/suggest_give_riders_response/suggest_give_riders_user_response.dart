@@ -10,8 +10,18 @@ class SuggestGiveRidersUserResponse {
   String? phoneNumber;
   @JsonKey(name: 'user_id')
   String? userId;
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+  @JsonKey(name: 'gender')
+  String? gender;
 
-  SuggestGiveRidersUserResponse({this.fullName, this.phoneNumber, this.userId});
+  SuggestGiveRidersUserResponse({
+    this.fullName,
+    this.phoneNumber,
+    this.userId,
+    this.avatarUrl,
+    this.gender,
+  });
 
   factory SuggestGiveRidersUserResponse.fromJson(Map<String, dynamic> json) =>
       _$SuggestGiveRidersUserResponseFromJson(json);

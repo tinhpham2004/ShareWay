@@ -19,6 +19,10 @@ class UserResponse {
   String? role;
   @JsonKey(name: 'updated_at')
   DateTime? updatedAt;
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+  @JsonKey(name: 'gender')
+  String? gender;
 
   UserResponse({
     this.createdAt,
@@ -30,6 +34,8 @@ class UserResponse {
     this.phoneNumber,
     this.role,
     this.updatedAt,
+    this.avatarUrl,
+    this.gender,
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>

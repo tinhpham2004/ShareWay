@@ -14,6 +14,7 @@ import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -47,7 +48,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           return Scaffold(
             appBar: Appbar(
               titleWidget: ListTile(
-                leading: Assets.images.exampleAvatar.image(),
+                leading: AppAvatar(
+                  avatarUrl: widget.chatRoomsBloc.state.selectedChat?.receiver
+                          ?.avatarUrl ??
+                      '',
+                ),
                 title: Row(
                   children: [
                     Flexible(

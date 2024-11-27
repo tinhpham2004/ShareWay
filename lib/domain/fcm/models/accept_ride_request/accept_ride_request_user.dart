@@ -13,10 +13,18 @@ class AcceptRideRequestUser {
   @JsonKey(name: 'full_name')
   String? fullName;
 
+  @JsonKey(name: 'avatar_url')
+  String? avatarUrl;
+
+  @JsonKey(name: 'gender')
+  String? gender;
+
   AcceptRideRequestUser({
     this.id,
     this.phoneNumber,
     this.fullName,
+    this.avatarUrl,
+    this.gender,
   });
 
   /// Factory method for JSON deserialization

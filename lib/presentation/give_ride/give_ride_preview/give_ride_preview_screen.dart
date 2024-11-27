@@ -8,6 +8,7 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
@@ -126,7 +127,9 @@ class GiveRidePreviewScreenState extends State<GiveRidePreviewScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
-          leading: Assets.images.exampleAvatar.image(),
+          leading: AppAvatar(
+            avatarUrl: state.user?.avatarUrl ?? '',
+          ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

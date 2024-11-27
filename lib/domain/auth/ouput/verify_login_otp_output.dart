@@ -16,9 +16,10 @@ class VerifyLoginOtpOutput {
 
   factory VerifyLoginOtpOutput.fromApiModel(VerifyLoginOtpResponse data) {
     return VerifyLoginOtpOutput(
-        accessToken: data.data?.accessToken,
-        refreshToken: data.data?.refreshToken,
-        appUser: AppUser.fromApiModel(data.data?.user ?? UserResponse()),
-        messageVi: data.messageVi);
+      accessToken: data.data?.accessToken,
+      refreshToken: data.data?.refreshToken,
+      appUser: AppUser.fromApiModel(data.data?.user ?? UserResponse()),
+      messageVi: data.messageVi,
+    );
   }
 }
