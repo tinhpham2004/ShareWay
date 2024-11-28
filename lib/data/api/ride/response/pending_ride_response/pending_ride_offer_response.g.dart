@@ -39,7 +39,10 @@ PendingRideOfferResponse _$PendingRideOfferResponseFromJson(
           : DateTime.parse(json['end_time'] as String),
       status: json['status'] as String?,
       fare: (json['fare'] as num?)?.toDouble(),
-    );
+    )..waypoints = (json['waypoints'] as List<dynamic>?)
+        ?.map((e) =>
+            PendingRideWaypointResponse.fromJson(e as Map<String, dynamic>))
+        .toList();
 
 Map<String, dynamic> _$PendingRideOfferResponseToJson(
         PendingRideOfferResponse instance) =>
@@ -62,4 +65,5 @@ Map<String, dynamic> _$PendingRideOfferResponseToJson(
       'end_time': instance.endTime?.toIso8601String(),
       'status': instance.status,
       'fare': instance.fare,
+      'waypoints': instance.waypoints,
     };

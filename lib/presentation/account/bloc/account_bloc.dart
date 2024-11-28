@@ -15,7 +15,6 @@ import 'package:share_way_frontend/presentation/account/models/setting.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 import 'dart:ui' as ui;
 
-
 class AccountBloc extends Cubit<AccountState> {
   AccountBloc() : super(AccountState());
 

@@ -29,6 +29,7 @@ class GiveRideRecommendationOuput {
   final String? hitchRideId;
   final String? rideId;
   final RideStatusEnum status;
+  final List<String> waypoints;
 
   GiveRideRecommendationOuput({
     this.giveRideId,
@@ -45,6 +46,7 @@ class GiveRideRecommendationOuput {
     this.hitchRideId,
     this.rideId,
     this.status = RideStatusEnum.CREATED,
+    this.waypoints = const [],
   });
 
   factory GiveRideRecommendationOuput.fromApiModel(
@@ -251,6 +253,11 @@ class GiveRideRecommendationOuput {
         licensePlate: response.vehicle?.licensePlate,
       ),
       fare: response.fare,
+      waypoints: [
+        response.startAddress ?? '',
+        ...response.waypoints?.map((e) => e.address ?? '').toList() ?? [],
+        response.endAddress ?? '',
+      ],
     );
   }
 }

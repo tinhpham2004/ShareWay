@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
 import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/presentation/pending_ride/bloc/pending_ride_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
@@ -56,6 +57,18 @@ class PendingRideBloc extends Cubit<PendingRideState> {
     GoRouter.of(context).push(
       AppPath.hitchRideReccomendation,
       extra: state.pendingRideRequest[selectedIndex].hitchRideId,
+    );
+  }
+
+  void onSelectGiveRide(
+      {required BuildContext context, required int selectedIndex}) {
+    final data = CreateGiveRideOutput(
+      giveRideId: state.pendingRideOffer[selectedIndex].giveRideId,
+      vehicleId: state.pendingRideOffer[selectedIndex].vehicle?.vehicleId,
+    );
+    GoRouter.of(context).push(
+      AppPath.giveRideRecommendation,
+      extra: data,
     );
   }
 }

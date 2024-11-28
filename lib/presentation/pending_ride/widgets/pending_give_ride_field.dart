@@ -16,6 +16,7 @@ class PendingGiveRideField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<PendingRideBloc>();
     return BlocBuilder<PendingRideBloc, PendingRideState>(
       builder: (context, state) {
         return Container(
@@ -33,8 +34,8 @@ class PendingGiveRideField extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = state.pendingRideOffer[index];
               return InkWell(
-                // onTap: () =>
-                //     bloc.onSelectedGiver(context: context, index: index),
+                onTap: () => bloc.onSelectGiveRide(
+                    context: context, selectedIndex: index),
                 child: Container(
                   padding: EdgeInsets.all(8.w),
                   decoration: BoxDecoration(
@@ -108,6 +109,62 @@ class PendingGiveRideField extends StatelessWidget {
                           ),
                         ],
                       ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: item.waypoints.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        separatorBuilder: (context, index) => Row(
+                          children: [
+                            Column(
+                              children: [
+                                SizedBox(
+                                  width: 28.sp,
+                                  child: _buildDashedLine(),
+                                ),
+                              ],
+                            ),
+                            const Expanded(
+                              child: Divider(
+                                color: AppColor.secondary300,
+                              ),
+                            ),
+                          ],
+                        ),
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (index != 0)
+                                    _buildDashedLine()
+                                  else
+                                    spaceH8,
+                                  index == 0
+                                      ? AppIcon.startLocation
+                                      : AppIcon.otherLocation,
+                                  if (index != item.waypoints.length - 1)
+                                    _buildDashedLine()
+                                  else
+                                    spaceH8,
+                                ],
+                              ),
+                              spaceW8,
+                              Expanded(
+                                child: TextFormField(
+                                  initialValue: item.waypoints[index],
+                                  enabled: false,
+                                  style: textTheme.bodyLarge,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -116,6 +173,25 @@ class PendingGiveRideField extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildDashedLine() {
+    return SizedBox(
+      height: 8.h,
+      width: 2.w,
+      child: Column(
+        children: List.generate(
+          2,
+          (index) => Expanded(
+            child: Container(
+              width: 2.w,
+              color:
+                  index % 2 == 0 ? AppColor.secondary300 : AppColor.transparent,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

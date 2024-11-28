@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:share_way_frontend/data/api/ride/response/pending_ride_response/pending_ride_waypoint_response.dart';
 
 import 'pending_ride_user_response.dart';
 import 'pending_ride_vehicle_response.dart';
@@ -37,6 +38,7 @@ class PendingRideOfferResponse {
   DateTime? endTime;
   String? status;
   double? fare;
+  List<PendingRideWaypointResponse>? waypoints;
 
   PendingRideOfferResponse({
     this.rideOfferId,

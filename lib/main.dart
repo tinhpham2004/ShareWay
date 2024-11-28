@@ -1,21 +1,19 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
-import 'package:share_way_frontend/data/api/chat/request/init_call_request/init_call_request.dart';
 import 'package:share_way_frontend/data/api/chat/response/init_call_response/init_call_data_response.dart';
 import 'package:share_way_frontend/data/api/chat/response/init_call_response/init_call_response.dart';
 import 'package:share_way_frontend/domain/chat/chat_repository.dart';
 import 'package:share_way_frontend/domain/chat/input/update_call_input.dart';
-import 'package:share_way_frontend/domain/chat/output/chat_rooms_output/chat_rooms_output.dart';
 import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
@@ -42,6 +40,7 @@ import 'package:share_way_frontend/router/app_router.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   await initializeApp();
   final router = await initializeRouter();
   runApp(MyApp(router: router));
@@ -57,33 +56,26 @@ Future<void> initializeApp() async {
 }
 
 Future<GoRouter> initializeRouter() async {
-  // final accessToken =
-  //     'v2.local.arjv1aF0-aWmc7E0KMvWr8qgbSuYncumX9LGahOBZIUYzYxfWi8ddBu0hyLFEv7w-fQkzxhOgrDrQV_Obol8ye2FQMvEl6vhA06ds5KWvTEMj3dINJ9_b80QwOL9JL5Tl-Xtmvzy6ZjsQ0C2Eo4-MbOzEEDTKG4oGABMOmnhis5xUXO_M4_w7cT8kikiftRofkl3v_jD-1Y_ctXMb2bZzcFx-khHx4q6Xv3bG9eXxkwCh2zm_zLEE2OrCpil995JK8LJ_v50EO0SsHDRpIEjoYZBhtwhF33W4JlCwHs7IJmauHAmOnEaUw5Pqz_vwbebiOjg4RDpQsn_-MlMoP4.bnVsbA';
-  // final _refreshToken =
-  //     'v2.local.b5Kuwt_VeI1jdTvkdNgvcGmIEZXBZpSd3j1CQYuPBVK_BryetT_FeY5GOw7e3Uul2zxXXv5aJPsUZDOk8YFYVE3fitNELIFg0fs6V3T0aBXZ76eflg7_O26TcQe0bSPuv3au6sRaVCJ6tFdG8Q9Xo15L5Mpd5GZs_w3oYx6iRo5JXVuhDQYUua92_R7sHUh2weIVAVyjeXKCwP5l7FzkB5FBlEcrkSZZqg3fyx2WnLd2mBFYBsm0eGivcfcigVzxw-kfj2zFloeW-dlwRYdzzgZeHq8Z0EtQ-MOOuQz_hFP7MCz2o6o8YgNLotA2wfcV1VPOCgk-WXSIE_Fv9SgapA.bnVsbA';
-  // final userId = '5f661237-e1ee-4c6b-8ce2-459011f6b282';
-  // await Preferences.saveToken(
-  //     accessToken: accessToken, refreshToken: _refreshToken, userId: userId);
   GoRouter router = AppRouter(navigatorKey).router;
-  String initialRoute = AppPath.account;
+  String initialRoute = AppPath.onboarding;
   dynamic extra;
 
-  // final refreshToken = await Preferences.getRefreshToken();
-  // if (refreshToken != null) {
-  //   final userRepository = UserRepository();
-  //   final user = await userRepository.getProfile();
-  //   if (user != null) {
-  //     initialRoute = AppPath.home;
-  //     // data = user;
-  //   }
-  // } else {
-  //   final authData = await Preferences.getAuthData();
-  //   if (authData != null) {
-  //     initialRoute =
-  //         authData.userId != null ? AppPath.verifyIdCard : AppPath.signUpName;
-  //     extra = authData;
-  //   }
-  // }
+  final refreshToken = await Preferences.getRefreshToken();
+  if (refreshToken != null) {
+    final userRepository = UserRepository();
+    final user = await userRepository.getProfile();
+    if (user != null) {
+      initialRoute = AppPath.home;
+      // data = user;
+    }
+  } else {
+    final authData = await Preferences.getAuthData();
+    if (authData != null) {
+      initialRoute =
+          authData.userId != null ? AppPath.verifyIdCard : AppPath.signUpName;
+      extra = authData;
+    }
+  }
 
   router.go(initialRoute, extra: extra);
 
@@ -251,8 +243,7 @@ Future<void> onUpdateCurrentLocation() async {
 }
 
 void initializeMapbox() {
-  MapboxOptions.setAccessToken(
-      'pk.eyJ1IjoiY3JhenlhZHM2OSIsImEiOiJjbTJvYjhmeWYwZWpiMmtva3dwOXowN2ZsIn0.fTz4hYCsaWCxF2izZtahEQ');
+  MapboxOptions.setAccessToken(dotenv.env['MAPBOX_KEY'] ?? '');
 }
 
 void initializeWebSocket() {

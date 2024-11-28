@@ -38,6 +38,7 @@ class MapService {
   Future<CreateGiveRideResponse?> createGiveRide(
       CreateGiveRideRequest request) async {
     final tinh = request.toJson();
+    print(tinh);
     final response = await _service.post(
       MapApi.createGiveRide,
       data: request.toJson(),

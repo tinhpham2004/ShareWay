@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
@@ -129,7 +130,7 @@ class CallBloc extends Cubit<CallState> {
       await [Permission.microphone, Permission.camera].request();
 
       await state.rtcEngine?.initialize(
-          const RtcEngineContext(appId: '0127a16f300f4d0997ba704e3e24b26a'));
+           RtcEngineContext(appId: dotenv.env['AGORA_APP_ID']));
 
       await state.rtcEngine?.enableVideo();
 
