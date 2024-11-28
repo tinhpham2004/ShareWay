@@ -10,4 +10,14 @@ enum GenderEnum {
         return GenderEnum.FEMALE;
     }
   }
+
+  @override
+  String toString() {
+    switch (this) {
+      case GenderEnum.MALE:
+        return 'male';
+      default:
+        return 'female';
+    }
+  }
 }

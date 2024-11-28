@@ -218,7 +218,8 @@ class GiveRideRecommendationOuput {
     );
   }
 
-  factory GiveRideRecommendationOuput.fromPendingRide(PendingRideOfferResponse response){
+  factory GiveRideRecommendationOuput.fromPendingRide(
+      PendingRideOfferResponse response) {
     return GiveRideRecommendationOuput(
       giveRideId: response.rideOfferId,
       distance: response.distance?.toDouble(),

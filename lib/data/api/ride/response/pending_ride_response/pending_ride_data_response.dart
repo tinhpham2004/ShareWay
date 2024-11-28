@@ -14,7 +14,8 @@ class PendingRideDataResponse {
 
   PendingRideDataResponse({this.pendingRideRequest, this.pendingRideOffer});
 
-  factory PendingRideDataResponse.fromJson(Map<String, dynamic> json) => _$PendingRideDataResponseFromJson(json);
+  factory PendingRideDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$PendingRideDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PendingRideDataResponseToJson(this);
 }

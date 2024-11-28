@@ -138,11 +138,10 @@ class RideRepository {
     return false;
   }
 
-    Future<PendingRideOutput?> getAllPendingRide() async {
+  Future<PendingRideOutput?> getAllPendingRide() async {
     try {
-      final result =
-          await _service.getAllPendingRide();
-      if(result != null){
+      final result = await _service.getAllPendingRide();
+      if (result != null) {
         return PendingRideOutput.fromApiModel(result);
       }
     } catch (error, statckTrace) {

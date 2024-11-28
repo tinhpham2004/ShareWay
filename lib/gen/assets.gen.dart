@@ -45,6 +45,10 @@ class $AssetsIconsGen {
   SvgGenImage get currentLocationMark =>
       const SvgGenImage('assets/icons/current_location_mark.svg');
 
+  /// File path: assets/icons/edit_avatar.svg
+  SvgGenImage get editAvatar =>
+      const SvgGenImage('assets/icons/edit_avatar.svg');
+
   /// File path: assets/icons/give_ride_complete.svg
   SvgGenImage get giveRideComplete =>
       const SvgGenImage('assets/icons/give_ride_complete.svg');
@@ -124,6 +128,30 @@ class $AssetsIconsGen {
   SvgGenImage get sendMessage =>
       const SvgGenImage('assets/icons/send_message.svg');
 
+  /// File path: assets/icons/setting_id_card.svg
+  SvgGenImage get settingIdCard =>
+      const SvgGenImage('assets/icons/setting_id_card.svg');
+
+  /// File path: assets/icons/setting_link.svg
+  SvgGenImage get settingLink =>
+      const SvgGenImage('assets/icons/setting_link.svg');
+
+  /// File path: assets/icons/setting_location.svg
+  SvgGenImage get settingLocation =>
+      const SvgGenImage('assets/icons/setting_location.svg');
+
+  /// File path: assets/icons/setting_logout.svg
+  SvgGenImage get settingLogout =>
+      const SvgGenImage('assets/icons/setting_logout.svg');
+
+  /// File path: assets/icons/setting_user.svg
+  SvgGenImage get settingUser =>
+      const SvgGenImage('assets/icons/setting_user.svg');
+
+  /// File path: assets/icons/setting_vehicle.svg
+  SvgGenImage get settingVehicle =>
+      const SvgGenImage('assets/icons/setting_vehicle.svg');
+
   /// File path: assets/icons/shield_check.svg
   SvgGenImage get shieldCheck =>
       const SvgGenImage('assets/icons/shield_check.svg');
@@ -152,6 +180,7 @@ class $AssetsIconsGen {
         chat,
         clearData,
         currentLocationMark,
+        editAvatar,
         giveRideComplete,
         giveRideService,
         google,
@@ -174,6 +203,12 @@ class $AssetsIconsGen {
         rideCall,
         rideChat,
         sendMessage,
+        settingIdCard,
+        settingLink,
+        settingLocation,
+        settingLogout,
+        settingUser,
+        settingVehicle,
         shieldCheck,
         swapLocation,
         video,

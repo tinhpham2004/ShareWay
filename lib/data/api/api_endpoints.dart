@@ -18,6 +18,8 @@ class AuthApi {
 class UserApi {
   static const getProfile = "/user/get-profile";
   static const registerDeviceToken = "/user/register-device-token";
+  static const updateProfile = "/user/update-profile";
+  static const updateAvatar = "/user/update-avatar";
 }
 
 class MapApi {

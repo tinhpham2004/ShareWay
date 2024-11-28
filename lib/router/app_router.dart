@@ -6,7 +6,9 @@ import 'package:share_way_frontend/domain/map/input/create_hitch_ride_input.dart
 import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
 import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/user/output/app_user.dart';
 import 'package:share_way_frontend/presentation/account/account_screen.dart';
+import 'package:share_way_frontend/presentation/account/sub_screens/user/edit_information/edit_information_screen.dart';
 import 'package:share_way_frontend/presentation/account/sub_screens/vehicle/add_vehicle/add_vehicle_screen.dart';
 import 'package:share_way_frontend/presentation/account/sub_screens/vehicle/manage_vehicle/manage_vehicle_screen.dart';
 import 'package:share_way_frontend/presentation/activity/activity_screen.dart';
@@ -135,6 +137,12 @@ class AppRouter {
               path: AppPath.account,
               builder: (context, state) {
                 return const AccountScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.editInformation,
+              builder: (context, state) {
+                return EditInformationScreen();
               },
             ),
             GoRoute(

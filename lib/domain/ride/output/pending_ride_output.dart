@@ -11,10 +11,14 @@ class PendingRideOutput {
 
   PendingRideOutput({this.pendingRideRequest, this.pendingRideOffer});
 
-  factory PendingRideOutput.fromApiModel(PendingRideResponse response){
+  factory PendingRideOutput.fromApiModel(PendingRideResponse response) {
     return PendingRideOutput(
-      pendingRideRequest: response.data?.pendingRideRequest?.map((e) => HitchRideRecommendationOuput.fromPendingRide(e)).toList(),
-      pendingRideOffer: response.data?.pendingRideOffer?.map((e) => GiveRideRecommendationOuput.fromPendingRide(e)).toList(),
+      pendingRideRequest: response.data?.pendingRideRequest
+          ?.map((e) => HitchRideRecommendationOuput.fromPendingRide(e))
+          .toList(),
+      pendingRideOffer: response.data?.pendingRideOffer
+          ?.map((e) => GiveRideRecommendationOuput.fromPendingRide(e))
+          .toList(),
     );
   }
 }

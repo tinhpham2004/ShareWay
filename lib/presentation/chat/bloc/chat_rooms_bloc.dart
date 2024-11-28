@@ -28,23 +28,28 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
   }
 
   void onFetchAssets(BuildContext context) async {
-    final permission = await PhotoManager.requestPermissionExtend();
-    if (permission.isAuth) {
-      final albums =
-          await PhotoManager.getAssetPathList(type: RequestType.image);
-      if (albums.isNotEmpty) {
-        final recentAlbum = albums.first;
-        final assetListRange =
-            await recentAlbum.getAssetListRange(start: 0, end: 100);
+    try {
+      final permission = await PhotoManager.requestPermissionExtend();
+      if (permission.isAuth) {
+        final albums =
+            await PhotoManager.getAssetPathList(type: RequestType.image);
+        if (albums.isNotEmpty) {
+          final recentAlbum = albums.first;
+          final assetListRange =
+              await recentAlbum.getAssetListRange(start: 0, end: 100);
 
-        // Fetch files concurrently
-        final futures = assetListRange.map((asset) => asset.file);
-        final files = await Future.wait(futures);
+          // Fetch files concurrently
+          final futures = assetListRange.map((asset) => asset.file);
+          final files = await Future.wait(futures);
 
-        final assets = files.whereType<File>().toList();
-        emit(state.copyWith(assets: assets));
+          final assets = files.whereType<File>().toList();
+          emit(state.copyWith(assets: assets));
+        }
       }
+    } catch (e) {
+      print(e);
     }
+
     // else{
     //   showErrorSnackbar(context, permission.name);
     // }
@@ -52,15 +57,21 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
 
   Future<void> onFetchChatRooms() async {
     emit(state.copyWith(isLoading: true));
-    final userId = await Preferences.getUserId();
-    if (userId == null) {
-      emit(state.copyWith(isLoading: false));
-      return;
-    }
+    try {
+      final userId = await Preferences.getUserId();
+      if (userId == null) {
+        emit(state.copyWith(isLoading: false));
+        return;
+      }
 
-    final chatRooms = await _chatRepository.getChatRooms(userId);
-    if (chatRooms != null) {
-      emit(state.copyWith(chatRooms: chatRooms, isLoading: false));
+      final chatRooms = await _chatRepository.getChatRooms(userId);
+      if (chatRooms != null) {
+        emit(state.copyWith(chatRooms: chatRooms));
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 

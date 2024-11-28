@@ -95,10 +95,28 @@ class AppIcon {
     Icons.access_time,
     size: size + 5.sp,
   );
-  static Icon location_outlined = Icon(
-    Icons.location_on_outlined,
+  static Widget settingUser = Assets.icons.settingUser.svg();
+  // static Icon location_outlined = Icon(
+  //   Icons.location_on_outlined,
+  //   color: AppColor.primaryColor,
+  //   size: size + 12.sp,
+  // );
+  static Widget location_outlined = Assets.icons.settingLocation.svg();
+  static Widget wallet = Assets.icons.wallet.svg();
+  static Widget settingVehicle = Assets.icons.settingVehicle.svg();
+  static Widget settingIdCard = Assets.icons.settingIdCard.svg();
+  static Widget settingLink = Assets.icons.settingLink.svg();
+  static Widget settingLogout = Assets.icons.settingLogout.svg();
+  static Widget editAvatar = Assets.icons.editAvatar.svg();
+  static Icon arrow_forward_ios_outlined = Icon(
+    Icons.arrow_forward_ios_outlined,
+    color: AppColor.primaryColor,
+    size: size + 5.sp,
+  );
+
+  static Icon arrow_downward = Icon(
+    Icons.keyboard_arrow_down_outlined,
     color: AppColor.primaryColor,
     size: size + 12.sp,
   );
-  static Widget wallet = Assets.icons.wallet.svg();
 }
