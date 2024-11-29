@@ -35,6 +35,8 @@ abstract class _$GiveRideRecommendationOuputCWProxy {
 
   GiveRideRecommendationOuput status(RideStatusEnum status);
 
+  GiveRideRecommendationOuput waypoints(List<String> waypoints);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -56,6 +58,7 @@ abstract class _$GiveRideRecommendationOuputCWProxy {
     String? hitchRideId,
     String? rideId,
     RideStatusEnum? status,
+    List<String>? waypoints,
   });
 }
 
@@ -120,6 +123,10 @@ class _$GiveRideRecommendationOuputCWProxyImpl
       this(status: status);
 
   @override
+  GiveRideRecommendationOuput waypoints(List<String> waypoints) =>
+      this(waypoints: waypoints);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `GiveRideRecommendationOuput(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -142,6 +149,7 @@ class _$GiveRideRecommendationOuputCWProxyImpl
     Object? hitchRideId = const $CopyWithPlaceholder(),
     Object? rideId = const $CopyWithPlaceholder(),
     Object? status = const $CopyWithPlaceholder(),
+    Object? waypoints = const $CopyWithPlaceholder(),
   }) {
     return GiveRideRecommendationOuput(
       giveRideId: giveRideId == const $CopyWithPlaceholder()
@@ -200,6 +208,10 @@ class _$GiveRideRecommendationOuputCWProxyImpl
           ? _value.status
           // ignore: cast_nullable_to_non_nullable
           : status as RideStatusEnum,
+      waypoints: waypoints == const $CopyWithPlaceholder() || waypoints == null
+          ? _value.waypoints
+          // ignore: cast_nullable_to_non_nullable
+          : waypoints as List<String>,
     );
   }
 }

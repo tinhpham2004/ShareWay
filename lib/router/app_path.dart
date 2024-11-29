@@ -33,4 +33,5 @@ abstract class AppPath {
   static const pendingRide = '/pending-ride';
   static const manageVehicle = '/manage-vehicle';
   static const addVehicle = '/add-vehicle';
+  static const paymentMethod = '/payment-method';
 }
