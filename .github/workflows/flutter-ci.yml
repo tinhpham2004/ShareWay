@@ -22,6 +22,11 @@ jobs:
           tar -xf flutter_linux_3.22.3-stable.tar.xz
           echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
 
+      - name: Create .env file
+        run: |
+          echo "MAPBOX_KEY=${{ secrets.MAPBOX_KEY }}" > .env
+          echo "AGORA_APP_ID=${{ secrets.AGORA_APP_ID }}" >> .env
+
       - name: Install Dependencies
         run: flutter pub get
 
@@ -44,6 +49,7 @@ jobs:
         with:
           name: ShareWay-Android-${{ github.run_number }}
           path: build/app/outputs/flutter-apk/app-release.apk
+
 
   # build-ios:
   #   name: Build iOS

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
@@ -76,9 +75,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           children: [
             AppButton(
               title: 'Xác nhận',
-              onPressed: () async {
-                await MoMoPayment.requestPayment(10000, "Payment for services", "orderId12345");
-              },
+              onPressed: () async {},
             ),
           ],
         ),
@@ -151,21 +148,5 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         );
       },
     );
-  }
-}
-
-class MoMoPayment {
-  static const platform = MethodChannel('com.shareway.app/momo');
-
-  static Future<void> requestPayment(int amount, String description, String orderId) async {
-    try {
-      await platform.invokeMethod('requestPayment', {
-        'amount': amount,
-        'description': description,
-        'orderId': orderId,
-      });
-    } catch (e) {
-      print('Error: $e');
-    }
   }
 }
