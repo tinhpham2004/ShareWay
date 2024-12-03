@@ -40,6 +40,7 @@ import 'package:share_way_frontend/presentation/auth/sub_screens/sign_up_name/si
 import 'package:share_way_frontend/presentation/auth/sub_screens/verify_id_card/verify_id_card_screen.dart';
 import 'package:share_way_frontend/presentation/payment_method/payment_method_screen.dart';
 import 'package:share_way_frontend/presentation/pending_ride/pending_ride_screen.dart';
+import 'package:share_way_frontend/presentation/set_up_payment_method/set_up_payment_method_screen.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
 class AppRouter {
@@ -144,6 +145,12 @@ class AppRouter {
               path: AppPath.editInformation,
               builder: (context, state) {
                 return EditInformationScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.setUpPaymentMethod,
+              builder: (context, state) {
+                return SetUpPaymentMethodScreen();
               },
             ),
             GoRoute(

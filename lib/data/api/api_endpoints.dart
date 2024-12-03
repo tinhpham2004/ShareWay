@@ -59,3 +59,7 @@ class ChatApi {
   static const initiateCall = "/chat/initiate-call";
   static const updateCallStatus = "/chat/update-call-status";
 }
+
+class PaymentApi {
+  static const linkMomoWallet = "/payment/link-momo-wallet";
+}

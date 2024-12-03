@@ -108,6 +108,7 @@ class AppIcon {
   static Widget settingLink = Assets.icons.settingLink.svg();
   static Widget settingLogout = Assets.icons.settingLogout.svg();
   static Widget editAvatar = Assets.icons.editAvatar.svg();
+  static Widget momo = Assets.images.momo.image();
   static Icon arrow_forward_ios_outlined = Icon(
     Icons.arrow_forward_ios_outlined,
     color: AppColor.primaryColor,

@@ -10,6 +10,7 @@ class TextFieldInput extends StatelessWidget {
   final String? initialValue;
   final InputDecoration? decoration;
   final EdgeInsets? padding;
+  final TextInputType? keyboardType;
   const TextFieldInput({
     super.key,
     this.onChanged,
@@ -19,6 +20,7 @@ class TextFieldInput extends StatelessWidget {
     this.initialValue,
     this.decoration,
     this.padding,
+    this.keyboardType,
   });
 
   @override
@@ -33,6 +35,7 @@ class TextFieldInput extends StatelessWidget {
         readOnly: isReadOnly,
         onTap: onTap,
         initialValue: initialValue,
+        keyboardType: keyboardType,
       ),
     );
   }

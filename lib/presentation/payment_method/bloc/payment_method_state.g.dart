@@ -11,6 +11,10 @@ abstract class _$PaymentMethodStateCWProxy {
 
   PaymentMethodState dataChange(bool dataChange);
 
+  PaymentMethodState paymentMethods(List<PaymentMethod> paymentMethods);
+
+  PaymentMethodState selectedPaymentMethod(int selectedPaymentMethod);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `PaymentMethodState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -20,6 +24,8 @@ abstract class _$PaymentMethodStateCWProxy {
   PaymentMethodState call({
     bool? isLoading,
     bool? dataChange,
+    List<PaymentMethod>? paymentMethods,
+    int? selectedPaymentMethod,
   });
 }
 
@@ -37,6 +43,14 @@ class _$PaymentMethodStateCWProxyImpl implements _$PaymentMethodStateCWProxy {
       this(dataChange: dataChange);
 
   @override
+  PaymentMethodState paymentMethods(List<PaymentMethod> paymentMethods) =>
+      this(paymentMethods: paymentMethods);
+
+  @override
+  PaymentMethodState selectedPaymentMethod(int selectedPaymentMethod) =>
+      this(selectedPaymentMethod: selectedPaymentMethod);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `PaymentMethodState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -47,6 +61,8 @@ class _$PaymentMethodStateCWProxyImpl implements _$PaymentMethodStateCWProxy {
   PaymentMethodState call({
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? dataChange = const $CopyWithPlaceholder(),
+    Object? paymentMethods = const $CopyWithPlaceholder(),
+    Object? selectedPaymentMethod = const $CopyWithPlaceholder(),
   }) {
     return PaymentMethodState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -58,6 +74,17 @@ class _$PaymentMethodStateCWProxyImpl implements _$PaymentMethodStateCWProxy {
               ? _value.dataChange
               // ignore: cast_nullable_to_non_nullable
               : dataChange as bool,
+      paymentMethods: paymentMethods == const $CopyWithPlaceholder() ||
+              paymentMethods == null
+          ? _value.paymentMethods
+          // ignore: cast_nullable_to_non_nullable
+          : paymentMethods as List<PaymentMethod>,
+      selectedPaymentMethod:
+          selectedPaymentMethod == const $CopyWithPlaceholder() ||
+                  selectedPaymentMethod == null
+              ? _value.selectedPaymentMethod
+              // ignore: cast_nullable_to_non_nullable
+              : selectedPaymentMethod as int,
     );
   }
 }

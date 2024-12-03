@@ -37,6 +37,7 @@ class AccountBloc extends Cubit<AccountState> {
         Setting(
           icon: AppIcon.wallet,
           title: 'Phương thức thanh toán',
+          navigatePath: AppPath.setUpPaymentMethod,
         ),
         Setting(
           icon: AppIcon.settingVehicle,
