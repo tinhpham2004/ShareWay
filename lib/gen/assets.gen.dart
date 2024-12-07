@@ -156,6 +156,9 @@ class $AssetsIconsGen {
   SvgGenImage get shieldCheck =>
       const SvgGenImage('assets/icons/shield_check.svg');
 
+  /// File path: assets/icons/star.svg
+  SvgGenImage get star => const SvgGenImage('assets/icons/star.svg');
+
   /// File path: assets/icons/swap_location.svg
   SvgGenImage get swapLocation =>
       const SvgGenImage('assets/icons/swap_location.svg');
@@ -210,6 +213,7 @@ class $AssetsIconsGen {
         settingUser,
         settingVehicle,
         shieldCheck,
+        star,
         swapLocation,
         video,
         volume,

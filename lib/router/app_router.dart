@@ -25,6 +25,7 @@ import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_locatio
 import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_time/give_ride_pick_time_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_vehicle/give_ride_pick_vehicle_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_preview/give_ride_preview_screen.dart';
+import 'package:share_way_frontend/presentation/give_ride/give_ride_rating/give_ride_rating_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation/give_ride_recommendation_screen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/give_ride_recommendation_detail_screen.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_complete/hitch_ride_complete_screen.dart';
@@ -210,6 +211,12 @@ class AppRouter {
               path: AppPath.giveRideComplete,
               builder: (context, state) {
                 return GiveRideCompleteScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPath.giveRideRating,
+              builder: (context, state) {
+                return GiveRideRatingScreen();
               },
             ),
             GoRoute(

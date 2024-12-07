@@ -17,6 +17,8 @@ abstract class _$SetUpPaymentMethodStateCWProxy {
 
   SetUpPaymentMethodState momoAccount(String? momoAccount);
 
+  SetUpPaymentMethodState momoResponse(String? momoResponse);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `SetUpPaymentMethodState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -29,6 +31,7 @@ abstract class _$SetUpPaymentMethodStateCWProxy {
     List<PaymentMethod>? paymentMethods,
     int? selectedPaymentMethod,
     String? momoAccount,
+    String? momoResponse,
   });
 }
 
@@ -60,6 +63,10 @@ class _$SetUpPaymentMethodStateCWProxyImpl
       this(momoAccount: momoAccount);
 
   @override
+  SetUpPaymentMethodState momoResponse(String? momoResponse) =>
+      this(momoResponse: momoResponse);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `SetUpPaymentMethodState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -73,6 +80,7 @@ class _$SetUpPaymentMethodStateCWProxyImpl
     Object? paymentMethods = const $CopyWithPlaceholder(),
     Object? selectedPaymentMethod = const $CopyWithPlaceholder(),
     Object? momoAccount = const $CopyWithPlaceholder(),
+    Object? momoResponse = const $CopyWithPlaceholder(),
   }) {
     return SetUpPaymentMethodState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -99,6 +107,10 @@ class _$SetUpPaymentMethodStateCWProxyImpl
           ? _value.momoAccount
           // ignore: cast_nullable_to_non_nullable
           : momoAccount as String?,
+      momoResponse: momoResponse == const $CopyWithPlaceholder()
+          ? _value.momoResponse
+          // ignore: cast_nullable_to_non_nullable
+          : momoResponse as String?,
     );
   }
 }

@@ -82,6 +82,7 @@ class _GiveRideCompleteScreenState extends State<GiveRideCompleteScreen> {
           children: [
             AppButton(
               title: 'Đánh giá chuyến đi',
+              isMargin: true,
             ),
           ],
         ),

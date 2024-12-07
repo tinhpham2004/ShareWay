@@ -11,6 +11,7 @@ class SetUpPaymentMethodState {
   final List<PaymentMethod> paymentMethods;
   final int selectedPaymentMethod;
   final String? momoAccount;
+  final String? momoResponse;
 
   SetUpPaymentMethodState({
     this.isLoading = false,
@@ -18,5 +19,6 @@ class SetUpPaymentMethodState {
     this.paymentMethods = const [],
     this.selectedPaymentMethod = 0,
     this.momoAccount,
+    this.momoResponse,
   });
 }

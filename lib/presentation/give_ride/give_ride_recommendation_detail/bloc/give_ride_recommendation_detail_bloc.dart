@@ -15,7 +15,6 @@ import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/fcm/models/accept_ride_request/accept_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/cancel_ride_request/cancel_ride_request_data.dart';
 import 'package:share_way_frontend/domain/fcm/models/new_hitch_ride_request/new_hitch_ride_request_data.dart';
-import 'package:share_way_frontend/domain/fcm/models/update_ride_location/update_ride_location_data.dart';
 import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';

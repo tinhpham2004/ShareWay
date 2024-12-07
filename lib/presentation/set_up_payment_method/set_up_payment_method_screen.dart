@@ -24,7 +24,7 @@ class _SetUpPaymentMethodScreenState extends State<SetUpPaymentMethodScreen> {
 
   @override
   void initState() {
-    bloc = SetUpPaymentMethodBloc();
+    bloc = SetUpPaymentMethodBloc(context);
     super.initState();
   }
 
