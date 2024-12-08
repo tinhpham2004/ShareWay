@@ -31,7 +31,9 @@ import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendati
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_complete/hitch_ride_complete_screen.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_pick_location/hitch_ride_pick_location_screen.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_pick_time/hitch_ride_pick_time_screen.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_rating/hitch_ride_rating_screen.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation/hitch_ride_recommendation_screen.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_bloc.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/hitch_ride_recommendation_detail_screen.dart';
 import 'package:share_way_frontend/presentation/home/home_screen.dart';
 import 'package:share_way_frontend/presentation/auth/auth_screen.dart';
@@ -210,13 +212,15 @@ class AppRouter {
             GoRoute(
               path: AppPath.giveRideComplete,
               builder: (context, state) {
-                return GiveRideCompleteScreen();
+                final data = state.extra as HitchRideRecommendationOuput;
+                return GiveRideCompleteScreen(data: data);
               },
             ),
             GoRoute(
               path: AppPath.giveRideRating,
               builder: (context, state) {
-                return GiveRideRatingScreen();
+                final data = state.extra as HitchRideRecommendationOuput;
+                return GiveRideRatingScreen(data: data);
               },
             ),
             GoRoute(
@@ -295,7 +299,15 @@ class AppRouter {
             GoRoute(
               path: AppPath.hitchRideComplete,
               builder: (context, state) {
-                return HitchRideCompleteScreen();
+                final data = state.extra as GiveRideRecommendationOuput;
+                return HitchRideCompleteScreen(data: data);
+              },
+            ),
+            GoRoute(
+              path: AppPath.hitchRideRating,
+              builder: (context, state) {
+                final data = state.extra as GiveRideRecommendationOuput;
+                return HitchRideRatingScreen(data: data);
               },
             ),
             GoRoute(
@@ -319,7 +331,11 @@ class AppRouter {
             GoRoute(
               path: AppPath.paymentMethod,
               builder: (context, state) {
-                return const PaymentMethodScreen();
+                final hitchRideRecommendationDetailBloc =
+                    state.extra as HitchRideRecommendationDetailBloc;
+                return PaymentMethodScreen(
+                    hitchRideRecommendationDetailBloc:
+                        hitchRideRecommendationDetailBloc);
               },
             ),
           ],

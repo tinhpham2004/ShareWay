@@ -39,7 +39,8 @@ class GiveRideRecommendationDetailBloc
       // onUpdateRideLocation: onUpdateRiderLocation,
       onNewHitchRideRequest: onNewHitchRideRequest,
       onAcceptGiveRideRequest: onAcceptGiveRideRequest,
-      onCancelGiveRideRequest: onCancelGiveRideRequest,
+      onCancelGiveRideRequest: onCancelRideRequest,
+      onCancelHitchRideRequest: onCancelRideRequest,
     );
     _webSocketRepository.connect();
   }
@@ -60,10 +61,10 @@ class GiveRideRecommendationDetailBloc
     ));
   }
 
-  void onCancelGiveRideRequest(CancelRideRequestData data) {
+  void onCancelRideRequest(CancelRideRequestData data) {
     emit(state.copyWith(
       hitchRideRecommendationOuput: state.hitchRideRecommendationOuput
-          ?.copyWith(status: RideStatusEnum.CANCELLED),
+          ?.copyWith(status: RideStatusEnum.CREATED),
     ));
   }
 
@@ -467,7 +468,7 @@ class GiveRideRecommendationDetailBloc
       ));
       showSuccessSnackbar(context, 'Đã kết thúc chuyến đi');
       _webSocketRepository.dispose();
-      GoRouter.of(context).go(AppPath.giveRideComplete);
+      GoRouter.of(context).push(AppPath.giveRideComplete, extra: state.hitchRideRecommendationOuput);
     }
   }
 

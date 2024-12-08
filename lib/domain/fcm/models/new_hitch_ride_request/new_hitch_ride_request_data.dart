@@ -90,21 +90,25 @@ class NewHitchRideRequestData {
   Map<String, dynamic> toJson() => _$NewHitchRideRequestDataToJson(this);
 
   // Custom converters
-  static double? _doubleFromString(String? value) =>
-      value != null ? double.tryParse(value) : null;
+  static double? _doubleFromString(dynamic value) =>
+      value != null ? double.tryParse(value.toString()) : null;
 
-  static int? _intFromString(String? value) =>
-      value != null ? int.tryParse(value) : null;
+  static int? _intFromString(dynamic value) =>
+      value != null ? int.tryParse(value.toString()) : null;
 
   static DateTime? _dateTimeFromString(String? value) =>
       value != null ? DateTime.tryParse(value) : null;
 
-  static NewHitchRideRequestUser? _userFromJson(String? value) => value != null
-      ? NewHitchRideRequestUser.fromJson(jsonDecode(value))
+  static NewHitchRideRequestUser? _userFromJson(dynamic value) => value != null
+      ? (value.runtimeType == String
+          ? NewHitchRideRequestUser.fromJson(jsonDecode(value))
+          : NewHitchRideRequestUser.fromJson(value))
       : null;
 
-  static NewHitchRideRequestVehicle? _vehicleFromJson(String? value) =>
+  static NewHitchRideRequestVehicle? _vehicleFromJson(dynamic value) =>
       value != null
-          ? NewHitchRideRequestVehicle.fromJson(jsonDecode(value))
+          ? (value.runtimeType == String
+              ? NewHitchRideRequestVehicle.fromJson(jsonDecode(value))
+              : NewHitchRideRequestVehicle.fromJson(value))
           : null;
 }

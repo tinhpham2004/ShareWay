@@ -62,7 +62,7 @@ enum RideStatusEnum {
       case RideStatusEnum.ACCEPTED:
         return 'Hủy chuyến';
       case RideStatusEnum.ONGOING:
-        return 'Hủy chuyến';
+        return null;
       case RideStatusEnum.COMPLETED:
         return null;
       case RideStatusEnum.CANCELLED:

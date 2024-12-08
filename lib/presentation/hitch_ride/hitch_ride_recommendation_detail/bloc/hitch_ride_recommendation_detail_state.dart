@@ -27,6 +27,7 @@ class HitchRideRecommendationDetailState {
       };
   final PointAnnotationManager? userPointAnnotationManager;
   final Geocode? driverLocation;
+  final int selectedPaymentMethod;
 
   HitchRideRecommendationDetailState({
     this.isLoading = false,
@@ -37,5 +38,6 @@ class HitchRideRecommendationDetailState {
     this.user,
     this.userPointAnnotationManager,
     this.driverLocation,
+    this.selectedPaymentMethod = 0,
   });
 }

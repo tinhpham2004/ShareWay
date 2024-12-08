@@ -1,12 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:share_way_frontend/data/api/ride/request/cancel_ride_request/cancel_ride_request.dart';
 import 'package:share_way_frontend/data/api/ride/request/matched_ride_request/matched_ride_request.dart';
+import 'package:share_way_frontend/data/api/ride/request/rating_driver_request/rating_driver_request.dart';
+import 'package:share_way_frontend/data/api/ride/request/rating_hitcher_request/rating_hitcher_request.dart';
 import 'package:share_way_frontend/data/api/ride/request/ride_request/ride_request.dart';
 import 'package:share_way_frontend/data/api/ride/ride_service.dart';
 import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/matched_ride_input.dart';
+import 'package:share_way_frontend/domain/ride/input/rating_driver_input.dart';
+import 'package:share_way_frontend/domain/ride/input/rating_hitcher_input.dart';
 import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
-import 'package:share_way_frontend/domain/ride/output/pending_ride_output.dart';
+import 'package:share_way_frontend/domain/ride/output/pending_ride_output/pending_ride_output.dart';
 
 class RideRepository {
   final _service = RideService();
@@ -150,5 +154,31 @@ class RideRepository {
       }
     }
     return null;
+  }
+
+  Future<bool> ratingRideHitcher(RatingHitcherInput input) async {
+    try {
+      final result = await _service
+          .ratingRideHitcher(RatingHitcherRequest.toApiModel(input));
+      return result;
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+    return false;
+  }
+
+  Future<bool> ratingRideDriver(RatingDriverInput input) async {
+    try {
+      final result = await _service
+          .ratingRideDriver(RatingDriverRequest.toApiModel(input));
+      return result;
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+    return false;
   }
 }

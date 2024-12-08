@@ -49,6 +49,8 @@ class RideApi {
   static const endRide = "/ride/end-ride";
   static const cancelRide = "/ride/cancel-ride";
   static const getAllPendingRide = "/ride/get-all-pending-ride";
+  static const ratingRideDriver = "/ride/rating-ride-driver";
+  static const ratingRideHitcher = "/ride/rating-ride-hitcher";
 }
 
 class ChatApi {

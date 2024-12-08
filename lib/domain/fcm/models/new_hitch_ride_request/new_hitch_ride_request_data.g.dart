@@ -11,33 +11,30 @@ NewHitchRideRequestData _$NewHitchRideRequestDataFromJson(
     NewHitchRideRequestData(
       rideOfferId: json['ride_offer_id'] as String?,
       rideRequestId: json['ride_request_id'] as String?,
-      user: NewHitchRideRequestData._userFromJson(json['user'] as String?),
-      startLatitude: NewHitchRideRequestData._doubleFromString(
-          json['start_latitude'] as String?),
-      startLongitude: NewHitchRideRequestData._doubleFromString(
-          json['start_longitude'] as String?),
-      endLatitude: NewHitchRideRequestData._doubleFromString(
-          json['end_latitude'] as String?),
-      endLongitude: NewHitchRideRequestData._doubleFromString(
-          json['end_longitude'] as String?),
+      user: NewHitchRideRequestData._userFromJson(json['user']),
+      startLatitude:
+          NewHitchRideRequestData._doubleFromString(json['start_latitude']),
+      startLongitude:
+          NewHitchRideRequestData._doubleFromString(json['start_longitude']),
+      endLatitude:
+          NewHitchRideRequestData._doubleFromString(json['end_latitude']),
+      endLongitude:
+          NewHitchRideRequestData._doubleFromString(json['end_longitude']),
       riderCurrentLatitude: NewHitchRideRequestData._doubleFromString(
-          json['rider_current_latitude'] as String?),
+          json['rider_current_latitude']),
       riderCurrentLongitude: NewHitchRideRequestData._doubleFromString(
-          json['rider_current_longitude'] as String?),
+          json['rider_current_longitude']),
       startAddress: json['start_address'] as String?,
       endAddress: json['end_address'] as String?,
       status: json['status'] as String?,
       encodedPolyline: json['encoded_polyline'] as String?,
-      distance: NewHitchRideRequestData._doubleFromString(
-          json['distance'] as String?),
-      duration:
-          NewHitchRideRequestData._intFromString(json['duration'] as String?),
+      distance: NewHitchRideRequestData._doubleFromString(json['distance']),
+      duration: NewHitchRideRequestData._intFromString(json['duration']),
       startTime: NewHitchRideRequestData._dateTimeFromString(
           json['start_time'] as String?),
       endTime: NewHitchRideRequestData._dateTimeFromString(
           json['end_time'] as String?),
-      vehicle:
-          NewHitchRideRequestData._vehicleFromJson(json['vehicle'] as String?),
+      vehicle: NewHitchRideRequestData._vehicleFromJson(json['vehicle']),
     );
 
 Map<String, dynamic> _$NewHitchRideRequestDataToJson(

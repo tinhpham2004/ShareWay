@@ -50,6 +50,8 @@ class MapService {
   }
 
   Future<String?> createHitchRide(CreateHitchRideRequest request) async {
+    final tinh = jsonEncode(request.toJson());
+    print(tinh);
     final response = await _service.post(
       MapApi.createHitchRide,
       data: request.toJson(),

@@ -10,26 +10,28 @@ import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
-import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_rating/bloc/give_ride_rating_bloc.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_rating/bloc/give_ride_rating_state.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_rating/bloc/hitch_ride_rating_bloc.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_rating/bloc/hitch_ride_rating_state.dart';
 
-class GiveRideRatingScreen extends StatefulWidget {
-  final HitchRideRecommendationOuput data;
+class HitchRideRatingScreen extends StatefulWidget {
+  final GiveRideRecommendationOuput data;
 
-  const GiveRideRatingScreen({super.key, required this.data});
+  const HitchRideRatingScreen({super.key, required this.data});
 
   @override
-  State<GiveRideRatingScreen> createState() => _GiveRideRatingScreenState();
+  State<HitchRideRatingScreen> createState() => _HitchRideRatingScreenState();
 }
 
-class _GiveRideRatingScreenState extends State<GiveRideRatingScreen> {
-  late GiveRideRatingBloc bloc;
+class _HitchRideRatingScreenState extends State<HitchRideRatingScreen> {
+  late HitchRideRatingBloc bloc;
 
   @override
   void initState() {
-    bloc = GiveRideRatingBloc(data: widget.data);
+    bloc = HitchRideRatingBloc(data: widget.data);
     super.initState();
   }
 
@@ -37,7 +39,7 @@ class _GiveRideRatingScreenState extends State<GiveRideRatingScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(),
-      child: BlocListener<GiveRideRatingBloc, GiveRideRatingState>(
+      child: BlocListener<HitchRideRatingBloc, HitchRideRatingState>(
         listener: (context, state) {
           if (state.isLoading) {
             showLoading(context);
@@ -47,7 +49,7 @@ class _GiveRideRatingScreenState extends State<GiveRideRatingScreen> {
         },
         listenWhen: (previous, current) =>
             previous.isLoading != current.isLoading,
-        child: BlocBuilder<GiveRideRatingBloc, GiveRideRatingState>(
+        child: BlocBuilder<HitchRideRatingBloc, HitchRideRatingState>(
           builder: (context, state) {
             return Scaffold(
               backgroundColor: AppColor.white,
@@ -70,36 +72,36 @@ class _GiveRideRatingScreenState extends State<GiveRideRatingScreen> {
                             widget.data.user?.fullName ?? '',
                             style: textTheme.titleMedium,
                           ),
-                          // spaceH4,
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   children: [
-                          //     Text(
-                          //       widget.data.vehicle?.name ?? '',
-                          //       style: textTheme.titleSmall!.copyWith(
-                          //         color: AppColor.secondaryColor,
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //     spaceW4,
-                          //     Container(
-                          //       padding: EdgeInsets.all(3.r),
-                          //       decoration: const BoxDecoration(
-                          //         color: AppColor.primaryColor,
-                          //         shape: BoxShape.circle,
-                          //       ),
-                          //     ),
-                          //     spaceW4,
-                          //     Text(
-                          //       widget.data.vehicle?.licensePlate ?? '',
-                          //       style: textTheme.titleSmall!.copyWith(
-                          //         color: AppColor.secondaryColor,
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
+                          spaceH4,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                widget.data.vehicle?.name ?? '',
+                                style: textTheme.titleSmall!.copyWith(
+                                  color: AppColor.secondaryColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              spaceW4,
+                              Container(
+                                padding: EdgeInsets.all(3.r),
+                                decoration: const BoxDecoration(
+                                  color: AppColor.primaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              spaceW4,
+                              Text(
+                                widget.data.vehicle?.licensePlate ?? '',
+                                style: textTheme.titleSmall!.copyWith(
+                                  color: AppColor.secondaryColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
                           spaceH16,
                           Divider(),
                           spaceH8,
@@ -161,7 +163,7 @@ class _GiveRideRatingScreenState extends State<GiveRideRatingScreen> {
   }
 
   Widget _buildConfirmButton() {
-    return BlocBuilder<GiveRideRatingBloc, GiveRideRatingState>(
+    return BlocBuilder<HitchRideRatingBloc, HitchRideRatingState>(
       builder: (context, state) {
         return Column(
           children: [

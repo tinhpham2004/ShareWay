@@ -136,7 +136,8 @@ class AccountBloc extends Cubit<AccountState> {
           backgroundColor: AppColor.white,
           toolbarWidgetColor: AppColor.white,
           cropStyle: CropStyle.circle,
-          aspectRatioPresets: [CropAspectRatioPreset.original],
+          initAspectRatio: CropAspectRatioPreset.square,
+          aspectRatioPresets: [CropAspectRatioPreset.square],
         ),
         // IOSUiSettings(
         //   title: 'Cropper',

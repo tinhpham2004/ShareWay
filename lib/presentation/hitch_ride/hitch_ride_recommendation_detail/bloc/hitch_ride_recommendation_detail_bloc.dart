@@ -46,6 +46,8 @@ class HitchRideRecommendationDetailBloc
       onNewGiveRideRequest: onNewGiveRideRequest,
       onAcceptHitchRideRequest: onAcceptHitchRideRequest,
       onCancelHitchRideRequest: onCancelHitchRideRequest,
+      onCancelGiveRideRequest: onCancelHitchRideRequest,
+      onCancelRideByDriver: onCancelRideByDriver,
     );
     _webSocketRepository.connect();
   }
@@ -417,7 +419,7 @@ class HitchRideRecommendationDetailBloc
     );
     _webSocketRepository.dispose();
     state.userPointAnnotationManager?.deleteAll();
-    navigatorKey.currentContext?.go(AppPath.hitchRideComplete);
+    navigatorKey.currentContext?.go(AppPath.hitchRideComplete, extra: state.giveRideRecommendationOuput);
   }
 
   void updateLocationMarks() async {
@@ -507,8 +509,24 @@ class HitchRideRecommendationDetailBloc
   void onCancelHitchRideRequest(CancelRideRequestData data) {
     emit(state.copyWith(
       giveRideRecommendationOuput: state.giveRideRecommendationOuput?.copyWith(
+        status: RideStatusEnum.CREATED,
+      ),
+    ));
+  }
+
+  void onCancelRideByDriver(CancelRideRequestData data) {
+    emit(state.copyWith(
+      giveRideRecommendationOuput: state.giveRideRecommendationOuput?.copyWith(
         status: RideStatusEnum.CANCELLED,
       ),
     ));
+  }
+
+  void onSelectPaymentMethod(int index) {
+    emit(state.copyWith(selectedPaymentMethod: index));
+  }
+
+  void onPaymentMethodPressed(BuildContext context) {
+    GoRouter.of(context).push(AppPath.paymentMethod, extra: this);
   }
 }

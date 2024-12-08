@@ -6,8 +6,7 @@ class PaymentRepository {
 
   Future<String?> linkMomoWallet(String walletPhoneNumber) async {
     try {
-      final result = await _service
-          .linkMomoWallet(walletPhoneNumber);
+      final result = await _service.linkMomoWallet(walletPhoneNumber);
 
       return result;
     } catch (error, statckTrace) {

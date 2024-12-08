@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
+import 'package:share_way_frontend/core/constants/app_payment_method.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/radio_button/app_radio_button.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_bloc.dart';
 import 'package:share_way_frontend/presentation/payment_method/bloc/payment_method_bloc.dart';
 import 'package:share_way_frontend/presentation/payment_method/bloc/payment_method_state.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
-  const PaymentMethodScreen({super.key});
+  final HitchRideRecommendationDetailBloc hitchRideRecommendationDetailBloc;
+  const PaymentMethodScreen(
+      {super.key, required this.hitchRideRecommendationDetailBloc});
 
   @override
   State<PaymentMethodScreen> createState() => _PaymentMethodScreenState();
@@ -22,7 +26,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
 
   @override
   void initState() {
-    bloc = PaymentMethodBloc();
+    bloc = PaymentMethodBloc(
+        hitchRideRecommendationDetailBloc:
+            widget.hitchRideRecommendationDetailBloc);
     super.initState();
   }
 
@@ -77,7 +83,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           children: [
             AppButton(
               title: 'Xác nhận',
-              onPressed: () async {},
+              onPressed: () => bloc.onConfirm(context),
               isMargin: true,
             ),
           ],
@@ -112,13 +118,13 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           ),
           child: ListView.separated(
             shrinkWrap: true,
-            itemCount: state.paymentMethods.length,
+            itemCount: appPaymentMethods.length,
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) => Divider(
               color: AppColor.secondary300,
             ),
             itemBuilder: (context, index) {
-              final paymentMethod = state.paymentMethods[index];
+              final paymentMethod = appPaymentMethods[index];
               return Row(
                 children: [
                   Column(
@@ -143,7 +149,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   AppRadioButton(
                     value: index,
                     groupValue: state.selectedPaymentMethod,
-                    onChanged: (p0) => bloc.onPaymentMethodSelected(p0),
+                    onChanged: (p0) => bloc.onPaymentMethodSelected(
+                        context: context, index: p0),
                   ),
                 ],
               );

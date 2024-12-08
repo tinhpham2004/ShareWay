@@ -101,7 +101,6 @@ class _SetUpPaymentMethodScreenState extends State<SetUpPaymentMethodScreen> {
                       (state.selectedPaymentMethod == 1 &&
                           (state.momoAccount != null &&
                               state.momoAccount!.isNotEmpty)),
-                              
                 ),
               ],
             ),

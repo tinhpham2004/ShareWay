@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
-import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
+import 'package:share_way_frontend/domain/ride/input/rating_driver_input.dart';
 import 'package:share_way_frontend/domain/ride/input/rating_hitcher_input.dart';
 import 'package:share_way_frontend/domain/ride/ride_repository.dart';
-import 'package:share_way_frontend/presentation/give_ride/give_ride_rating/bloc/give_ride_rating_state.dart';
+import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_rating/bloc/hitch_ride_rating_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 
-class GiveRideRatingBloc extends Cubit<GiveRideRatingState> {
-  GiveRideRatingBloc({required this.data}) : super(GiveRideRatingState());
+class HitchRideRatingBloc extends Cubit<HitchRideRatingState> {
+  HitchRideRatingBloc({required this.data}) : super(HitchRideRatingState());
 
   final _rideRepository = RideRepository();
-  final HitchRideRecommendationOuput data;
+  final GiveRideRecommendationOuput data;
 
   void onStart() {
     emit(state.copyWith(isLoading: true));
@@ -34,13 +35,13 @@ class GiveRideRatingBloc extends Cubit<GiveRideRatingState> {
   void onSendFeedback(BuildContext context) async {
     emit(state.copyWith(isLoading: true));
     try {
-      final input = RatingHitcherInput(
+      final input = RatingDriverInput(
         rating: state.star,
         receiverId: data.user?.id,
         review: state.feedback ?? '',
         rideId: data.rideId,
       );
-      final response = await _rideRepository.ratingRideHitcher(input);
+      final response = await _rideRepository.ratingRideDriver(input);
       if (response) {
         GoRouter.of(context).go(AppPath.home);
       }

@@ -26,6 +26,9 @@ abstract class _$HitchRideRecommendationDetailStateCWProxy {
 
   HitchRideRecommendationDetailState driverLocation(Geocode? driverLocation);
 
+  HitchRideRecommendationDetailState selectedPaymentMethod(
+      int selectedPaymentMethod);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -41,6 +44,7 @@ abstract class _$HitchRideRecommendationDetailStateCWProxy {
     AppUser? user,
     PointAnnotationManager? userPointAnnotationManager,
     Geocode? driverLocation,
+    int? selectedPaymentMethod,
   });
 }
 
@@ -87,6 +91,11 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
       this(driverLocation: driverLocation);
 
   @override
+  HitchRideRecommendationDetailState selectedPaymentMethod(
+          int selectedPaymentMethod) =>
+      this(selectedPaymentMethod: selectedPaymentMethod);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `HitchRideRecommendationDetailState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -103,6 +112,7 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
     Object? user = const $CopyWithPlaceholder(),
     Object? userPointAnnotationManager = const $CopyWithPlaceholder(),
     Object? driverLocation = const $CopyWithPlaceholder(),
+    Object? selectedPaymentMethod = const $CopyWithPlaceholder(),
   }) {
     return HitchRideRecommendationDetailState(
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
@@ -140,6 +150,12 @@ class _$HitchRideRecommendationDetailStateCWProxyImpl
           ? _value.driverLocation
           // ignore: cast_nullable_to_non_nullable
           : driverLocation as Geocode?,
+      selectedPaymentMethod:
+          selectedPaymentMethod == const $CopyWithPlaceholder() ||
+                  selectedPaymentMethod == null
+              ? _value.selectedPaymentMethod
+              // ignore: cast_nullable_to_non_nullable
+              : selectedPaymentMethod as int,
     );
   }
 }

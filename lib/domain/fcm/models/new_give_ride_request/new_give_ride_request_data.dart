@@ -77,20 +77,26 @@ class NewGiveRideRequestData {
 
   Map<String, dynamic> toJson() => _$NewGiveRideRequestDataToJson(this);
 
-  static double? _doubleFromString(String? value) =>
-      value != null ? double.tryParse(value) : null;
+  static double? _doubleFromString(dynamic value) =>
+      value != null ? double.tryParse(value.toString()) : null;
 
-  static int? _intFromString(String? value) =>
-      value != null ? int.tryParse(value) : null;
+  static int? _intFromString(dynamic value) =>
+      value != null ? int.tryParse(value.toString()) : null;
 
   static DateTime? _dateTimeFromString(String? value) =>
       value != null ? DateTime.tryParse(value) : null;
 
-  static NewGiveRideRequestUser? _userFromJson(String? value) =>
-      value != null ? NewGiveRideRequestUser.fromJson(jsonDecode(value)) : null;
+  static NewGiveRideRequestUser? _userFromJson(dynamic value) => value != null
+      ? (value.runtimeType == String
+          ? NewGiveRideRequestUser.fromJson(jsonDecode(value))
+          : NewGiveRideRequestUser.fromJson(value))
+      : null;
 
-  static NewGiveRideRequestVehicle? _vehicleFromJson(String? value) =>
+  static NewGiveRideRequestVehicle? _vehicleFromJson(
+          dynamic value) =>
       value != null
-          ? NewGiveRideRequestVehicle.fromJson(jsonDecode(value))
+          ? (value.runtimeType == String
+              ? NewGiveRideRequestVehicle.fromJson(jsonDecode(value))
+              : NewGiveRideRequestVehicle.fromJson(value))
           : null;
 }

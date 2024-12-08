@@ -10,7 +10,6 @@ import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/core/widgets/map/pick_location_map.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
-import 'package:share_way_frontend/domain/map/output/geocode/geocode_output.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_location/bloc/give_ride_pick_location_bloc.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_location/bloc/give_ride_pick_location_state.dart';
 

@@ -12,34 +12,31 @@ NewGiveRideRequestData _$NewGiveRideRequestDataFromJson(
       rideOfferId: json['ride_offer_id'] as String?,
       rideRequestId: json['ride_request_id'] as String?,
       receiverId: json['receiver_id'] as String?,
-      user: NewGiveRideRequestData._userFromJson(json['user'] as String?),
-      vehicle:
-          NewGiveRideRequestData._vehicleFromJson(json['vehicle'] as String?),
-      startLatitude: NewGiveRideRequestData._doubleFromString(
-          json['start_latitude'] as String?),
-      startLongitude: NewGiveRideRequestData._doubleFromString(
-          json['start_longitude'] as String?),
-      endLatitude: NewGiveRideRequestData._doubleFromString(
-          json['end_latitude'] as String?),
-      endLongitude: NewGiveRideRequestData._doubleFromString(
-          json['end_longitude'] as String?),
+      user: NewGiveRideRequestData._userFromJson(json['user']),
+      vehicle: NewGiveRideRequestData._vehicleFromJson(json['vehicle']),
+      startLatitude:
+          NewGiveRideRequestData._doubleFromString(json['start_latitude']),
+      startLongitude:
+          NewGiveRideRequestData._doubleFromString(json['start_longitude']),
+      endLatitude:
+          NewGiveRideRequestData._doubleFromString(json['end_latitude']),
+      endLongitude:
+          NewGiveRideRequestData._doubleFromString(json['end_longitude']),
       startAddress: json['start_address'] as String?,
       endAddress: json['end_address'] as String?,
       encodedPolyline: json['encoded_polyline'] as String?,
-      distance:
-          NewGiveRideRequestData._doubleFromString(json['distance'] as String?),
-      duration:
-          NewGiveRideRequestData._intFromString(json['duration'] as String?),
+      distance: NewGiveRideRequestData._doubleFromString(json['distance']),
+      duration: NewGiveRideRequestData._intFromString(json['duration']),
       driverCurrentLatitude: NewGiveRideRequestData._doubleFromString(
-          json['driver_current_latitude'] as String?),
+          json['driver_current_latitude']),
       driverCurrentLongitude: NewGiveRideRequestData._doubleFromString(
-          json['driver_current_longitude'] as String?),
+          json['driver_current_longitude']),
       startTime: NewGiveRideRequestData._dateTimeFromString(
           json['start_time'] as String?),
       endTime: NewGiveRideRequestData._dateTimeFromString(
           json['end_time'] as String?),
       status: json['status'] as String?,
-      fare: NewGiveRideRequestData._doubleFromString(json['fare'] as String?),
+      fare: NewGiveRideRequestData._doubleFromString(json['fare']),
     );
 
 Map<String, dynamic> _$NewGiveRideRequestDataToJson(

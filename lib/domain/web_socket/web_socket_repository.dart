@@ -24,6 +24,7 @@ class WebSocketRepository {
   final void Function(AcceptRideRequestData)? onAcceptHitchRideRequest;
   final void Function(CancelRideRequestData)? onCancelGiveRideRequest;
   final void Function(CancelRideRequestData)? onCancelHitchRideRequest;
+  final void Function(CancelRideRequestData)? onCancelRideByDriver;
   final void Function(UpdateRideLocationData)? onUpdateRideLocation;
   final void Function(StartRideData)? onStartRide;
   final void Function(EndRideData)? onEndRide;
@@ -46,6 +47,7 @@ class WebSocketRepository {
     this.onNewImageMessage,
     this.onInitiateCall,
     this.onUpdateCall,
+    this.onCancelRideByDriver,
   });
 
   void connect() async {
@@ -96,6 +98,12 @@ class WebSocketRepository {
         if (onCancelHitchRideRequest != null) {
           final cancelRideRequestData = CancelRideRequestData.fromJson(data);
           onCancelHitchRideRequest!(cancelRideRequestData);
+        }
+        break;
+      case 'cancel-ride-by-driver':
+        if (onCancelRideByDriver != null) {
+          final cancelRideRequestData = CancelRideRequestData.fromJson(data);
+          onCancelRideByDriver!(cancelRideRequestData);
         }
         break;
       case 'update-ride-location':

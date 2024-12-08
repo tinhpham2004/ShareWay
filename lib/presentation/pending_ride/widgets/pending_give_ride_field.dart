@@ -28,6 +28,7 @@ class PendingGiveRideField extends StatelessWidget {
           ),
           child: ListView.separated(
             shrinkWrap: true,
+            reverse: true,
             itemCount: state.pendingRideOffer.length,
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) => spaceH8,

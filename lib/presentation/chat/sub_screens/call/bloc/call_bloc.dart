@@ -129,8 +129,8 @@ class CallBloc extends Cubit<CallState> {
       emit(state.copyWith(rtcEngine: createAgoraRtcEngine()));
       await [Permission.microphone, Permission.camera].request();
 
-      await state.rtcEngine?.initialize(
-           RtcEngineContext(appId: dotenv.env['AGORA_APP_ID']));
+      await state.rtcEngine
+          ?.initialize(RtcEngineContext(appId: dotenv.env['AGORA_APP_ID']));
 
       await state.rtcEngine?.enableVideo();
 

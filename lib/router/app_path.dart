@@ -31,6 +31,7 @@ abstract class AppPath {
   static const hitchRideTracking = '/hitch-ride-tracking';
   static const hitchRideRating = '/hitch-ride-rating';
   static const hitchRideComplete = '/hitch-ride-complete';
+
   static const pendingRide = '/pending-ride';
   static const manageVehicle = '/manage-vehicle';
   static const addVehicle = '/add-vehicle';

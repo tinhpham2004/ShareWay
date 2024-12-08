@@ -18,6 +18,7 @@ class AppColor {
   static const secondary100 = Color(0xFFF2F2F2);
   static const primaryText = Color(0xFF131313);
   static const white = Color(0xFFFFFFFF);
+  static const warning = Color(0xFFFACC15);
   static const error = Color(0xFFF75555);
   static const success = Color(0xFF4ADE80);
   static const transparent = Colors.transparent;

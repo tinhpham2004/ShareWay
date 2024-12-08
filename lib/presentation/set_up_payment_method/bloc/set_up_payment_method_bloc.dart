@@ -5,43 +5,12 @@ import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/payment/payment_repository.dart';
 import 'package:share_way_frontend/presentation/payment_method/models/payment_method.dart';
 import 'package:share_way_frontend/presentation/set_up_payment_method/bloc/set_up_payment_method_state.dart';
-import 'package:uni_links/uni_links.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SetUpPaymentMethodBloc extends Cubit<SetUpPaymentMethodState> {
   final _paymentRepository = PaymentRepository();
 
   SetUpPaymentMethodBloc(BuildContext context)
-      : super(SetUpPaymentMethodState()) {
-    _initDeepLinkListener(context);
-  }
-
-  void _initDeepLinkListener(BuildContext context) {
-    // Listen for incoming deep links
-    uriLinkStream.listen((Uri? uri) {
-      if (uri != null) {
-        emit(state.copyWith(momoResponse: uri.toString()));
-        _handleDeepLink(uri: uri, context: context);
-      }
-    }, onError: (Object err) {
-      print('Error receiving deep link: $err');
-    });
-
-    // Handle the app's initial deep link
-    getInitialUri().then((Uri? uri) {
-      if (uri != null) {
-        emit(state.copyWith(momoResponse: uri.toString()));
-        _handleDeepLink(uri: uri, context: context);
-      }
-    });
-  }
-
-  void _handleDeepLink({required Uri uri, required BuildContext context}) {
-    final path = uri.path;
-    final queryParams = uri.queryParameters;
-
-    // GoRouter.of(context).go(path, queryParams: queryParams);
-  }
+      : super(SetUpPaymentMethodState());
 
   void onStart() {
     try {

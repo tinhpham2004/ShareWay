@@ -83,25 +83,32 @@ class AcceptRideRequestData {
 
   Map<String, dynamic> toJson() => _$AcceptRideRequestDataToJson(this);
 
-  static double? _doubleFromString(String? value) =>
-      value != null ? double.tryParse(value) : null;
+  static double? _doubleFromString(dynamic value) =>
+      value != null ? double.tryParse(value.toString()) : null;
 
-  static int? _intFromString(String? value) =>
-      value != null ? int.tryParse(value) : null;
+  static int? _intFromString(dynamic value) =>
+      value != null ? int.tryParse(value.toString()) : null;
 
   static DateTime? _dateTimeFromString(String? value) =>
       value != null ? DateTime.tryParse(value) : null;
 
-  static AcceptRideRequestTransaction? _transactionFromJson(String? value) =>
+  static AcceptRideRequestTransaction? _transactionFromJson(dynamic value) =>
       value != null
-          ? AcceptRideRequestTransaction.fromJson(jsonDecode(value))
+          ? (value.runtimeType == String
+              ? AcceptRideRequestTransaction.fromJson(jsonDecode(value))
+              : AcceptRideRequestTransaction.fromJson(value))
           : null;
 
-  static AcceptRideRequestVehicle? _vehicleFromJson(String? value) =>
+  static AcceptRideRequestVehicle? _vehicleFromJson(dynamic value) =>
       value != null
-          ? AcceptRideRequestVehicle.fromJson(jsonDecode(value))
+          ? (value.runtimeType == String
+              ? AcceptRideRequestVehicle.fromJson(jsonDecode(value))
+              : AcceptRideRequestVehicle.fromJson(value))
           : null;
 
-  static AcceptRideRequestUser? _userFromJson(String? value) =>
-      value != null ? AcceptRideRequestUser.fromJson(jsonDecode(value)) : null;
+  static AcceptRideRequestUser? _userFromJson(dynamic value) => value != null
+      ? (value.runtimeType == String
+          ? AcceptRideRequestUser.fromJson(jsonDecode(value))
+          : AcceptRideRequestUser.fromJson(value))
+      : null;
 }

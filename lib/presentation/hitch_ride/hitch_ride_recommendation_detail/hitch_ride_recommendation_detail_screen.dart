@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
+import 'package:share_way_frontend/core/constants/app_payment_method.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/date_time.dart';
 import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
@@ -13,7 +14,6 @@ import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
-import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_bloc.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_state.dart';
 
@@ -281,17 +281,22 @@ class HitchRideRecommendationDetailScreenState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             spaceW16,
-            Row(
-              children: [
-                AppIcon.money,
-                spaceW4,
-                Text(
-                  'Tiền mặt',
-                  style: textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
+            InkWell(
+              onTap: () {
+                bloc.onPaymentMethodPressed(context);
+              },
+              child: Row(
+                children: [
+                  appPaymentMethods[state.selectedPaymentMethod].icon ?? space0,
+                  spaceW4,
+                  Text(
+                    appPaymentMethods[state.selectedPaymentMethod].title ?? '',
+                    style: textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(
               height: 20.h,

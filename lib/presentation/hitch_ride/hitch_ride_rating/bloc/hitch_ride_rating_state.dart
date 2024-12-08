@@ -1,15 +1,14 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:share_way_frontend/domain/map/output/hitch_ride_recommendation_ouput/hitch_ride_recommendation_ouput.dart';
 
-part 'give_ride_rating_state.g.dart';
+part 'hitch_ride_rating_state.g.dart';
 
 @CopyWith()
-class GiveRideRatingState {
+class HitchRideRatingState {
   final bool isLoading;
   final int? star;
   final String? feedback;
 
-  GiveRideRatingState({
+  HitchRideRatingState({
     this.isLoading = false,
     this.star,
     this.feedback,

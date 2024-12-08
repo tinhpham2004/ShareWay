@@ -33,6 +33,7 @@ class _PendingHitchRideFieldState extends State<PendingHitchRideField> {
           ),
           child: ListView.separated(
             shrinkWrap: true,
+            reverse: true,
             itemCount: state.pendingRideRequest.length,
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) => spaceH8,

@@ -50,9 +50,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Replace the host and scheme -->
+                <!-- Replace the host and scheme
                 <data android:scheme="https"
-                    android:host="shareway" />
+                    android:host="shareway" /> -->
             </intent-filter>
         </activity>
         <activity

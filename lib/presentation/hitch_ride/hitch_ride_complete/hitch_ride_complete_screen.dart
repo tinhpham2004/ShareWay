@@ -7,11 +7,14 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
+import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_complete/bloc/hitch_ride_complete_bloc.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_complete/bloc/hitch_ride_complete_state.dart';
 
 class HitchRideCompleteScreen extends StatefulWidget {
-  const HitchRideCompleteScreen({super.key});
+  final GiveRideRecommendationOuput data;
+
+  const HitchRideCompleteScreen({super.key, required this.data});
 
   @override
   State<HitchRideCompleteScreen> createState() =>
@@ -23,7 +26,7 @@ class _HitchRideCompleteScreenState extends State<HitchRideCompleteScreen> {
 
   @override
   void initState() {
-    bloc = HitchRideCompleteBloc();
+    bloc = HitchRideCompleteBloc(data: widget.data);
     super.initState();
   }
 
@@ -89,6 +92,7 @@ class _HitchRideCompleteScreenState extends State<HitchRideCompleteScreen> {
           children: [
             AppButton(
               title: 'Đánh giá chuyến đi',
+              onPressed: () => bloc.onFeedback(context),
             ),
           ],
         ),
