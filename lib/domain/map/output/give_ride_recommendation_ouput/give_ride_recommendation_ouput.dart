@@ -73,6 +73,7 @@ class GiveRideRecommendationOuput {
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
         avatarUrl: response.user?.avatarUrl,
+        averageRating: response.user?.averageRating,
         gender: GenderEnum.fromString(response.user?.gender ?? ''),
       ),
       vehicle: GetVehicleOuput(
@@ -110,6 +111,7 @@ class GiveRideRecommendationOuput {
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
         avatarUrl: data.user?.avatarUrl,
+        averageRating: data.user?.averageRating,
         gender: GenderEnum.fromString(data.user?.gender ?? ''),
       ),
       vehicle: GetVehicleOuput(
@@ -154,6 +156,7 @@ class GiveRideRecommendationOuput {
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
         avatarUrl: data.user?.avatarUrl,
+        averageRating: data.user?.averageRating,
         gender: GenderEnum.fromString(data.user?.gender ?? ''),
       ),
       fare: data.fare,
@@ -244,6 +247,7 @@ class GiveRideRecommendationOuput {
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
         avatarUrl: response.user?.avatarUrl,
+        averageRating: response.user?.averageRating,
         gender: GenderEnum.fromString(response.user?.gender ?? ''),
       ),
       vehicle: GetVehicleOuput(

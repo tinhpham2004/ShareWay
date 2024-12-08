@@ -16,6 +16,9 @@ class AcceptRideRequestUser {
   @JsonKey(name: 'avatar_url')
   String? avatarUrl;
 
+  @JsonKey(name: 'average_rating')
+  double? averageRating;
+
   @JsonKey(name: 'gender')
   String? gender;
 
@@ -24,6 +27,7 @@ class AcceptRideRequestUser {
     this.phoneNumber,
     this.fullName,
     this.avatarUrl,
+    this.averageRating,
     this.gender,
   });
 

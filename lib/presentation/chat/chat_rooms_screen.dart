@@ -129,6 +129,8 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                                         leading: AppAvatar(
                                           avatarUrl:
                                               item.receiver?.avatarUrl ?? '',
+                                          averageRating:
+                                              item.receiver?.averageRating ?? 0,
                                         ),
                                         title: Row(
                                           mainAxisAlignment:

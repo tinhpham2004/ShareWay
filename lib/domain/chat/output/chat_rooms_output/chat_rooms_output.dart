@@ -27,6 +27,7 @@ class ChatRoomsOutput {
         fullName: response.receiverInfo?.fullName,
         phoneNumber: response.receiverInfo?.phoneNumber,
         avatarUrl: response.receiverInfo?.avatarUrl,
+        averageRating: response.receiverInfo?.averageRating,
         gender: GenderEnum.fromString(response.receiverInfo?.gender ?? ''),
       ),
       lastMessage: response.lastMessage,

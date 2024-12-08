@@ -21,6 +21,7 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
           ? null
           : DateTime.parse(json['updated_at'] as String),
       avatarUrl: json['avatar_url'] as String?,
+      averageRating: (json['average_rating'] as num?)?.toDouble(),
       gender: json['gender'] as String?,
     );
 
@@ -36,5 +37,6 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'role': instance.role,
       'updated_at': instance.updatedAt?.toIso8601String(),
       'avatar_url': instance.avatarUrl,
+      'average_rating': instance.averageRating,
       'gender': instance.gender,
     };

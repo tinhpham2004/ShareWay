@@ -105,6 +105,7 @@ class _GiveRideRecommendationScreenState
                   child: ListTile(
                     leading: AppAvatar(
                       avatarUrl: item.user?.avatarUrl ?? '',
+                      averageRating: item.user?.averageRating ?? 0,
                     ),
                     title: Text(
                       item.user?.fullName ?? '',

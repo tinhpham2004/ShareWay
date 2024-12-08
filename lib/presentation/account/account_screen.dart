@@ -51,7 +51,10 @@ class _AccountScreenState extends State<AccountScreen> {
                       child: Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          AppAvatar(avatarUrl: state.user?.avatarUrl ?? ''),
+                          AppAvatar(
+                            avatarUrl: state.user?.avatarUrl ?? '',
+                            // averageRating: state.user?.averageRating ?? 0,
+                          ),
                           AppIcon.editAvatar,
                         ],
                       ),

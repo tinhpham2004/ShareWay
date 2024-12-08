@@ -129,6 +129,7 @@ class GiveRidePreviewScreenState extends State<GiveRidePreviewScreen> {
         ListTile(
           leading: AppAvatar(
             avatarUrl: state.user?.avatarUrl ?? '',
+            averageRating: state.user?.averageRating ?? 0,
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -52,6 +52,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   avatarUrl: widget.chatRoomsBloc.state.selectedChat?.receiver
                           ?.avatarUrl ??
                       '',
+                  averageRating: widget.chatRoomsBloc.state.selectedChat
+                          ?.receiver?.averageRating ??
+                      0,
                 ),
                 title: Row(
                   children: [

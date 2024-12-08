@@ -164,6 +164,8 @@ class HitchRideRecommendationDetailScreenState
         ListTile(
           leading: AppAvatar(
             avatarUrl: state.giveRideRecommendationOuput?.user?.avatarUrl ?? '',
+            averageRating:
+                state.giveRideRecommendationOuput?.user?.averageRating ?? 0,
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

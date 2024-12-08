@@ -163,6 +163,7 @@ class GiveRideRecommendationDetailScreenState
           leading: AppAvatar(
             avatarUrl:
                 state.hitchRideRecommendationOuput?.user?.avatarUrl ?? '',
+            averageRating: state.hitchRideRecommendationOuput?.user?.averageRating ?? 0,
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

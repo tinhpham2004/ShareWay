@@ -9,7 +9,6 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/image/app_image.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
-import 'package:share_way_frontend/domain/chat/output/init_call_output/init_call_output.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_bloc.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_state.dart';
@@ -41,6 +40,7 @@ class _CallScreenState extends State<CallScreen> {
         builder: (context, state) {
           if (state.isLoading) return LoadingScreen();
           return Scaffold(
+            backgroundColor: AppColor.c_40D6D4D4,
             body: Stack(
               fit: StackFit.expand,
               children: [
@@ -59,6 +59,7 @@ class _CallScreenState extends State<CallScreen> {
                   BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5.w, sigmaY: 5.h),
                     child: Container(
+                      alignment: Alignment.center,
                       color: AppColor.c_40D6D4D4, // Darken the blurred area
                       child: AppAvatar(
                         avatarUrl: widget.chatDetailBloc.chatRoomsBloc.state

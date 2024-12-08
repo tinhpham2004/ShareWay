@@ -64,7 +64,9 @@ class _GiveRideRatingScreenState extends State<GiveRideRatingScreen> {
                         children: [
                           spaceH16,
                           AppAvatar(
-                              avatarUrl: widget.data.user?.avatarUrl ?? ''),
+                            avatarUrl: widget.data.user?.avatarUrl ?? '',
+                            averageRating: widget.data.user?.averageRating ?? 0,
+                          ),
                           spaceH4,
                           Text(
                             widget.data.user?.fullName ?? '',

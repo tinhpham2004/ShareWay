@@ -104,6 +104,7 @@ class _HitchRideRecommendationScreenState
                   child: ListTile(
                     leading: AppAvatar(
                       avatarUrl: item.user?.avatarUrl ?? '',
+                      averageRating: item.user?.averageRating ?? 0,
                     ),
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

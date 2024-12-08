@@ -12,6 +12,8 @@ class SuggestHitchRidersUserResponse {
   String? userId;
   @JsonKey(name: 'avatar_url')
   String? avatarUrl;
+  @JsonKey(name: 'average_rating')
+  double? averageRating;
   @JsonKey(name: 'gender')
   String? gender;
 
@@ -20,6 +22,7 @@ class SuggestHitchRidersUserResponse {
     this.phoneNumber,
     this.userId,
     this.avatarUrl,
+    this.averageRating,
     this.gender,
   });
 

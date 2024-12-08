@@ -70,6 +70,7 @@ class HitchRideRecommendationOuput {
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
         avatarUrl: response.user?.avatarUrl,
+        averageRating: response.user?.averageRating,
         gender: GenderEnum.fromString(response.user?.gender ?? ''),
       ),
     );
@@ -100,6 +101,7 @@ class HitchRideRecommendationOuput {
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
         avatarUrl: data.user?.avatarUrl,
+        averageRating: data.user?.averageRating,
         gender: GenderEnum.fromString(data.user?.gender ?? ''),
       ),
       vehicleId: data.vehicle?.vehicleId,
@@ -133,6 +135,7 @@ class HitchRideRecommendationOuput {
         fullName: data.user?.fullName,
         phoneNumber: data.user?.phoneNumber,
         avatarUrl: data.user?.avatarUrl,
+        averageRating: data.user?.averageRating,
         gender: GenderEnum.fromString(data.user?.gender ?? ''),
       ),
     );
@@ -162,6 +165,7 @@ class HitchRideRecommendationOuput {
         fullName: response.user?.fullName,
         phoneNumber: response.user?.phoneNumber,
         avatarUrl: response.user?.avatarUrl,
+        averageRating: response.user?.averageRating,
         gender: GenderEnum.fromString(response.user?.gender ?? ''),
       ),
       startAddress: response.startAddress,

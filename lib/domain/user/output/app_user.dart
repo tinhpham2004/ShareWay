@@ -15,6 +15,7 @@ class AppUser {
   String? role;
   DateTime? updatedAt;
   String? avatarUrl;
+  double? averageRating;
   GenderEnum gender;
 
   AppUser({
@@ -28,6 +29,7 @@ class AppUser {
     this.role,
     this.updatedAt,
     this.avatarUrl,
+    this.averageRating,
     this.gender = GenderEnum.MALE,
   });
 
@@ -43,6 +45,7 @@ class AppUser {
       role: data.role,
       updatedAt: data.updatedAt,
       avatarUrl: data.avatarUrl,
+      averageRating: data.averageRating,
       gender: GenderEnum.fromString(data.gender ?? ''),
     );
   }

@@ -14,6 +14,7 @@ GetChatRoomReceiverInfoResponse _$GetChatRoomReceiverInfoResponseFromJson(
       userId: json['user_id'] as String?,
       avatarUrl: json['avatar_url'] as String?,
       gender: json['gender'] as String?,
+      averageRating: (json['average_rating'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$GetChatRoomReceiverInfoResponseToJson(
@@ -23,5 +24,6 @@ Map<String, dynamic> _$GetChatRoomReceiverInfoResponseToJson(
       'phone_number': instance.phoneNumber,
       'user_id': instance.userId,
       'avatar_url': instance.avatarUrl,
+      'average_rating': instance.averageRating,
       'gender': instance.gender,
     };

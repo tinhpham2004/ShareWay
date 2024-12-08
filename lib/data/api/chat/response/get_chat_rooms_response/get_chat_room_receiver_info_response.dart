@@ -12,6 +12,8 @@ class GetChatRoomReceiverInfoResponse {
   String? userId;
   @JsonKey(name: 'avatar_url')
   String? avatarUrl;
+  @JsonKey(name: 'average_rating')
+  double? averageRating;
   @JsonKey(name: 'gender')
   String? gender;
 
@@ -21,6 +23,7 @@ class GetChatRoomReceiverInfoResponse {
     this.userId,
     this.avatarUrl,
     this.gender,
+    this.averageRating,
   });
 
   factory GetChatRoomReceiverInfoResponse.fromJson(Map<String, dynamic> json) {

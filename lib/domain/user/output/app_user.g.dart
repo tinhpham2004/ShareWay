@@ -27,6 +27,8 @@ abstract class _$AppUserCWProxy {
 
   AppUser avatarUrl(String? avatarUrl);
 
+  AppUser averageRating(double? averageRating);
+
   AppUser gender(GenderEnum gender);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `AppUser(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -46,6 +48,7 @@ abstract class _$AppUserCWProxy {
     String? role,
     DateTime? updatedAt,
     String? avatarUrl,
+    double? averageRating,
     GenderEnum? gender,
   });
 }
@@ -87,6 +90,10 @@ class _$AppUserCWProxyImpl implements _$AppUserCWProxy {
   AppUser avatarUrl(String? avatarUrl) => this(avatarUrl: avatarUrl);
 
   @override
+  AppUser averageRating(double? averageRating) =>
+      this(averageRating: averageRating);
+
+  @override
   AppUser gender(GenderEnum gender) => this(gender: gender);
 
   @override
@@ -108,6 +115,7 @@ class _$AppUserCWProxyImpl implements _$AppUserCWProxy {
     Object? role = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
     Object? avatarUrl = const $CopyWithPlaceholder(),
+    Object? averageRating = const $CopyWithPlaceholder(),
     Object? gender = const $CopyWithPlaceholder(),
   }) {
     return AppUser(
@@ -151,6 +159,10 @@ class _$AppUserCWProxyImpl implements _$AppUserCWProxy {
           ? _value.avatarUrl
           // ignore: cast_nullable_to_non_nullable
           : avatarUrl as String?,
+      averageRating: averageRating == const $CopyWithPlaceholder()
+          ? _value.averageRating
+          // ignore: cast_nullable_to_non_nullable
+          : averageRating as double?,
       gender: gender == const $CopyWithPlaceholder() || gender == null
           ? _value.gender
           // ignore: cast_nullable_to_non_nullable

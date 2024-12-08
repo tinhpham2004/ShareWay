@@ -21,6 +21,8 @@ class UserResponse {
   DateTime? updatedAt;
   @JsonKey(name: 'avatar_url')
   String? avatarUrl;
+  @JsonKey(name: 'average_rating')
+  double? averageRating;
   @JsonKey(name: 'gender')
   String? gender;
 
@@ -35,6 +37,7 @@ class UserResponse {
     this.role,
     this.updatedAt,
     this.avatarUrl,
+    this.averageRating,
     this.gender,
   });
 
