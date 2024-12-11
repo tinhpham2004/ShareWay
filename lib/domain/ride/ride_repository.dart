@@ -5,11 +5,13 @@ import 'package:share_way_frontend/data/api/ride/request/rating_driver_request/r
 import 'package:share_way_frontend/data/api/ride/request/rating_hitcher_request/rating_hitcher_request.dart';
 import 'package:share_way_frontend/data/api/ride/request/ride_request/ride_request.dart';
 import 'package:share_way_frontend/data/api/ride/ride_service.dart';
+import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/ride/input/cancel_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/matched_ride_input.dart';
 import 'package:share_way_frontend/domain/ride/input/rating_driver_input.dart';
 import 'package:share_way_frontend/domain/ride/input/rating_hitcher_input.dart';
 import 'package:share_way_frontend/domain/ride/input/ride_request_input.dart';
+import 'package:share_way_frontend/domain/ride/output/history_ride_output/history_ride_output.dart';
 import 'package:share_way_frontend/domain/ride/output/pending_ride_output/pending_ride_output.dart';
 
 class RideRepository {
@@ -180,5 +182,23 @@ class RideRepository {
       }
     }
     return false;
+  }
+
+  Future<List<HistoryRideOutput>?> getHistoryRide() async {
+    try {
+      final result = await _service.getRideHistory();
+      if (result != null) {
+        final userId = await Preferences.getUserId();
+        return result.data?.rideHistory
+            ?.map((e) => HistoryRideOutput.fromApiModel(
+                response: e, currentUserId: userId))
+            .toList();
+      }
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+    return null;
   }
 }

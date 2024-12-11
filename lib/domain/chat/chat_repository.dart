@@ -31,6 +31,22 @@ class ChatRepository {
     return null;
   }
 
+  Future<List<ChatRoomsOutput>?> searchUsers(String searchInput) async {
+    try {
+      final response = await _service.searchUsers(searchInput);
+      if (response != null) {
+        return response.data?.chatRooms
+            ?.map((e) => ChatRoomsOutput.fromApiModel(e))
+            .toList();
+      }
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+    return null;
+  }
+
   Future<List<ChatMessageOutput>?> getChatMessages(String roomId) async {
     try {
       final response = await _service.getChatMessages(roomId);

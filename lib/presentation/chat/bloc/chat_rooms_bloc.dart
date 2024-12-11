@@ -1,11 +1,9 @@
+import 'dart:async';
 import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/domain/chat/chat_repository.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_message_output/chat_message_output.dart';
 import 'package:share_way_frontend/domain/chat/output/chat_rooms_output/chat_rooms_output.dart';
@@ -16,6 +14,7 @@ import 'package:share_way_frontend/router/app_path.dart';
 class ChatRoomsBloc extends Cubit<ChatRoomsState> {
   ChatRoomsBloc() : super(ChatRoomsState());
 
+  Timer? _debounce;
   final _chatRepository = ChatRepository();
 
   void onStart(BuildContext context) {
@@ -107,5 +106,17 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
         lastMessage: newMessage.message,
       ),
     ));
+  }
+
+  Future<void> onSearchUsers(String searchInput) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(seconds: 2), () async {
+      emit(state.copyWith(isLoading: true));
+      final chatRooms = await _chatRepository.searchUsers(searchInput);
+      if (chatRooms != null) {
+        emit(state.copyWith(chatRooms: chatRooms));
+      }
+      emit(state.copyWith(isLoading: false));
+    });
   }
 }

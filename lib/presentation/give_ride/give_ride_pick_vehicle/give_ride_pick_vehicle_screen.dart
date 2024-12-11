@@ -84,6 +84,7 @@ class _GiveRidePickVehicleScreenState extends State<GiveRidePickVehicleScreen> {
             AppButton(
               title: 'Xác nhận',
               onPressed: () => bloc.onConfirm(context),
+              isMargin: true,
             ),
           ],
         ),

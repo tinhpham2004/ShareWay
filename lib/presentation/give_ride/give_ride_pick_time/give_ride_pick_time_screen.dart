@@ -92,6 +92,7 @@ class _GiveRidePickTimeScreenState extends State<GiveRidePickTimeScreen> {
             AppButton(
               title: 'Xác nhận',
               onPressed: () => bloc.onConfirm(context),
+              isMargin: true,
             ),
           ],
         ),
@@ -318,6 +319,7 @@ class _GiveRidePickTimeScreenState extends State<GiveRidePickTimeScreen> {
                     GoRouter.of(context).pop();
                     showTimePickerBottomSheet(context);
                   },
+                  isMargin: true,
                 )
               ],
             ),
@@ -375,6 +377,7 @@ class _GiveRidePickTimeScreenState extends State<GiveRidePickTimeScreen> {
                   onPressed: () {
                     bloc.onConfirm(context);
                   },
+                  isMargin: true,
                 )
               ],
             ),

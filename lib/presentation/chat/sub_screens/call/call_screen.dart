@@ -7,7 +7,7 @@ import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/presentation/chat/sub_screens/call/bloc/call_bloc.dart';

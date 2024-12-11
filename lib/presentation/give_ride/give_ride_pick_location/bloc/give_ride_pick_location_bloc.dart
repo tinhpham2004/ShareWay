@@ -90,7 +90,7 @@ class GiveRidePickLocationBloc extends Cubit<GiveRidePickLocationState> {
     );
 
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(seconds: 3), () async {
+    _debounce = Timer(const Duration(seconds: 2), () async {
       if (location.length >= 2) {
         emit(state.copyWith(isLoading: true));
         final currentLocation = await _onGetCurrentLocation();

@@ -468,7 +468,8 @@ class GiveRideRecommendationDetailBloc
       ));
       showSuccessSnackbar(context, 'Đã kết thúc chuyến đi');
       _webSocketRepository.dispose();
-      GoRouter.of(context).push(AppPath.giveRideComplete, extra: state.hitchRideRecommendationOuput);
+      GoRouter.of(context).push(AppPath.giveRideComplete,
+          extra: state.hitchRideRecommendationOuput);
     }
   }
 

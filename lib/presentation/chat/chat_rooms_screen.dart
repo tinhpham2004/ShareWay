@@ -9,7 +9,7 @@ import 'package:share_way_frontend/core/utils/date_time.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -89,6 +89,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
+                        onChanged: (p0) => bloc.onSearchUsers(p0),
                       ),
                     ),
                     Expanded(
@@ -96,7 +97,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                       child: Container(
                         padding: EdgeInsets.only(top: 32.h),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColor.white,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(30.r),
                             topRight: Radius.circular(30.r),

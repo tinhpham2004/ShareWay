@@ -36,7 +36,7 @@ class _PendingHitchRideFieldState extends State<PendingHitchRideField> {
             reverse: true,
             itemCount: state.pendingRideRequest.length,
             physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => spaceH8,
+            separatorBuilder: (context, index) => spaceH16,
             itemBuilder: (context, index) {
               final item = state.pendingRideRequest[index];
               return InkWell(

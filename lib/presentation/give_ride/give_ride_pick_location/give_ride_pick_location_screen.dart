@@ -8,6 +8,7 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
+import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/core/widgets/map/pick_location_map.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_pick_location/bloc/give_ride_pick_location_bloc.dart';
@@ -35,72 +36,69 @@ class _GiveRidePickLocationScreenState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc..onStart(context),
-      child: BlocListener<GiveRidePickLocationBloc, GiveRidePickLocationState>(
-        listener: (context, state) {
-          if (state.isLoading) {
-            showLoading(context);
-          } else {
-            hideLoading(context);
-          }
-        },
-        listenWhen: (previous, current) =>
-            previous.isLoading != current.isLoading,
-        child: BlocBuilder<GiveRidePickLocationBloc, GiveRidePickLocationState>(
-          builder: (context, state) {
-            return Scaffold(
-              backgroundColor: AppColor.white,
-              appBar: Appbar(
-                title: 'Bạn muốn đi đâu?',
-                actions: [
-                  AppButton(
-                    flex: 0,
-                    shape: BoxShape.circle,
-                    icon: AppIcon.mapButton,
-                    backgroundColor: AppColor.white,
-                    padding: EdgeInsets.all(8.w),
-                    onPressed: () => _showGoongMapPopup(),
-                  ),
-                  spaceW16,
-                ],
-              ),
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        key: ObjectKey(state.dataChange),
-                        children: [
-                          _buildLocationInputField(),
-                          _buildFilterButtonField(),
-                          _buildFilterResultField(),
-                        ],
-                      ),
+      child: BlocBuilder<GiveRidePickLocationBloc, GiveRidePickLocationState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: AppColor.white,
+            appBar: Appbar(
+              title: 'Bạn muốn đi đâu?',
+              actions: [
+                AppButton(
+                  flex: 0,
+                  shape: BoxShape.circle,
+                  icon: AppIcon.mapButton,
+                  backgroundColor: AppColor.white,
+                  padding: EdgeInsets.all(8.w),
+                  onPressed: () => _showGoongMapPopup(),
+                ),
+                spaceW16,
+              ],
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      key: ObjectKey(state.dataChange),
+                      children: [
+                        _buildLocationInputField(),
+                        _buildFilterButtonField(),
+                        state.isLoading
+                            ? const LoadingWidget()
+                            : _buildFilterResultField(),
+                      ],
                     ),
                   ),
-                  _buildConfirmButton(),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+                _buildConfirmButton(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Column _buildConfirmButton() {
-    return Column(
-      children: [
-        Row(
+  Widget _buildConfirmButton() {
+    return BlocBuilder<GiveRidePickLocationBloc, GiveRidePickLocationState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            AppButton(
-              title: 'Xác nhận',
-              onPressed: () => bloc.onConfirm(context),
+            Row(
+              children: [
+                AppButton(
+                  title: 'Xác nhận',
+                  isEnabled: !state.isLoading,
+                  onPressed: () => bloc.onConfirm(context),
+                  isMargin: true,
+                ),
+              ],
             ),
+            spaceH12,
           ],
-        ),
-        spaceH12,
-      ],
+        );
+      },
     );
   }
 

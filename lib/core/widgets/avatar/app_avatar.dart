@@ -42,8 +42,8 @@ class AppAvatar extends StatelessWidget {
         if (averageRating != null)
           Positioned(
             bottom: 0,
-            right: 16.w,
-            left: 16.w,
+            right: 12.w,
+            left: 12.w,
             child: Container(
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
@@ -51,9 +51,12 @@ class AppAvatar extends StatelessWidget {
                 color: AppColor.primaryColor,
                 borderRadius: BorderRadius.circular(4.r),
               ),
-              child: Text(
-                averageRating!.toStringAsFixed(1),
-                style: textTheme.labelSmall!.copyWith(color: AppColor.white),
+              child: Flexible(
+                child: Text(
+                  averageRating!.toStringAsFixed(1),
+                  style: textTheme.labelSmall!.copyWith(color: AppColor.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),

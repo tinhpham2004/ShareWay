@@ -11,7 +11,7 @@ import 'package:share_way_frontend/core/utils/enums/ride_status_enum.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_screen.dart';
 import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_bloc.dart';

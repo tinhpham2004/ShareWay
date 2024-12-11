@@ -25,6 +25,17 @@ class ChatService {
     return response;
   }
 
+  Future<GetChatRoomsResponse?> searchUsers(String searchInput) async {
+    final response = await _service.post(
+      ChatApi.searchUsers,
+      data: {"search_input": searchInput},
+      fromJson: (json) => GetChatRoomsResponse.fromJson(json),
+    );
+    // final response =
+    //     GetChatRoomsResponse.fromJson(jsonDecode(getChatRoomsJson));
+    return response;
+  }
+
   Future<GetChatMessagesResponse?> getChatMessages(String roomId) async {
     final response = await _service.post(
       ChatApi.getChatMessages,

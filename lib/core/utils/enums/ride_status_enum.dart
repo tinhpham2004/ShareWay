@@ -9,6 +9,47 @@ enum RideStatusEnum {
   COMPLETED,
   CANCELLED;
 
+  static RideStatusEnum fromString(String value) {
+    switch (value) {
+      case 'created':
+        return RideStatusEnum.CREATED;
+      case 'receiving':
+        return RideStatusEnum.RECEIVING;
+      case 'sending':
+        return RideStatusEnum.SENDING;
+      case 'accepted':
+        return RideStatusEnum.ACCEPTED;
+      case 'ongoing':
+        return RideStatusEnum.ONGOING;
+      case 'completed':
+        return RideStatusEnum.COMPLETED;
+      case 'cancelled':
+        return RideStatusEnum.CANCELLED;
+      default:
+        return RideStatusEnum.CREATED;
+    }
+  }
+
+  @override
+  String toString() {
+    switch (this) {
+      case RideStatusEnum.CREATED:
+        return 'Mới tạo';
+      case RideStatusEnum.RECEIVING:
+        return 'Đang nhận';
+      case RideStatusEnum.SENDING:
+        return 'Đang gửi';
+      case RideStatusEnum.ACCEPTED:
+        return 'Đã chấp nhận';
+      case RideStatusEnum.ONGOING:
+        return 'Đang đi';
+      case RideStatusEnum.COMPLETED:
+        return 'Hoàn thành';
+      case RideStatusEnum.CANCELLED:
+        return 'Đã hủy';
+    }
+  }
+
   String? get getGiveRidePrimaryButtonTitle {
     switch (this) {
       case RideStatusEnum.CREATED:

@@ -51,6 +51,7 @@ class RideApi {
   static const getAllPendingRide = "/ride/get-all-pending-ride";
   static const ratingRideDriver = "/ride/rating-ride-driver";
   static const ratingRideHitcher = "/ride/rating-ride-hitcher";
+  static const getRideHistory = "/ride/get-ride-history";
 }
 
 class ChatApi {
@@ -60,6 +61,7 @@ class ChatApi {
   static const sendImage = "/chat/send-image";
   static const initiateCall = "/chat/initiate-call";
   static const updateCallStatus = "/chat/update-call-status";
+  static const searchUsers = "/chat/search-users";
 }
 
 class PaymentApi {

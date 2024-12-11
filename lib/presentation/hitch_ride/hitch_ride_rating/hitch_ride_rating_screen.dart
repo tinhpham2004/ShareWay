@@ -7,7 +7,7 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/domain/map/output/give_ride_recommendation_ouput/give_ride_recommendation_ouput.dart';

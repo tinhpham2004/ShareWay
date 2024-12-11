@@ -6,7 +6,7 @@ import 'package:share_way_frontend/core/constants/app_icon.dart';
 import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';

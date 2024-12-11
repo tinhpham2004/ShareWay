@@ -20,7 +20,9 @@ class AppColor {
   static const white = Color(0xFFFFFFFF);
   static const warning = Color(0xFFFACC15);
   static const error = Color(0xFFF75555);
+  static const c_FFFFDDDD = Color(0xFFFFDDDD);
   static const success = Color(0xFF4ADE80);
+  static const c_FFD6FFE5 = Color(0xFFD6FFE5);
   static const transparent = Colors.transparent;
   static const c_FFECECEC = Color(0xFFECECEC);
   static const c_40B6C8E4 = Color(0x40B6C8E4);

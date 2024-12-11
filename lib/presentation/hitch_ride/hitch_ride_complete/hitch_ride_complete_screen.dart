@@ -93,6 +93,7 @@ class _HitchRideCompleteScreenState extends State<HitchRideCompleteScreen> {
             AppButton(
               title: 'Đánh giá chuyến đi',
               onPressed: () => bloc.onFeedback(context),
+              isMargin: true,
             ),
           ],
         ),

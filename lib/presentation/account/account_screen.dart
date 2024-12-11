@@ -11,7 +11,7 @@ import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/bottom_navigation/bottom_navigation.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/presentation/account/bloc/account_bloc.dart';
 import 'package:share_way_frontend/presentation/account/bloc/account_state.dart';
 

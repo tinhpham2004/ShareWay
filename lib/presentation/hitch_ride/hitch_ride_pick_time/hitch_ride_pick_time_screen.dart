@@ -94,6 +94,7 @@ class _HitchRidePickTimeScreenState extends State<HitchRidePickTimeScreen> {
             AppButton(
               title: 'Xác nhận',
               onPressed: () => bloc.onConfirm(context),
+              isMargin: true,
             ),
           ],
         ),
@@ -320,6 +321,7 @@ class _HitchRidePickTimeScreenState extends State<HitchRidePickTimeScreen> {
                     GoRouter.of(context).pop();
                     showTimePickerBottomSheet(context);
                   },
+                  isMargin: true,
                 )
               ],
             ),
@@ -377,6 +379,7 @@ class _HitchRidePickTimeScreenState extends State<HitchRidePickTimeScreen> {
                   onPressed: () {
                     bloc.onConfirm(context);
                   },
+                  isMargin: true,
                 )
               ],
             ),

@@ -31,7 +31,7 @@ class PendingGiveRideField extends StatelessWidget {
             reverse: true,
             itemCount: state.pendingRideOffer.length,
             physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => spaceH8,
+            separatorBuilder: (context, index) => spaceH16,
             itemBuilder: (context, index) {
               final item = state.pendingRideOffer[index];
               return InkWell(

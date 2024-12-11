@@ -419,7 +419,8 @@ class HitchRideRecommendationDetailBloc
     );
     _webSocketRepository.dispose();
     state.userPointAnnotationManager?.deleteAll();
-    navigatorKey.currentContext?.go(AppPath.hitchRideComplete, extra: state.giveRideRecommendationOuput);
+    navigatorKey.currentContext?.go(AppPath.hitchRideComplete,
+        extra: state.giveRideRecommendationOuput);
   }
 
   void updateLocationMarks() async {

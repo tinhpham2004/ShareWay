@@ -14,7 +14,7 @@ import 'package:share_way_frontend/core/utils/enums/message_type_enum.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/button/app_button.dart';
-import 'package:share_way_frontend/core/widgets/image/app_image.dart';
+import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
 import 'package:share_way_frontend/core/widgets/input/text_field_input.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_widget.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -339,8 +339,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                                             children: [
                                                               item.messageType
                                                                   .getIcon(),
-                                                              SizedBox(
-                                                                  width: 8.w),
+                                                              spaceW8,
                                                               Column(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
@@ -353,8 +352,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                                                         .titleSmall,
                                                                   ),
                                                                   Text(
-                                                                    item.message ??
-                                                                        '',
+                                                                    item.messageType == MessageTypeEnum.MISSED_CALL ||
+                                                                            item.messageType ==
+                                                                                MessageTypeEnum.CALL ||
+                                                                            item.messageType == MessageTypeEnum.MISSED_CALL
+                                                                        ? item.message == '0'
+                                                                            ? 'Cuộc gọi'
+                                                                            : item.message ?? ''
+                                                                        : item.message ?? '',
                                                                     style: textTheme
                                                                         .bodyMedium!
                                                                         .copyWith(
