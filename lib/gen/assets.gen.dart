@@ -244,6 +244,9 @@ class $AssetsImagesGen {
   AssetGenImage get failToLoadImage =>
       const AssetGenImage('assets/images/fail_to_load_image.jpg');
 
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
   /// File path: assets/images/map.png
   AssetGenImage get map => const AssetGenImage('assets/images/map.png');
 
@@ -272,6 +275,7 @@ class $AssetsImagesGen {
         endLocationMark,
         exampleAvatar,
         failToLoadImage,
+        logo,
         map,
         momo,
         onboardingMan,

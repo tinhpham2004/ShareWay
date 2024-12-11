@@ -62,6 +62,7 @@ class NotificationRepository {
       final androidDetails = AndroidNotificationDetails(
         'your_channel_id',
         'Your Channel Name',
+        icon: '@mipmap/launcher_icon',
         channelDescription: 'Your channel description',
         importance: Importance.max,
         priority: Priority.high,
