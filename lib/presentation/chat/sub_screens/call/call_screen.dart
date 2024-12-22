@@ -66,6 +66,8 @@ class _CallScreenState extends State<CallScreen> {
                                 .selectedChat?.receiver?.avatarUrl ??
                             '',
                         fit: BoxFit.cover,
+                        height: 1.sh,
+                        width: 1.sw,
                       ),
                     ),
                   ),

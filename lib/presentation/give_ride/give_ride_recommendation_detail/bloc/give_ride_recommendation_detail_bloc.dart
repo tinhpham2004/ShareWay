@@ -24,6 +24,7 @@ import 'package:share_way_frontend/domain/ride/ride_repository.dart';
 import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
 import 'package:share_way_frontend/presentation/give_ride/give_ride_recommendation_detail/bloc/give_ride_recommendation_detail_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 import 'dart:ui' as ui;
@@ -555,5 +556,19 @@ class GiveRideRecommendationDetailBloc
       print('Error: $e');
       return null;
     }
+  }
+
+  void onChatPressed(BuildContext context) async {
+    final chatRoomsBloc = ChatRoomsBloc();
+    await chatRoomsBloc.onFetchChatRooms();
+    final currentUserIndex = chatRoomsBloc.state.chatRooms.indexWhere(
+      (element) =>
+          element.receiver?.id == state.hitchRideRecommendationOuput?.user?.id,
+    );
+    chatRoomsBloc.onChangeSelectedChat(currentUserIndex);
+    GoRouter.of(context).push(
+      AppPath.chatDetail,
+      extra: chatRoomsBloc,
+    );
   }
 }

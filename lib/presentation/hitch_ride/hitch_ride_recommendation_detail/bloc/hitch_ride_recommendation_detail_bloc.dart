@@ -28,6 +28,9 @@ import 'package:share_way_frontend/domain/shared/models/geocode.dart';
 import 'package:share_way_frontend/domain/web_socket/web_socket_repository.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
 import 'package:share_way_frontend/main.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_bloc.dart';
+import 'package:share_way_frontend/presentation/chat/bloc/chat_rooms_state.dart';
+import 'package:share_way_frontend/presentation/chat/sub_screens/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:share_way_frontend/presentation/hitch_ride/hitch_ride_recommendation_detail/bloc/hitch_ride_recommendation_detail_state.dart';
 import 'package:share_way_frontend/router/app_path.dart';
 import 'dart:ui' as ui;
@@ -529,5 +532,19 @@ class HitchRideRecommendationDetailBloc
 
   void onPaymentMethodPressed(BuildContext context) {
     GoRouter.of(context).push(AppPath.paymentMethod, extra: this);
+  }
+
+  void onChatPressed(BuildContext context) async {
+    final chatRoomsBloc = ChatRoomsBloc();
+    await chatRoomsBloc.onFetchChatRooms();
+    final currentUserIndex = chatRoomsBloc.state.chatRooms.indexWhere(
+      (element) =>
+          element.receiver?.id == state.giveRideRecommendationOuput?.user?.id,
+    );
+    chatRoomsBloc.onChangeSelectedChat(currentUserIndex);
+    GoRouter.of(context).push(
+      AppPath.chatDetail,
+      extra: chatRoomsBloc,
+    );
   }
 }

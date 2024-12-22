@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -187,6 +188,8 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
   void onUpdateCall(ChatMessageOutput message) async {
     final messages = List<ChatMessageOutput>.from(state.messages);
+
+    messages.removeWhere((element) => element.messageId == message.messageId);
 
     messages.add(message);
 

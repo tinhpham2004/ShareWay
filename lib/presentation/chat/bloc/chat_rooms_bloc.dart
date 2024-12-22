@@ -78,6 +78,10 @@ class ChatRoomsBloc extends Cubit<ChatRoomsState> {
     GoRouter.of(context).pop();
   }
 
+  void onChangeSelectedChat(int index) {
+    emit(state.copyWith(selectedChat: state.chatRooms[index]));
+  }
+
   void onSelectChat({required BuildContext context, required int index}) {
     emit(state.copyWith(
       selectedChat: state.chatRooms[index],

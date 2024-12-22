@@ -152,7 +152,24 @@ class CallBloc extends Cubit<CallState> {
             }
             onStartCountingTimer();
           },
-          onLeaveChannel: (connection, stats) {
+          onLeaveChannel: (connection, stats) async {
+            final isCallExist = chatDetailBloc.state.messages
+                .any((element) => element.messageId == data.callId);
+            if (!isCallExist) {
+              final input = UpdateCallInput(
+                callId: data.callId,
+                type: MessageTypeEnum.MISSED_CALL,
+                roomId: data.roomId,
+                duration: 0,
+                receiverId: data.receiverId,
+              );
+              final response = await _chatRepository.updateCallStatus(input);
+              if (response == null) {
+                showErrorSnackbar(context, 'Đã có lỗi xảy ra');
+                return;
+              }
+              chatDetailBloc.onUpdateCall(response);
+            }
             if (GoRouter.of(context).canPop()) {
               GoRouter.of(context).pop();
             } else {

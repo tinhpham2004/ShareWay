@@ -2,13 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:share_way_frontend/core/constants/app_color.dart';
 import 'package:share_way_frontend/core/constants/app_icon.dart';
+import 'package:share_way_frontend/core/constants/app_text_theme.dart';
+import 'package:share_way_frontend/core/utils/spaces.dart';
+import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/snackbar/snackbar.dart';
+import 'package:share_way_frontend/domain/local/preferences.dart';
 import 'package:share_way_frontend/domain/user/user_repository.dart';
 import 'package:share_way_frontend/presentation/account/bloc/account_state.dart';
 import 'package:share_way_frontend/presentation/account/models/setting.dart';
@@ -76,10 +81,58 @@ class AccountBloc extends Cubit<AccountState> {
     }
   }
 
-  void onSettingSelect(BuildContext context, int index) {
+  void onSettingSelect(BuildContext context, int index) async {
     final setting = state.settings[index];
     if (setting.navigatePath != null) {
       GoRouter.of(context).push(setting.navigatePath!);
+    } else {
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: AppColor.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          title: Text(
+            'Đăng xuất',
+            style: textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+          ),
+          content: Text(
+            'Bạn thực sự muốn đăng xuất?',
+            style: textTheme.bodyMedium,
+          ),
+          actions: [
+            Row(
+              children: [
+                AppButton(
+                  onPressed: () => GoRouter.of(context).pop(),
+                  title: 'Hủy',
+                  backgroundColor: AppColor.secondary200,
+                  textColor: AppColor.primaryText,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 4.w,
+                    vertical: 8.h,
+                  ),
+                ),
+                spaceW8,
+                AppButton(
+                  onPressed: () async {
+                    await Preferences.clearAll();
+                    GoRouter.of(context).go(AppPath.onboarding);
+                  },
+                  title: 'Đăng xuất',
+                  backgroundColor: AppColor.primaryColor,
+                  textColor: AppColor.white,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 4.w,
+                    vertical: 8.h,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
     }
   }
 

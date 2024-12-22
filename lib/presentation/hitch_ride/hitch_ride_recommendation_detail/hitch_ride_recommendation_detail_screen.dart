@@ -181,9 +181,12 @@ class HitchRideRecommendationDetailScreenState
                   RideStatusEnum.ACCEPTED)
                 Row(
                   children: [
-                    AppIcon.rideCall,
-                    spaceW8,
-                    AppIcon.rideChat,
+                    // AppIcon.rideCall,
+                    // spaceW8,
+                    InkWell(
+                      onTap: () => bloc.onChatPressed(context),
+                      child: AppIcon.rideChat,
+                    ),
                   ],
                 )
               else
