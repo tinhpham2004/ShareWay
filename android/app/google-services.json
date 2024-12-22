@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:549933371266:android:7c73c6e818f0f1b378899b",
         "android_client_info": {
-          "package_name": "com.shareway.app"
+          "package_name": "com.shareway.startup"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "549933371266-l2mdpf0qkr427qnju8avdodk5027sr8p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.shareway.app",
+            "package_name": "com.shareway.startup",
             "certificate_hash": "fd31b46cc99181dbeedb439b87688d9b805aaaa3"
           }
         },

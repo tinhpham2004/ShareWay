@@ -16,8 +16,14 @@ class VerifyIdCardRequest {
 
   FormData toFormData() {
     return FormData.fromMap({
-      'front_image': MultipartFile.fromFileSync(frontSideImage!),
-      'back_image': MultipartFile.fromFileSync(backSideImage!),
+      'front_image': MultipartFile.fromFileSync(
+        frontSideImage!,
+        contentType: DioMediaType('image', 'jpeg'),
+      ),
+      'back_image': MultipartFile.fromFileSync(
+        backSideImage!,
+        contentType: DioMediaType('image', 'jpeg'),
+      ),
       'phone_number': phoneNumber,
       'user_id': userId,
     });

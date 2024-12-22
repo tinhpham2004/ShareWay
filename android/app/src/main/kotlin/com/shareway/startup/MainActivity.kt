@@ -1,4 +1,4 @@
-package com.shareway.app
+package com.shareway.startup
 
 import io.flutter.embedding.android.FlutterActivity
 

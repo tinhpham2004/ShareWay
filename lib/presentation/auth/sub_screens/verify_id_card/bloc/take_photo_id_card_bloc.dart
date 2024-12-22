@@ -67,63 +67,12 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
 
   Future<void> takePhoto() async {
     final image = await state.cameraController!.takePicture();
-    Uint8List imageBytes = await image.readAsBytes();
-    img.Image? decodedImage = img.decodeImage(imageBytes);
-
-    if (decodedImage != null) {
-      final croppedImageFile = await _processAndCropImage(decodedImage);
-      _emitCroppedImage(croppedImageFile);
-    }
-  }
-
-  Future<File> _processAndCropImage(img.Image decodedImage) async {
-    int holeWidth = 300.w.toInt();
-    int holeHeight = 180.h.toInt();
-    double scaleFactor = 1.9;
-
-    int newWidth = (decodedImage.width / scaleFactor).floor();
-    int newHeight = (decodedImage.height / scaleFactor).floor();
-
-    img.Image scaledImage = img.copyResize(
-      decodedImage,
-      width: newWidth,
-      height: newHeight,
-    );
-
-    int centerX = scaledImage.width ~/ 2;
-    int centerY = scaledImage.height ~/ 2;
-
-    int cropX = centerX - (holeWidth ~/ 2);
-    int cropY = centerY - (holeHeight ~/ 2);
-
-    cropX = cropX.clamp(0, scaledImage.width - holeWidth);
-    cropY = cropY.clamp(0, scaledImage.height - holeHeight);
-
-    img.Image croppedImage = img.copyCrop(
-      scaledImage,
-      x: cropX,
-      y: cropY,
-      width: holeWidth,
-      height: holeHeight,
-    );
-
-    List<int> croppedImageBytes = img.encodePng(
-      croppedImage,
-      level: 0,
-      filter: PngFilter.none,
-    );
-
-    return File('${Directory.systemTemp.path}/${DateTime.now()}.png')
-      ..writeAsBytesSync(croppedImageBytes);
-  }
-
-  void _emitCroppedImage(File croppedImageFile) {
     switch (state.screen) {
       case TakePhotoIdCardEnum.frontSide:
-        emit(state.copyWith(frontSideImage: croppedImageFile));
+        emit(state.copyWith(frontSideImage: File(image.path)));
         break;
       case TakePhotoIdCardEnum.backSide:
-        emit(state.copyWith(backSideImage: croppedImageFile));
+        emit(state.copyWith(backSideImage: File(image.path)));
         break;
     }
   }
@@ -177,7 +126,9 @@ class TakePhotoIdCardBloc extends Cubit<TakePhotoIdCardState> {
       await pauseCamera();
       emit(state.copyWith(buttonTitle: ButtonTitleEnum.resume));
     } else if (state.buttonTitle == ButtonTitleEnum.resume) {
+      ///
       // await resumeCamera();
+      ///
       final input = VerifyIdCardInput(
         frontSideImage: state.frontSideImage!,
         backSideImage: state.backSideImage!,
