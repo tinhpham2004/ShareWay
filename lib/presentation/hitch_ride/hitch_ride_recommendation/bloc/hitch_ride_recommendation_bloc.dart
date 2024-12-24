@@ -14,25 +14,28 @@ class HitchRideRecommendationBloc extends Cubit<HitchRideRecommendationState> {
   final _mapRepository = MapRepository();
 
   void onStart({required BuildContext context, required String hitchRideId}) {
-    emit(state.copyWith(isLoading: true, hitchRideId: hitchRideId));
+    emit(state.copyWith(hitchRideId: hitchRideId));
     try {
-      onFetchGiveRideRecommendationList(context);
+      // onFetchGiveRideRecommendationList(context);
     } catch (e) {
       showErrorSnackbar(context, 'Đã có lỗi xảy ra');
     } finally {
-      emit(state.copyWith(isLoading: false));
+      // emit(state.copyWith(isLoading: false));
     }
   }
 
   void onFetchGiveRideRecommendationList(BuildContext context) async {
+    emit(state.copyWith(isLoading: true));
     final response = await _mapRepository
         .getGiveRideRecommendationList(state.hitchRideId ?? '');
 
     if (response == null) {
+      emit(state.copyWith(isLoading: false));
       return;
     }
 
-    emit(state.copyWith(giveRideRecommendationList: response));
+    emit(
+        state.copyWith(giveRideRecommendationList: response, isLoading: false));
   }
 
   void onBack(BuildContext context) {

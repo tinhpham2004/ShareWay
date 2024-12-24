@@ -45,6 +45,11 @@ class CallBloc extends Cubit<CallState> {
     }
   }
 
+  Future<String> getCurrentReceiverId(String firstId, String secondId) async {
+    final userId = await Preferences.getUserId();
+    return firstId == userId ? secondId : firstId;
+  }
+
   void onGetUid() async {
     final userId = await Preferences.getUserId();
     emit(state.copyWith(uid: userId == data.callerId ? 1 : 2));
@@ -78,39 +83,7 @@ class CallBloc extends Cubit<CallState> {
     emit(state.copyWith(isVideoOn: !state.isVideoOn));
   }
 
-  void onLeaveCall(BuildContext context) async {
-    if (state.remoteUid == null) {
-      // databaseService.UpdateCallMessage(widget.callId, 'rejected');
-      final input = UpdateCallInput(
-        callId: data.callId,
-        type: MessageTypeEnum.MISSED_CALL,
-        roomId: data.roomId,
-        duration: 0,
-        receiverId: data.receiverId,
-      );
-      final response = await _chatRepository.updateCallStatus(input);
-      if (response == null) {
-        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
-        return;
-      }
-      chatDetailBloc.onUpdateCall(response);
-    } else {
-      // databaseService.UpdateCallMessage(
-      //     widget.callId, 'accepted' + callingTime);
-      final input = UpdateCallInput(
-        callId: data.callId,
-        type: MessageTypeEnum.CALL,
-        roomId: data.roomId,
-        duration: state.currentTime.inSeconds,
-        receiverId: data.receiverId,
-      );
-      final response = await _chatRepository.updateCallStatus(input);
-      if (response == null) {
-        showErrorSnackbar(context, 'Đã có lỗi xảy ra');
-        return;
-      }
-      chatDetailBloc.onUpdateCall(response);
-    }
+  void onLeaveCall() {
     if (waitingTimer != null) {
       waitingTimer!.cancel();
     }
@@ -153,31 +126,6 @@ class CallBloc extends Cubit<CallState> {
             onStartCountingTimer();
           },
           onLeaveChannel: (connection, stats) async {
-            final isCallExist = chatDetailBloc.state.messages
-                .any((element) => element.messageId == data.callId);
-            if (!isCallExist) {
-              final input = UpdateCallInput(
-                callId: data.callId,
-                type: MessageTypeEnum.MISSED_CALL,
-                roomId: data.roomId,
-                duration: 0,
-                receiverId: data.receiverId,
-              );
-              final response = await _chatRepository.updateCallStatus(input);
-              if (response == null) {
-                showErrorSnackbar(context, 'Đã có lỗi xảy ra');
-                return;
-              }
-              chatDetailBloc.onUpdateCall(response);
-            }
-            if (GoRouter.of(context).canPop()) {
-              GoRouter.of(context).pop();
-            } else {
-              GoRouter.of(context)
-                  .go(AppPath.chatDetail, extra: chatDetailBloc.chatRoomsBloc);
-            }
-          },
-          onUserOffline: (connection, remoteUid, reason) async {
             if (state.remoteUid == null) {
               // databaseService.UpdateCallMessage(widget.callId, 'rejected');
               final input = UpdateCallInput(
@@ -185,7 +133,8 @@ class CallBloc extends Cubit<CallState> {
                 type: MessageTypeEnum.MISSED_CALL,
                 roomId: data.roomId,
                 duration: 0,
-                receiverId: data.receiverId,
+                receiverId: await getCurrentReceiverId(
+                    data.callerId ?? '', data.receiverId ?? ''),
               );
               final response = await _chatRepository.updateCallStatus(input);
               if (response == null) {
@@ -196,13 +145,13 @@ class CallBloc extends Cubit<CallState> {
             } else {
               // databaseService.UpdateCallMessage(
               //     widget.callId, 'accepted' + callingTime);
-
               final input = UpdateCallInput(
                 callId: data.callId,
                 type: MessageTypeEnum.CALL,
                 roomId: data.roomId,
                 duration: state.currentTime.inSeconds,
-                receiverId: data.receiverId,
+                receiverId: await getCurrentReceiverId(
+                    data.callerId ?? '', data.receiverId ?? ''),
               );
               final response = await _chatRepository.updateCallStatus(input);
               if (response == null) {
@@ -211,7 +160,13 @@ class CallBloc extends Cubit<CallState> {
               }
               chatDetailBloc.onUpdateCall(response);
             }
-            emit(state.copyWith(remoteUid: null));
+            // if (GoRouter.of(context).canPop()) {
+            GoRouter.of(context).pop();
+            if (GoRouter.of(context).state?.path == AppPath.chatDetail)
+              GoRouter.of(context).pushReplacement(AppPath.chatDetail,
+                  extra: chatDetailBloc.chatRoomsBloc);
+          },
+          onUserOffline: (connection, remoteUid, reason) async {
             if (waitingTimer != null) {
               waitingTimer!.cancel();
             }
@@ -260,7 +215,7 @@ class CallBloc extends Cubit<CallState> {
   void onStartWaitingTimer() {
     waitingTimer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) {
+      (timer) async {
         if (state.remainingWaitingTime > Duration.zero) {
           emit(state.copyWith(
               remainingWaitingTime:
@@ -284,8 +239,8 @@ class CallBloc extends Cubit<CallState> {
   }
 
   void onRemoteUserReject(ChatMessageOutput data) {
-    chatDetailBloc.onReceiveUpdateCall(data);
-    emit(state.copyWith(remoteUid: null));
+    // chatDetailBloc.onReceiveUpdateCall(data);
+    // emit(state.copyWith(remoteUid: null));
     if (waitingTimer != null) {
       waitingTimer!.cancel();
     }

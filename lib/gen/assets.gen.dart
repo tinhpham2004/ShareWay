@@ -253,6 +253,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/momo.png
   AssetGenImage get momo => const AssetGenImage('assets/images/momo.png');
 
+  /// File path: assets/images/no_ride_found.png
+  AssetGenImage get noRideFound =>
+      const AssetGenImage('assets/images/no_ride_found.png');
+
   /// File path: assets/images/onboarding_man.png
   AssetGenImage get onboardingMan =>
       const AssetGenImage('assets/images/onboarding_man.png');
@@ -278,6 +282,7 @@ class $AssetsImagesGen {
         logo,
         map,
         momo,
+        noRideFound,
         onboardingMan,
         realtimeCurrentLocationMark,
         splash,

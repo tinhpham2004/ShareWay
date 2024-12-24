@@ -402,6 +402,9 @@ class GiveRideRecommendationDetailBloc
       ));
       showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
       state.userPointAnnotationManager?.deleteAll();
+      Future.delayed(Duration(seconds: 3), (){
+        GoRouter.of(context).go(AppPath.home);
+      });
     }
   }
 

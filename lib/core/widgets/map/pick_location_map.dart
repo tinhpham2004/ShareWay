@@ -247,7 +247,7 @@ class _PickLocationMapState extends State<PickLocationMap> {
                                 : AppColor.primaryColor,
                           ),
                         ),
-                        Text('${location.distance} km',
+                        Text('${location.distance ?? 0} km',
                             style: textTheme.labelSmall!
                                 .copyWith(color: AppColor.secondaryColor)),
                       ],

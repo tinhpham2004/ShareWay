@@ -79,16 +79,16 @@ class _BottomNavigationState extends State<BottomNavigation> {
           onTap: (value) {
             switch (value) {
               case 0:
-                GoRouter.of(context).go(AppPath.home);
+                GoRouter.of(context).push(AppPath.home);
                 break;
               case 1:
-                GoRouter.of(context).go(AppPath.activity);
+                GoRouter.of(context).push(AppPath.activity);
                 break;
               case 2:
-                GoRouter.of(context).go(AppPath.chatRooms);
+                GoRouter.of(context).push(AppPath.chatRooms);
                 break;
               case 3:
-                GoRouter.of(context).go(AppPath.account);
+                GoRouter.of(context).push(AppPath.account);
                 break;
               default:
                 break;

@@ -164,7 +164,7 @@ class WebSocketRepository {
 
   void _handleDone() {
     print('WebSocket connection closed');
-    // Implement reconnection logic here
+    connect();
   }
 
   void dispose() {

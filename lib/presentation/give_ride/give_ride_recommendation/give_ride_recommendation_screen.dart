@@ -7,6 +7,7 @@ import 'package:share_way_frontend/core/constants/app_text_theme.dart';
 import 'package:share_way_frontend/core/utils/spaces.dart';
 import 'package:share_way_frontend/core/widgets/appbar/appbar.dart';
 import 'package:share_way_frontend/core/widgets/avatar/app_avatar.dart';
+import 'package:share_way_frontend/core/widgets/button/app_button.dart';
 import 'package:share_way_frontend/core/widgets/loading/loading_dialog.dart';
 import 'package:share_way_frontend/domain/map/output/create_give_ride/create_give_ride_output.dart';
 import 'package:share_way_frontend/gen/assets.gen.dart';
@@ -62,16 +63,62 @@ class _GiveRideRecommendationScreenState
                       child: Column(
                         key: ObjectKey(state.dataChange),
                         children: [
-                          _buildHitchRideRecommendationList(),
+                          if (state.hitchRideRecommendationList.isEmpty) ...[
+                            _buildEmptyResult()
+                          ] else
+                            _buildHitchRideRecommendationList(),
                         ],
                       ),
                     ),
                   ),
+                  _buildReloadButton(),
                 ],
               ),
             );
           },
         ),
+      ),
+    );
+  }
+
+  Column _buildReloadButton() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            AppButton(
+              title: 'Tải lại',
+              isMargin: true,
+              onPressed: () => bloc.onFetchHitchRideRecommendationList(context),
+            ),
+          ],
+        ),
+        spaceH12,
+      ],
+    );
+  }
+
+  Widget _buildEmptyResult() {
+    return SizedBox(
+      height: 0.8.sh,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Assets.images.noRideFound.image(),
+          spaceH8,
+          Text(
+            'Không tìm thấy người cần đi nhờ phù hợp',
+            style: textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
+          ),
+          spaceH8,
+          Text(
+            'Vui lòng reload và chờ thêm vài phút',
+            style: textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w400, color: AppColor.secondaryColor),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

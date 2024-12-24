@@ -140,6 +140,9 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
 
   void onReceiveUpdateCall(ChatMessageOutput message) {
     final messages = List<ChatMessageOutput>.from(state.messages);
+
+    messages.removeWhere((element) => element.messageId == message.messageId);
+
     messages.add(message);
 
     chatRoomsBloc.onUpdateLastMessage(
@@ -186,7 +189,7 @@ class ChatDetailBloc extends Cubit<ChatDetailState> {
         .push(AppPath.call, extra: context.read<ChatDetailBloc>());
   }
 
-  void onUpdateCall(ChatMessageOutput message) async {
+  void onUpdateCall(ChatMessageOutput message) {
     final messages = List<ChatMessageOutput>.from(state.messages);
 
     messages.removeWhere((element) => element.messageId == message.messageId);

@@ -177,7 +177,7 @@ class GiveRideRecommendationDetailScreenState
                 ),
               ),
               if (state.hitchRideRecommendationOuput?.status ==
-                  RideStatusEnum.COMPLETED)
+                  RideStatusEnum.ACCEPTED)
                 Row(
                   children: [
                     // AppIcon.rideCall,

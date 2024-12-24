@@ -213,7 +213,7 @@ void _handleInitiateCall(NotificationResponse message) async {
       ..onStart();
     chatDetailBloc
         .emit(chatDetailBloc.state.copyWith(initCallOutput: initCallOutput));
-    navigatorKey.currentContext!.go(initialRoute, extra: chatDetailBloc);
+    navigatorKey.currentContext!.push(initialRoute, extra: chatDetailBloc);
   } else if (message.actionId == 'reject') {
     final _chatRepository = ChatRepository();
     final input = UpdateCallInput(
@@ -221,10 +221,15 @@ void _handleInitiateCall(NotificationResponse message) async {
       type: MessageTypeEnum.MISSED_CALL,
       roomId: initCallOutput.roomId,
       duration: 0,
-      receiverId: initCallOutput.receiverId,
+      receiverId: await _getCurrentReceiverId(initCallOutput.callerId ?? '', initCallOutput.receiverId ?? ''),
     );
     final response = await _chatRepository.updateCallStatus(input);
   }
+}
+
+Future<String> _getCurrentReceiverId(String firstId, String secondId) async {
+  final userId = await Preferences.getUserId();
+  return firstId == userId ? secondId : firstId;
 }
 
 Future<void> onUpdateCurrentLocation() async {

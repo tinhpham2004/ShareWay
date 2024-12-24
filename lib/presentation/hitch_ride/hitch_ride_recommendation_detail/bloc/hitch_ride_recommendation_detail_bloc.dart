@@ -373,6 +373,9 @@ class HitchRideRecommendationDetailBloc
       ));
       showSuccessSnackbar(context, 'Đã hủy chuyến thành công');
       state.userPointAnnotationManager?.deleteAll();
+      Future.delayed(Duration(seconds: 3), () {
+        GoRouter.of(context).go(AppPath.home);
+      });
     }
   }
 
@@ -524,6 +527,9 @@ class HitchRideRecommendationDetailBloc
         status: RideStatusEnum.CANCELLED,
       ),
     ));
+    Future.delayed(Duration(seconds: 3), () {
+      navigatorKey.currentContext!.go(AppPath.home);
+    });
   }
 
   void onSelectPaymentMethod(int index) {
